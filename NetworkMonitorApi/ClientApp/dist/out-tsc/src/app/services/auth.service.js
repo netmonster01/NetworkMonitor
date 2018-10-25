@@ -11,10 +11,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 export var ANONYMOUS_USER = {
-    password: '',
-    email: '',
+    password: null,
+    email: null,
     token: undefined,
-    id: undefined,
+    id: null,
     roles: []
 };
 var AuthService = /** @class */ (function () {
@@ -33,6 +33,14 @@ var AuthService = /** @class */ (function () {
             headers: httpHeaders
         };
         return this.http.post('/api/Account/Login', { email: email, password: password }, options).shareReplay().do(function (user) { return console.log(user); });
+    };
+    AuthService.prototype.register = function (user) {
+        url: '/api/Account/Register';
+        var httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+        var options = {
+            headers: httpHeaders
+        };
+        return this.http.post('/api/Account/Login', { user: user }, options).shareReplay().do(function (user) { return console.log(user); });
     };
     AuthService = __decorate([
         Injectable({

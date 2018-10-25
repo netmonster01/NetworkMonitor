@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services';
 var LoginComponent = /** @class */ (function () {
     function LoginComponent(auth) {
         this.auth = auth;
@@ -16,9 +16,9 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.ngOnInit = function () {
         // this.user.userName = '';
         this.user = {
-            id: undefined,
-            email: '',
-            password: '',
+            id: null,
+            email: null,
+            password: null,
             token: undefined,
             roles: []
         };

@@ -18,8 +18,8 @@ export class UserService {
     headers: this.httpHeaders
   }
   user: User = {
-    email: '',
-    id: undefined,
+    email: null,
+    id: null,
     password: null,
     roles: [],
     token: undefined

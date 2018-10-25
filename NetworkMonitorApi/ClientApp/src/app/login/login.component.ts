@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { User } from '../models/user';
-import { Role } from '../models/role';
+import { AuthService } from '../services';
+import { User, Role } from '../models';
 
 
 @Component({
@@ -19,9 +18,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // this.user.userName = '';
     this.user = {
-      id: undefined,
-      email: '',
-      password: '',
+      id: null,
+      email: null,
+      password: null,
       token: undefined,
       roles: []
 

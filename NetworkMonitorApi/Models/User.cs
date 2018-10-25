@@ -17,7 +17,9 @@ namespace NetworkMonitorApi.Models
         public List<string> Roles { get; set; }
 
         public bool IsAdmin { get {
-                return Roles == null ? false : Roles.Any();// Roles = null?? || Roles.Any();
+                // change this to read claim
+
+                return Roles == null ? false : Roles.Any() ? Roles.Contains("Admin") : false;// Roles = null?? || Roles.Any();
             } }
     }
 }

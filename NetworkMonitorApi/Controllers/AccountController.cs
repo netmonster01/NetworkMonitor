@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Dtos;
 using NetworkMonitorApi.Models;
+using NetworkMonitorApi.Repositories;
 
 namespace NetworkMonitorApi.Controllers
 {
@@ -28,9 +29,9 @@ namespace NetworkMonitorApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppSettings _appSettings;
-      
+        private readonly IRolesRepository _rolesRepository;
         private readonly IServiceProvider _serviceProvider;
-
+        
         public AccountController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -43,7 +44,7 @@ namespace NetworkMonitorApi.Controllers
             _roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); //roleManager;
 
             _appSettings = _serviceProvider.GetRequiredService<IOptions<AppSettings>>().Value; // appSettings.Value;
-
+            _rolesRepository = _serviceProvider.GetRequiredService<IRolesRepository>();
         }
 
         [HttpPost]
@@ -114,15 +115,27 @@ namespace NetworkMonitorApi.Controllers
         [Route("User")]
         //[Authorize]
         [AllowAnonymous]
-        public User GetUserInfo()
+        public async Task<User> GetUserInfoAsync()
         {
-            string userName = User.Identity.IsAuthenticated ? User.Identity.Name : "";
-            User user = new User
-            {
-                UserName = userName,
-                Email = userName
-            };
 
+            User user = new User();
+            if (User.Identity.IsAuthenticated)
+            {
+                string uName = User.Identity.IsAuthenticated ? User.Identity.Name : null;
+
+                if (!string.IsNullOrEmpty(uName))
+                {
+                    var roles = await _rolesRepository.GetUserRolesAsync(uName); //await _userManager.GetRolesAsync(new ApplicationUser
+                    
+                    user.UserName = uName;
+                    user.Email = uName;
+                    if (roles.Any())
+                    {
+                        user.Roles.AddRange(roles);
+                    }
+                }
+
+            }
             return user;
         }
 
@@ -168,6 +181,7 @@ namespace NetworkMonitorApi.Controllers
             if (roles.Any())
             {
                 claims.AddRange(roles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
+                user.Roles.AddRange(roles);
             }
 
             //security key
@@ -191,8 +205,10 @@ namespace NetworkMonitorApi.Controllers
 
             var sToken = new JwtSecurityTokenHandler().WriteToken(token);
             user.Token = sToken;
+            user.Email = appUser.UserName;
             user.Password = null;
             return user;
+
         }
     }
 }

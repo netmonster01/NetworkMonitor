@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/user';
+import { UserService } from '../../../services';
+import { User } from '../../../models';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-
 export class HeaderComponent implements OnInit {
 
   constructor(private _userService: UserService) { }
@@ -31,5 +30,4 @@ export class HeaderComponent implements OnInit {
   popData(data: User): any {
     this.user = data;
   }
-
 }

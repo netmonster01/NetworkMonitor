@@ -16,8 +16,8 @@ var UserService = /** @class */ (function () {
             headers: this.httpHeaders
         };
         this.user = {
-            email: '',
-            id: undefined,
+            email: null,
+            id: null,
             password: null,
             roles: [],
             token: undefined

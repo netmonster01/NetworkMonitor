@@ -5,10 +5,10 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs';
 
 export const ANONYMOUS_USER: User = {
-  password: '',
-  email: '',
+  password: null,
+  email: null,
   token: undefined,
-  id: undefined,
+  id: null,
   roles: []
 }
 
@@ -36,5 +36,14 @@ export class AuthService {
       headers: httpHeaders
     }; 
     return this.http.post<User>('/api/Account/Login', { email, password }, options).shareReplay().do(user => console.log(user));
+  }
+
+  register(user: User) {
+    url: '/api/Account/Register';
+    const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+    let options = {
+      headers: httpHeaders
+    };
+    return this.http.post<User>('/api/Account/Login', { user }, options).shareReplay().do(user => console.log(user));
   }
 }

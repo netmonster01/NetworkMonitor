@@ -1,16 +1,16 @@
 import { async, TestBed } from '@angular/core/testing';
-import { LayoutComponent } from './layout.component';
-describe('LayoutComponent', function () {
+import { ProfileComponent } from './profile.component';
+describe('ProfileComponent', function () {
     var component;
     var fixture;
     beforeEach(async(function () {
         TestBed.configureTestingModule({
-            declarations: [LayoutComponent]
+            declarations: [ProfileComponent]
         })
             .compileComponents();
     }));
     beforeEach(function () {
-        fixture = TestBed.createComponent(LayoutComponent);
+        fixture = TestBed.createComponent(ProfileComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
@@ -18,4 +18,4 @@ describe('LayoutComponent', function () {
         expect(component).toBeTruthy();
     });
 });
-//# sourceMappingURL=layout.component.spec.js.map
+//# sourceMappingURL=profile.component.spec.js.map

@@ -8,16 +8,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../services';
 var HeaderComponent = /** @class */ (function () {
     function HeaderComponent(_userService) {
         this._userService = _userService;
         this.user = {
-            email: '',
+            email: null,
             id: undefined,
             password: null,
             roles: [],
-            token: undefined
+            token: null
         };
     }
     HeaderComponent.prototype.ngOnInit = function () {

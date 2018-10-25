@@ -6,9 +6,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { UiModule } from './ui/ui.module';
+//import { UiModule } from './ui/ui.module';
 import { StatsComponent } from './stats/stats.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
@@ -25,6 +25,13 @@ import { SignInComponent } from './login/sign-in/sign-in.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ProfileComponent } from './profile/profile.component';
+import { HeaderComponent, FooterComponent } from './shared/layout';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -40,14 +47,23 @@ var AppModule = /** @class */ (function () {
                 UsersComponent,
                 SignInComponent,
                 HomeComponent,
-                PageNotFoundComponent
+                PageNotFoundComponent,
+                ProfileComponent,
+                HeaderComponent,
+                FooterComponent
             ],
             imports: [
                 BrowserModule,
-                UiModule,
+                //UiModule,
                 HttpClientModule,
                 FormsModule,
-                AppRoutingModule
+                AppRoutingModule,
+                ReactiveFormsModule,
+                MatInputModule,
+                MatSelectModule,
+                MatButtonModule,
+                MatChipsModule,
+                BrowserAnimationsModule
             ],
             providers: [AuthService, StatsComponent],
             bootstrap: [AppComponent]

@@ -5,16 +5,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from '@angular/core';
+import { SignUpComponent } from './login/sign-up/sign-up.component';
 import { AdminComponent } from './admin/admin.component';
+import { SignInComponent } from './login/sign-in/sign-in.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StatsComponent } from './stats/stats.component';
+import { ProfileComponent } from './profile/profile.component';
 var appRoutes = [
     { path: 'home', component: HomeComponent },
     { path: 'admin', component: AdminComponent },
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'stats', component: StatsComponent },
+    { path: 'login', component: SignInComponent },
+    { path: 'register', component: SignUpComponent },
+    { path: 'profile', component: ProfileComponent },
     { path: '**', component: PageNotFoundComponent },
 ];
 var AppRoutingModule = /** @class */ (function () {

@@ -8,20 +8,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-var LayoutComponent = /** @class */ (function () {
-    function LayoutComponent() {
+var ProfileComponent = /** @class */ (function () {
+    function ProfileComponent() {
     }
-    LayoutComponent.prototype.ngOnInit = function () {
+    ProfileComponent.prototype.ngOnInit = function () {
     };
-    LayoutComponent = __decorate([
+    ProfileComponent = __decorate([
         Component({
-            selector: 'app-layout',
-            templateUrl: './layout.component.html',
-            styleUrls: ['./layout.component.css']
+            selector: 'app-profile',
+            templateUrl: './profile.component.html',
+            styleUrls: ['./profile.component.css']
         }),
         __metadata("design:paramtypes", [])
-    ], LayoutComponent);
-    return LayoutComponent;
+    ], ProfileComponent);
+    return ProfileComponent;
 }());
-export { LayoutComponent };
-//# sourceMappingURL=layout.component.js.map
+export { ProfileComponent };
+//# sourceMappingURL=profile.component.js.map
