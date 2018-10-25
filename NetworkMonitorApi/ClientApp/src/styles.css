@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+.even {
+  background-color: #D5AF69;
+}
+
+.odd {
+  background-color: #EFE5C3;
+}
+
