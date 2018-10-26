@@ -45,10 +45,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services';
+import { Router, ActivatedRoute } from '@angular/router';
 var SignInComponent = /** @class */ (function () {
-    function SignInComponent(fb, auth) {
+    function SignInComponent(fb, auth, router, route) {
         this.fb = fb;
         this.auth = auth;
+        this.router = router;
+        this.route = route;
+        this.return = '';
         this.user = {
             password: null,
             email: null,
@@ -58,22 +62,24 @@ var SignInComponent = /** @class */ (function () {
         };
     }
     SignInComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.signInForm = this.fb.group({
             email: ['', Validators.required],
             password: ['', Validators.required],
         });
         this.signInForm.valueChanges.subscribe(console.log);
+        this.auth.user$.subscribe(function (data) { return _this.processData(data); });
     };
     SignInComponent.prototype.logInHandler = function () {
         return __awaiter(this, void 0, void 0, function () {
             var formValue;
-            var _this = this;
             return __generator(this, function (_a) {
                 this.loading = true;
                 formValue = this.signInForm.value;
                 try {
                     // todo call api.
-                    this.auth.login(this.user.email, this.user.password).subscribe(function (user) { return _this.user = user; });
+                    this.auth.loginAsync(this.user.email, this.user.password); //.subscribe((user: User) => this.user = user);
+                    //this.auth.login(this.user.email, this.user.password).subscribe((user: User) => this.user = user);
                     this.success = true;
                 }
                 catch (err) {
@@ -84,13 +90,23 @@ var SignInComponent = /** @class */ (function () {
             });
         });
     };
+    SignInComponent.prototype.processData = function (data) {
+        // this.user = data;
+        if (data.token) {
+            this.router.navigateByUrl(this.return);
+        }
+        //console.log(data);
+    };
     SignInComponent = __decorate([
         Component({
             selector: 'app-sign-in',
             templateUrl: './sign-in.component.html',
             styleUrls: ['./sign-in.component.css']
         }),
-        __metadata("design:paramtypes", [FormBuilder, AuthService])
+        __metadata("design:paramtypes", [FormBuilder,
+            AuthService,
+            Router,
+            ActivatedRoute])
     ], SignInComponent);
     return SignInComponent;
 }());

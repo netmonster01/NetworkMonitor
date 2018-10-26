@@ -3,13 +3,25 @@
 @import "~font-awesome/css/font-awesome.css";
 
 .even {
-  background-color: #D5AF69;
+  background-color: #00BDF3;
 }
 
 .odd {
-  background-color: #EFE5C3;
+  background-color: #B9EDFB;
+}
+.navbar {
+  background-color: #00BDF3;
+  color: #ffffff;
+  
+}
+.navbar a{
+  color: #ffffff;
+}
+a:hover{
+  color: deeppink;
 }
 
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

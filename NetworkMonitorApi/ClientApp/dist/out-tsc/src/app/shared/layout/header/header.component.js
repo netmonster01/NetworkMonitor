@@ -8,16 +8,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { UserService } from '../../../services';
+import { UserService, AuthService } from '../../../services';
 var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent(_userService) {
+    function HeaderComponent(_userService, auth) {
         this._userService = _userService;
+        this.auth = auth;
         this.user = {
             email: null,
-            id: undefined,
+            id: null,
             password: null,
             roles: [],
-            token: null
+            token: undefined
         };
     }
     HeaderComponent.prototype.ngOnInit = function () {
@@ -25,10 +26,14 @@ var HeaderComponent = /** @class */ (function () {
     };
     HeaderComponent.prototype.activate = function () {
         var _this = this;
-        this._userService.getUser().subscribe(function (data) { return _this.popData(data); });
+        this.auth.user$.subscribe(function (data) { return _this.processData(data); });
+        //this.isLoggedIn$ = this.auth.isLoggedIn$.subscribe();
+        //this.isLoggedOut$ = this.auth.isLoggedOut$;
+        //this._userService.getUser().subscribe((data: User) => this.popData(data));
     };
-    HeaderComponent.prototype.popData = function (data) {
+    HeaderComponent.prototype.processData = function (data) {
         this.user = data;
+        console.log(data);
     };
     HeaderComponent = __decorate([
         Component({
@@ -36,7 +41,7 @@ var HeaderComponent = /** @class */ (function () {
             templateUrl: './header.component.html',
             styleUrls: ['./header.component.css']
         }),
-        __metadata("design:paramtypes", [UserService])
+        __metadata("design:paramtypes", [UserService, AuthService])
     ], HeaderComponent);
     return HeaderComponent;
 }());

@@ -37,7 +37,9 @@ namespace NetworkMonitorApi.Repositories
                     LastName = user.LastName,
                     UserName = user.UserName,
                     Email = user.Email,
-                    Roles = GetRolesByEmail(user.Email)
+                    Roles = GetRolesByEmail(user.Email),
+                    IsAdmin = IsAdmin(user.Email)
+
                 }).ToList();
 
                 //users = userManager.Users.Include(u => u.UserRoles).Select(user => new User {
@@ -75,15 +77,32 @@ namespace NetworkMonitorApi.Repositories
             return users;
         }
 
+        private bool IsAdmin(string email)
+        {
+            var roles = GetRolesByEmail(email);
+            if(roles.Any() && roles.Contains("Admin"))
+            {
+                return true;
+            }
+            return false;
+            //return GetRolesByEmail(email) != null ?  
+        }
+
         private List<string> GetRolesByEmail(string email)
         {
-            var roles = (from ep in _dbContext.UserRoles
-                         //
-                         join r in _dbContext.Roles on ep.RoleId equals r.Id
-                         join u in _dbContext.Users on ep.UserId equals u.Id
+            List<string> roles = new List<string>();
+            try
+            {
+                roles = (from ur in _dbContext.UserRoles
+                         join r in _dbContext.Roles on ur.RoleId equals r.Id
+                         join u in _dbContext.Users on ur.UserId equals u.Id
                          where u.Email == email
-                         select (r.Name)
-                                      ).ToList();
+                         select (r.Name)).ToList();
+            }
+            catch (Exception)
+            {
+
+            }
             return roles;
         }
     }

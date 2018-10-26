@@ -21,6 +21,7 @@ var AuthService = /** @class */ (function () {
     function AuthService(http) {
         this.http = http;
         this.subject = new BehaviorSubject(ANONYMOUS_USER);
+        this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
         this.user$ = this.subject.asObservable();
         this.isLoggedIn$ = this.user$.map(function (user) { return !!user.id; });
         this.isLoggedOut$ = this.isLoggedIn$.map(function (isLoggedIn) { return !isLoggedIn; });
@@ -28,17 +29,27 @@ var AuthService = /** @class */ (function () {
     // attempt to login.
     AuthService.prototype.login = function (email, password) {
         url: '/api/Account/Login';
-        var httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+        //const httpHeaders= new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
         var options = {
-            headers: httpHeaders
+            headers: this.headers
         };
         return this.http.post('/api/Account/Login', { email: email, password: password }, options).shareReplay().do(function (user) { return console.log(user); });
     };
+    AuthService.prototype.loginAsync = function (email, password) {
+        var _this = this;
+        url: '/api/Account/Login';
+        // const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+        var options = {
+            headers: this.headers
+        };
+        this.http.post('/api/Account/Login', { email: email, password: password }, options).subscribe(function (t) { _this.subject.next(t); });
+        //this.http.post<User>('/api/Account/Login', { email, password }, options).map(t => t).subscribe(t => { this.subject.next(t) });
+    };
     AuthService.prototype.register = function (user) {
         url: '/api/Account/Register';
-        var httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+        //const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
         var options = {
-            headers: httpHeaders
+            headers: this.headers
         };
         return this.http.post('/api/Account/Login', { user: user }, options).shareReplay().do(function (user) { return console.log(user); });
     };

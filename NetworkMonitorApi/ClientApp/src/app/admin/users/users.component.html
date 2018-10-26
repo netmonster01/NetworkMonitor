@@ -31,7 +31,9 @@
           <span title="Admin" [ngClass]="{'fa fa-user-secret ': user.isAdmin == true}"></span><span title="No Roles" [ngClass]="{'fa fa-user-o': user.roles.length == 0}"></span>
         </div>
         <div class="col-xs-4 col-sm-3">
-          <button class="btn btn-info">Edit</button>
+          <button class="btn btn-outline-secondary fa fa-pencil"></button>
+          &nbsp;
+          <button class="btn btn-outline-danger fa fa-trash"></button>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../services';
+import { UserService, AuthService } from '../../../services';
 import { User } from '../../../models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -9,25 +10,33 @@ import { User } from '../../../models';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private _userService: UserService) { }
+  constructor(private _userService: UserService, private auth: AuthService) { }
 
   user: User = {
     email: null,
-    id: undefined,
+    id: null,
     password: null,
     roles: [],
-    token: null
+    token: undefined
   }
+
+  //user$: Observable<User>;
+  isLoggedIn$: Observable<boolean>;
+  isLoggedOut$: Observable<boolean>;
 
   ngOnInit() {
     this.activate();
   }
 
   activate() {
-    this._userService.getUser().subscribe((data: User) => this.popData(data));
+    this.auth.user$.subscribe(data => this.processData(data));
+    //this.isLoggedIn$ = this.auth.isLoggedIn$.subscribe();
+    //this.isLoggedOut$ = this.auth.isLoggedOut$;
+    //this._userService.getUser().subscribe((data: User) => this.popData(data));
   }
 
-  popData(data: User): any {
+  processData(data: User) {
     this.user = data;
+    console.log(data);
   }
 }

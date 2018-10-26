@@ -18,7 +18,7 @@ export const ANONYMOUS_USER: User = {
 export class AuthService {
 
   private subject = new BehaviorSubject<User>(ANONYMOUS_USER);
-
+  headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   user$: Observable<User> = this.subject.asObservable();
 
   isLoggedIn$: Observable<boolean> = this.user$.map(user => !!user.id);
@@ -31,18 +31,30 @@ export class AuthService {
   // attempt to login.
   login(email:string, password:string) {
     url: '/api/Account/Login';
-    const httpHeaders= new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+    //const httpHeaders= new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     let options = {
-      headers: httpHeaders
+      headers: this.headers
     }; 
     return this.http.post<User>('/api/Account/Login', { email, password }, options).shareReplay().do(user => console.log(user));
   }
 
+  loginAsync(email: string, password: string) {
+    url: '/api/Account/Login';
+    // const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+    let options = {
+      headers: this.headers
+    };
+    this.http.post<User>('/api/Account/Login',
+      { email, password },
+      options).subscribe(t => { this.subject.next(t) });
+    //this.http.post<User>('/api/Account/Login', { email, password }, options).map(t => t).subscribe(t => { this.subject.next(t) });
+  }
+
   register(user: User) {
     url: '/api/Account/Register';
-    const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+    //const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     let options = {
-      headers: httpHeaders
+      headers: this.headers
     };
     return this.http.post<User>('/api/Account/Login', { user }, options).shareReplay().do(user => console.log(user));
   }
