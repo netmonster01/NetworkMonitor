@@ -63,7 +63,7 @@ namespace NetworkMonitorApi.Controllers
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("Logout")]
         [AllowAnonymous]
         public async void Logout()
@@ -181,7 +181,8 @@ namespace NetworkMonitorApi.Controllers
             if (roles.Any())
             {
                 claims.AddRange(roles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
-                user.Roles.AddRange(roles);
+                user.Roles = roles.ToList();
+                user.IsAdmin = roles.Contains("Admin");
             }
 
             //security key

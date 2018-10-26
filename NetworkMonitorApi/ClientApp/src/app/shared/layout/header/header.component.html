@@ -2,18 +2,18 @@
   <a class="navbar-brand" href="/">My Network Stats</a>
   <div class="navbar-expand mr-auto">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="#">Home</a>
-      <a class="nav-item nav-link" href="/stats#">Stats</a>
-      <a *ngIf="user.isAdmin === 'true'" class="nav-item nav-link" href="/admin#">Admin</a>
+      <a class="nav-item nav-link active" [routerLink]="['/']">Home</a>
+      <a class="nav-item nav-link" [routerLink]="['/stats']">Stats</a>
+      <a  class="nav-item nav-link" [routerLink]="['/admin']">Admin</a>
     </div>
   </div>
   <div class="navbar-expand ml-auto navbar-nav">
     <div class="navbar-nav">
       <span *ngIf="user.email !== null">
-        <a href="/profile#" class="nav-item nav-link">Welcome, {{user.email}}</a> | <a href="/api/Account/Logout">SignOut</a>
+        <a [routerLink]="['/profile']" class="nav-item nav-link">Welcome, {{user.email}}</a> | <a [routerLink]="['/api/Account/Logout']">SignOut</a>
       </span>
 
-      <a href="/login#" *ngIf="user.email == null" class="nav-item nav-link">Login</a>
+      <a [routerLink]="['/login']" *ngIf="user.email == null" class="nav-item nav-link">Login</a>
       <a class="nav-item nav-link" href="https://github.com/beeman" target="_blank">
         <i class="fa fa-github"></i>
       </a>

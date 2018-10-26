@@ -16,10 +16,6 @@ namespace NetworkMonitorApi.Models
         public string Email { get; set; }
         public List<string> Roles { get; set; }
 
-        public bool IsAdmin { get {
-                // change this to read claim
-
-                return Roles == null ? false : Roles.Any() ? Roles.Contains("Admin") : false;// Roles = null?? || Roles.Any();
-            } }
+        public bool IsAdmin { get; set; }
     }
 }
