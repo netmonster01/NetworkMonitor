@@ -28,26 +28,33 @@ var AuthService = /** @class */ (function () {
     }
     // attempt to login.
     AuthService.prototype.login = function (email, password) {
-        url: '/api/Account/Login';
-        //const httpHeaders= new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+        // set options
         var options = {
             headers: this.headers
         };
         return this.http.post('/api/Account/Login', { email: email, password: password }, options).shareReplay().do(function (user) { return console.log(user); });
     };
+    /* call logout */
+    AuthService.prototype.logout = function () {
+        // remove the current user
+        localStorage.removeItem('currentUser');
+        // call logout service.
+        this.http.get('/api/Account/Logout');
+    };
     AuthService.prototype.loginAsync = function (email, password) {
         var _this = this;
-        url: '/api/Account/Login';
-        // const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
         var options = {
             headers: this.headers
         };
-        this.http.post('/api/Account/Login', { email: email, password: password }, options).subscribe(function (t) { _this.subject.next(t); });
-        //this.http.post<User>('/api/Account/Login', { email, password }, options).map(t => t).subscribe(t => { this.subject.next(t) });
+        this.http.post('/api/Account/Login', { email: email, password: password }, options).subscribe(function (user) { _this.broardcastUpdate(user); });
+    };
+    AuthService.prototype.broardcastUpdate = function (user) {
+        this.subject.next(user);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+    };
+    AuthService.prototype.isUserLoggedIn = function () {
     };
     AuthService.prototype.register = function (user) {
-        url: '/api/Account/Register';
-        //const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
         var options = {
             headers: this.headers
         };

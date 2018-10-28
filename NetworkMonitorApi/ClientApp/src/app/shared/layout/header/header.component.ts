@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
+
 export class HeaderComponent implements OnInit {
 
   constructor(private _userService: UserService, private auth: AuthService) { }
@@ -21,8 +22,8 @@ export class HeaderComponent implements OnInit {
   }
 
   //user$: Observable<User>;
-  isLoggedIn$: Observable<boolean>;
-  isLoggedOut$: Observable<boolean>;
+  isLoggedIn: boolean = false;
+  isLoggedOut: boolean = false;
 
   ngOnInit() {
     this.activate();
@@ -30,9 +31,12 @@ export class HeaderComponent implements OnInit {
 
   activate() {
     this.auth.user$.subscribe(data => this.processData(data));
-    //this.isLoggedIn$ = this.auth.isLoggedIn$.subscribe();
-    //this.isLoggedOut$ = this.auth.isLoggedOut$;
-    //this._userService.getUser().subscribe((data: User) => this.popData(data));
+    this.auth.isLoggedIn$.subscribe(isLoggedIn => this.isLoggedIn === isLoggedIn);
+    this.auth.isLoggedOut$.subscribe(isLoggedOut => this.isLoggedOut === isLoggedOut);
+  }
+
+  logout() {
+    this.auth.logout();
   }
 
   processData(data: User) {

@@ -9,8 +9,8 @@ using NetworkMonitorApi.Data;
 namespace NetworkMonitorApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181023162303_speetetstresultsCreate")]
-    partial class speetetstresultsCreate
+    [Migration("20181028232759_BlogsCreation")]
+    partial class BlogsCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -179,6 +179,36 @@ namespace NetworkMonitorApi.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("NetworkMonitorApi.Models.Blog", b =>
+                {
+                    b.Property<int>("BlogId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("BlogId");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("NetworkMonitorApi.Models.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BlogId");
+
+                    b.Property<string>("Content");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("NetworkMonitorApi.Models.SpeedTestResults", b =>
                 {
                     b.Property<int>("Id")
@@ -239,6 +269,14 @@ namespace NetworkMonitorApi.Migrations
                     b.HasOne("NetworkMonitorApi.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NetworkMonitorApi.Models.Post", b =>
+                {
+                    b.HasOne("NetworkMonitorApi.Models.Blog", "Blog")
+                        .WithMany("Posts")
+                        .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

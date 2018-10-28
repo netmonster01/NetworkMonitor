@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { StatsService } from '../stats.service';
+import { StatsService } from '../services';
 import { Stats } from '../models/stats';
 
 

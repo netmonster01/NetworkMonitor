@@ -41,6 +41,7 @@ namespace NetworkMonitorApi
             services.AddDbContext<ApplicationDbContext>(options =>
                             options.UseSqlite(Configuration.GetConnectionString("IdentityConnection")), ServiceLifetime.Transient);
 
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

@@ -20,6 +20,9 @@ var HeaderComponent = /** @class */ (function () {
             roles: [],
             token: undefined
         };
+        //user$: Observable<User>;
+        this.isLoggedIn = false;
+        this.isLoggedOut = false;
     }
     HeaderComponent.prototype.ngOnInit = function () {
         this.activate();
@@ -27,9 +30,11 @@ var HeaderComponent = /** @class */ (function () {
     HeaderComponent.prototype.activate = function () {
         var _this = this;
         this.auth.user$.subscribe(function (data) { return _this.processData(data); });
-        //this.isLoggedIn$ = this.auth.isLoggedIn$.subscribe();
-        //this.isLoggedOut$ = this.auth.isLoggedOut$;
-        //this._userService.getUser().subscribe((data: User) => this.popData(data));
+        this.auth.isLoggedIn$.subscribe(function (isLoggedIn) { return _this.isLoggedIn === isLoggedIn; });
+        this.auth.isLoggedOut$.subscribe(function (isLoggedOut) { return _this.isLoggedOut === isLoggedOut; });
+    };
+    HeaderComponent.prototype.logout = function () {
+        this.auth.logout();
     };
     HeaderComponent.prototype.processData = function (data) {
         this.user = data;

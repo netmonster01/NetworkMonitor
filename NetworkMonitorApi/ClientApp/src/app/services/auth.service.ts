@@ -18,7 +18,9 @@ export const ANONYMOUS_USER: User = {
 export class AuthService {
 
   private subject = new BehaviorSubject<User>(ANONYMOUS_USER);
+
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+
   user$: Observable<User> = this.subject.asObservable();
 
   isLoggedIn$: Observable<boolean> = this.user$.map(user => !!user.id);
@@ -30,32 +32,51 @@ export class AuthService {
 
   // attempt to login.
   login(email:string, password:string) {
-    url: '/api/Account/Login';
-    //const httpHeaders= new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+    
+    // set options
     let options = {
       headers: this.headers
-    }; 
+    };
+     
     return this.http.post<User>('/api/Account/Login', { email, password }, options).shareReplay().do(user => console.log(user));
   }
 
+  /* call logout */
+  logout() {
+
+    // remove the current user
+    localStorage.removeItem('currentUser');
+
+    // call logout service.
+    this.http.get('/api/Account/Logout');
+  }
+
   loginAsync(email: string, password: string) {
-    url: '/api/Account/Login';
-    // const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+ 
     let options = {
       headers: this.headers
     };
+
     this.http.post<User>('/api/Account/Login',
       { email, password },
-      options).subscribe(t => { this.subject.next(t) });
-    //this.http.post<User>('/api/Account/Login', { email, password }, options).map(t => t).subscribe(t => { this.subject.next(t) });
+      options).subscribe(user => { this.broardcastUpdate(user) });
+  }
+
+  broardcastUpdate(user: User) {
+    this.subject.next(user)
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  isUserLoggedIn() {
+
   }
 
   register(user: User) {
-    url: '/api/Account/Register';
-    //const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+
     let options = {
       headers: this.headers
     };
+
     return this.http.post<User>('/api/Account/Login', { user }, options).shareReplay().do(user => console.log(user));
   }
 }

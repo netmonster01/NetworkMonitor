@@ -4,8 +4,8 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { AppComponent } from './app.component';
 //import { UiModule } from './ui/ui.module';
 import { StatsComponent } from './stats/stats.component';
-import { HttpClientModule} from '@angular/common/http'
-import { AuthService } from './services/auth.service';
+import { HttpClientModule } from '@angular/common/http'
+import { AuthService, UserService, StatsService } from './services';
 import { LoginComponent } from './login/login.component';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
@@ -26,6 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatChipsModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthService, StatsComponent],
+  providers: [AuthService, UserService, StatsService, StatsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

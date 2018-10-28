@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 //import { UiModule } from './ui/ui.module';
 import { StatsComponent } from './stats/stats.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthService } from './services/auth.service';
+import { AuthService, UserService, StatsService } from './services';
 import { LoginComponent } from './login/login.component';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
@@ -65,7 +65,7 @@ var AppModule = /** @class */ (function () {
                 MatChipsModule,
                 BrowserAnimationsModule
             ],
-            providers: [AuthService, StatsComponent],
+            providers: [AuthService, UserService, StatsService, StatsComponent],
             bootstrap: [AppComponent]
         })
     ], AppModule);
