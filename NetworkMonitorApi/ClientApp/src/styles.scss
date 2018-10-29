@@ -3,8 +3,9 @@
 @import "~font-awesome/css/font-awesome.css";
 
 
-$font-stack: Helvetica, sans-serif;
+$font-stack: Roboto, Helvetica, sans-serif;
 $primary-color: #00BDF3;
+$primary-color-light: #B9EDFB;
 
 html, body {
   height: 100%;
@@ -12,15 +13,16 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: $font-stack;
+  background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
 }
 
 .even {
-  background-color: #00BDF3;
+  background-color: $primary-color;
 }
 
 .odd {
-  background-color: #B9EDFB;
+  background-color: $primary-color-light;
 }
 .navbar {
   background-color: $primary-color;
@@ -44,4 +46,5 @@ a:hover{
   border: 2px solid $primary-color;
   padding: 20px;
   height: 150px;
+  background-color: rgba($primary-color, .3);
 }
