@@ -37,8 +37,9 @@ namespace NetworkMonitorApi.Repositories
             return bDidAdd;
         }
 
-        public async Task CreateInitialRoles()
+        public async Task<bool> CreateInitialRoles()
         {
+            bool didCreateRoles = false;
             // adding custom roles
             var roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -53,9 +54,11 @@ namespace NetworkMonitorApi.Repositories
                 {
                     roleResult = await roleManager.CreateAsync(new IdentityRole { Name = roleName});
                 }
+                didCreateRoles = true;
             }
+            return didCreateRoles;
             // check if primary user has access.
-            var user = await userManager.FindByEmailAsync("test@gmail.com");
+            //var user = await userManager.FindByEmailAsync("test@gmail.com");
         }
 
         public List<RoleDto> GetAllRoles()

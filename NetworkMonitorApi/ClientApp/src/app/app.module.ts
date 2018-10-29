@@ -30,6 +30,9 @@ import { PostsComponent } from './blogs/posts/posts.component';
 import { CommentsDirective } from './blogs';
 import { AuthService, BlogService, StatsService, UserService } from './services';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SafePipe } from './safe.pipe';
+import { BlogComponent } from './admin/blog/blog.component';
+import { ImagesComponent } from './admin/blog/images/images.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BlogsComponent,
     PostsComponent,
     CommentsDirective,
-    DashboardComponent
+    DashboardComponent,
+    SafePipe,
+    BlogComponent,
+    ImagesComponent,
   ],
   imports: [
     BrowserModule,

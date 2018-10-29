@@ -41,7 +41,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  <app-users></app-users>\r\n  <app-roles></app-roles>\r\n</p>\r\n"
+module.exports = "<p>\n  <app-users></app-users>\n  <app-roles></app-roles>\n</p>\n"
 
 /***/ }),
 
@@ -668,7 +668,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  posts works!\n</p>\n"
+module.exports = "<p>\r\n  posts works!\r\n</p>\r\n"
 
 /***/ }),
 
@@ -731,7 +731,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\"></div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    2\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    3\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    4\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      1\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      2\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      3\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      4\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1295,7 +1295,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  page-not-found works!\r\n</p>\r\n"
+module.exports = "<p>\n  page-not-found works!\n</p>\n"
 
 /***/ }),
 
@@ -1375,7 +1375,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  profile works!\r\n</p>\r\n"
+module.exports = "<p>\n  profile works!\n</p>\n"
 
 /***/ }),
 
@@ -2047,7 +2047,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\NetDev\Source\Repos\netmonster01\NetworkMonitor\NetworkMonitorApi\ClientApp\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\pi\speedtest\NetworkMonitor\NetworkMonitorApi\ClientApp\src\main.ts */"./src/main.ts");
 
 
 /***/ })

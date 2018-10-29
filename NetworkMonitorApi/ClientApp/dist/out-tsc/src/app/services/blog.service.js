@@ -8,10 +8,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 var BlogService = /** @class */ (function () {
     function BlogService(_http) {
         this._http = _http;
+        this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
         this.blog = {
             id: 0,
             title: null,
@@ -27,6 +28,12 @@ var BlogService = /** @class */ (function () {
     };
     BlogService.prototype.handleError = function (handleError) {
         console.log(handleError);
+    };
+    BlogService.prototype.uploadIamge = function (blogFile) {
+        var options = {
+            headers: this.headers
+        };
+        this._http.post('/api/Blogs/UploadFiles', blogFile).subscribe(function (result) { console.log(result); });
     };
     BlogService = __decorate([
         Injectable({

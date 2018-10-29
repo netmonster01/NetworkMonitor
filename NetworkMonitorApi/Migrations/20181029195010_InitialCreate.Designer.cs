@@ -9,8 +9,8 @@ using NetworkMonitorApi.Data;
 namespace NetworkMonitorApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181029024532_restartCreation")]
-    partial class restartCreation
+    [Migration("20181029195010_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -125,12 +125,30 @@ namespace NetworkMonitorApi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("NetworkMonitorApi.Models.Alias", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ContentId");
+
+                    b.Property<string>("Title");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Aliases");
+                });
+
             modelBuilder.Entity("NetworkMonitorApi.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<byte[]>("AvatarImage");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -197,6 +215,24 @@ namespace NetworkMonitorApi.Migrations
                     b.HasKey("BlogId");
 
                     b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("NetworkMonitorApi.Models.BlogImage", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AliasId");
+
+                    b.Property<byte[]>("Image");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("ImageId");
+
+                    b.HasIndex("AliasId");
+
+                    b.ToTable("BlogImages");
                 });
 
             modelBuilder.Entity("NetworkMonitorApi.Models.Comment", b =>
@@ -312,6 +348,13 @@ namespace NetworkMonitorApi.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NetworkMonitorApi.Models.BlogImage", b =>
+                {
+                    b.HasOne("NetworkMonitorApi.Models.Alias", "Alias")
+                        .WithMany()
+                        .HasForeignKey("AliasId");
                 });
 
             modelBuilder.Entity("NetworkMonitorApi.Models.Comment", b =>

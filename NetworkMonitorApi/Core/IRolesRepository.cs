@@ -8,7 +8,7 @@ namespace NetworkMonitorApi.Core
 {
     public interface IRolesRepository
     {
-        Task CreateInitialRoles();
+        Task<bool> CreateInitialRoles();
         List<RoleDto> GetAllRoles();
         Task<bool> AssignRole(string userName, string roleName);
         Task<List<string>> GetUserRolesAsync(string userName);

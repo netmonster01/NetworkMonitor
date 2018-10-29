@@ -3,10 +3,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NetworkMonitorApi.Migrations
 {
-    public partial class restartCreation : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Aliases",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(nullable: true),
+                    ContentId = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Aliases", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -41,7 +56,8 @@ namespace NetworkMonitorApi.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    AvatarImage = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,6 +95,27 @@ namespace NetworkMonitorApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SpeedTestResults", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BlogImages",
+                columns: table => new
+                {
+                    ImageId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(nullable: true),
+                    AliasId = table.Column<int>(nullable: true),
+                    Image = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogImages", x => x.ImageId);
+                    table.ForeignKey(
+                        name: "FK_BlogImages_Aliases_AliasId",
+                        column: x => x.AliasId,
+                        principalTable: "Aliases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -275,6 +312,11 @@ namespace NetworkMonitorApi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlogImages_AliasId",
+                table: "BlogImages",
+                column: "AliasId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
                 table: "Comments",
                 column: "PostId");
@@ -303,6 +345,9 @@ namespace NetworkMonitorApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BlogImages");
+
+            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
@@ -313,6 +358,9 @@ namespace NetworkMonitorApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Aliases");
 
             migrationBuilder.DropTable(
                 name: "Posts");

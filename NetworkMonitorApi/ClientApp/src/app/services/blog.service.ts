@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Blog, Post } from '../models';
+import { Blog, Post, BlogImage } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,7 @@ import { Blog, Post } from '../models';
 export class BlogService {
 
   constructor(private _http: HttpClient) { }
+  headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
 
   blog: Blog = {
     id: 0,
@@ -27,6 +28,16 @@ export class BlogService {
   handleError(handleError: any): any {
     console.log(handleError);
   }
+
+  uploadIamge(blogFile: FormData) {
+
+    let options = {
+      headers: this.headers
+    };
+
+    this._http.post('/api/Blogs/UploadFiles', { blogFile }).subscribe(result => { console.log(result) });
+  }
+
 
 
 }

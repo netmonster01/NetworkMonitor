@@ -25,5 +25,9 @@ namespace NetworkMonitorApi.Data
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<BlogImage> BlogImages { get; set; }
+        public DbSet<Alias> Aliases { get; set; }
+
     }
 }

@@ -77,6 +77,20 @@ namespace NetworkMonitorApi
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
+
+           
+
+        }
+
+        private void SetData()
+        {
+            // 1. check if roles are created if not create them.
+
+
+            // 2. check if the admin user exists, if not create it. 
+
+            // 3. check if the admin user has the admin role. If not create it.
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -122,6 +136,9 @@ namespace NetworkMonitorApi
                 }
 
             });
+
+            // check for db creation.
+            //SeedData.InitializeAsync(app.ApplicationServices);
 
         }
     }

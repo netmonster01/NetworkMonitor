@@ -8,10 +8,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
+//import { DomSanitizer, SafeResourceUrl, SafeHtml } from '@angular/platform-browser';
 var DashboardComponent = /** @class */ (function () {
     function DashboardComponent() {
     }
     DashboardComponent.prototype.ngOnInit = function () {
+        this.post = "<b>hello world</b><br><pre data-lang='HTML'><code>function cool(x) {return x + 1;}</code></pre>";
     };
     DashboardComponent = __decorate([
         Component({

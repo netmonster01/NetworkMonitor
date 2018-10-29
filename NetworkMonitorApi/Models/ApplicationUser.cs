@@ -13,5 +13,7 @@ namespace NetworkMonitorApi.Models
         public string LastName { get; set; }
         [NotMapped]
         public List<string> Roles { get; set; }
+
+        public byte[] AvatarImage { get; set; }
     }
 }
