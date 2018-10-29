@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SignUpComponent } from './login/sign-up/sign-up.component';
-import { AdminComponent } from './admin/admin.component';
-import { RolesComponent } from './admin/roles/roles.component';
-import { UsersComponent } from './admin/users/users.component';
-import { SignInComponent } from './login/sign-in/sign-in.component';
+import { SignUpComponent } from './login';
+import { AdminComponent } from './admin';
+import { RolesComponent } from './admin';
+import { UsersComponent } from './admin';
+import { SignInComponent } from './login';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { StatsComponent } from './stats/stats.component';
-import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home';
+import { PageNotFoundComponent } from './page-not-found';
+import { StatsComponent } from './stats';
+import { ProfileComponent } from './profile';
+import { BlogsComponent} from './blogs';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -18,7 +19,8 @@ const appRoutes: Routes = [
   { path: 'stats', component: StatsComponent },
   { path: 'login', component: SignInComponent },
   { path: 'register', component: SignUpComponent },
-  { path: 'profile', component: ProfileComponent},
+  { path: 'profile', component: ProfileComponent },
+  { path: 'blog', component: BlogsComponent },
   { path: '**', component: PageNotFoundComponent },
 ]
 

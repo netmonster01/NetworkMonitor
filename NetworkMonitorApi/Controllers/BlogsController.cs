@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Data;
 using NetworkMonitorApi.Models;
 
@@ -14,30 +15,30 @@ namespace NetworkMonitorApi.Controllers
     [ApiController]
     public class BlogsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IBlog _blogRepository;
 
-        public BlogsController(ApplicationDbContext context)
+        public BlogsController(IBlog blogRepository)
         {
-            _context = context;
+            _blogRepository = blogRepository;
         }
 
         // GET: api/Blogs
         [HttpGet]
         public IEnumerable<Blog> GetBlogs()
         {
-            return _context.Blogs;
+            return _blogRepository.GetBlogs();
         }
 
         // GET: api/Blogs/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBlog([FromRoute] int id)
+        public IActionResult GetBlog([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var blog = await _context.Blogs.FindAsync(id);
+            var blog =  _blogRepository.GetBlog(id);
 
             if (blog == null)
             {
@@ -47,80 +48,81 @@ namespace NetworkMonitorApi.Controllers
             return Ok(blog);
         }
 
-        // PUT: api/Blogs/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBlog([FromRoute] int id, [FromBody] Blog blog)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// PUT: api/Blogs/5
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutBlog([FromRoute] int id, [FromBody] Blog blog)
+        //{
+        //    bool results = false;
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != blog.BlogId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(blog).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BlogExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
+        //    if (id != blog.BlogId)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    try
+        //    {
+        //        results = await _blogRepository.CreateBlog(blog);
+        //        return Ok(results);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return NoContent();
+        //    }
+           
+        //}
 
         // POST: api/Blogs
         [HttpPost]
         public async Task<IActionResult> PostBlog([FromBody] Blog blog)
         {
+            bool results = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Blogs.Add(blog);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetBlog", new { id = blog.BlogId }, blog);
+            try
+            {
+                if(!BlogExists(blog.Title))
+                {
+                    results = await _blogRepository.CreateBlog(blog);
+                }
+               
+                return Ok(results);
+            }
+            catch (Exception)
+            {
+                return NoContent();
+            }
         }
 
-        // DELETE: api/Blogs/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBlog([FromRoute] int id)
+        //// DELETE: api/Blogs/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteBlog([FromRoute] int id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var blog = await _context.Blogs.FindAsync(id);
+        //    if (blog == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    _context.Blogs.Remove(blog);
+        //    await _context.SaveChangesAsync();
+
+        //    return Ok(blog);
+        //}
+
+        private bool BlogExists(string title)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog == null)
-            {
-                return NotFound();
-            }
-
-            _context.Blogs.Remove(blog);
-            await _context.SaveChangesAsync();
-
-            return Ok(blog);
-        }
-
-        private bool BlogExists(int id)
-        {
-            return _context.Blogs.Any(e => e.BlogId == id);
+            return _blogRepository.BlogExists(title);
         }
     }
 }

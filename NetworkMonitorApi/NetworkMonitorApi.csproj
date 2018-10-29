@@ -10,10 +10,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\admin\index.ts" />
+    <None Remove="ClientApp\src\app\blogs\index.ts" />
+    <None Remove="ClientApp\src\app\home\index.ts" />
+    <None Remove="ClientApp\src\app\login\index.ts" />
+    <None Remove="ClientApp\src\app\models\blog.ts" />
     <None Remove="ClientApp\src\app\models\index.ts" />
+    <None Remove="ClientApp\src\app\models\post.ts" />
+    <None Remove="ClientApp\src\app\page-not-found\index.ts" />
+    <None Remove="ClientApp\src\app\profile\index.ts" />
     <None Remove="ClientApp\src\app\services\index.ts" />
     <None Remove="ClientApp\src\app\shared\index.ts" />
     <None Remove="ClientApp\src\app\shared\layout\index.ts" />
+    <None Remove="ClientApp\src\app\stats\index.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,10 +42,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\admin\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\blogs\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\home\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\login\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\blog.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\post.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\page-not-found\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\profile\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\layout\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\stats\index.ts" />
   </ItemGroup>
 
 </Project>

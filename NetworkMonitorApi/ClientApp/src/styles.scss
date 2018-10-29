@@ -1,0 +1,47 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+
+$font-stack: Helvetica, sans-serif;
+$primary-color: #00BDF3;
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.even {
+  background-color: #00BDF3;
+}
+
+.odd {
+  background-color: #B9EDFB;
+}
+.navbar {
+  background-color: $primary-color;
+  color: #ffffff;
+  
+}
+.navbar a{
+  color: #ffffff;
+}
+a:hover{
+  color: deeppink;
+}
+
+
+.dashboard {
+  padding: 5px 10px;
+}
+
+.dashboardPosts {
+  border-radius: 25px;
+  border: 2px solid $primary-color;
+  padding: 20px;
+  height: 150px;
+}

@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 //import { UiModule } from './ui/ui.module';
 import { StatsComponent } from './stats/stats.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthService, UserService, StatsService } from './services';
 import { LoginComponent } from './login/login.component';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
@@ -21,17 +20,22 @@ import { SignUpComponent } from './login/sign-up/sign-up.component';
 import { AdminComponent } from './admin/admin.component';
 import { RolesComponent } from './admin/roles/roles.component';
 import { UsersComponent } from './admin/users/users.component';
-import { SignInComponent } from './login/sign-in/sign-in.component';
+import { SignInComponent } from './login';
 import { AppRoutingModule } from './app-routing.module';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './home';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent } from './profile';
 import { HeaderComponent, FooterComponent } from './shared/layout';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BlogsComponent } from './blogs/blogs.component';
+import { PostsComponent } from './blogs/posts/posts.component';
+import { CommentsDirective } from './blogs';
+import { AuthService, BlogService, StatsService, UserService } from './services';
+import { DashboardComponent } from './dashboard/dashboard.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -50,7 +54,11 @@ var AppModule = /** @class */ (function () {
                 PageNotFoundComponent,
                 ProfileComponent,
                 HeaderComponent,
-                FooterComponent
+                FooterComponent,
+                BlogsComponent,
+                PostsComponent,
+                CommentsDirective,
+                DashboardComponent
             ],
             imports: [
                 BrowserModule,
@@ -65,7 +73,7 @@ var AppModule = /** @class */ (function () {
                 MatChipsModule,
                 BrowserAnimationsModule
             ],
-            providers: [AuthService, UserService, StatsService, StatsComponent],
+            providers: [AuthService, UserService, StatsService, BlogService],
             bootstrap: [AppComponent]
         })
     ], AppModule);

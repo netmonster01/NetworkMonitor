@@ -37,7 +37,7 @@ namespace NetworkMonitorApi
             //services.AddScoped<RoleRepository>();
             services.AddScoped<IRolesRepository, RoleRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
-
+            services.AddScoped<IBlog,BlogRepository>();
             services.AddDbContext<ApplicationDbContext>(options =>
                             options.UseSqlite(Configuration.GetConnectionString("IdentityConnection")), ServiceLifetime.Transient);
 
