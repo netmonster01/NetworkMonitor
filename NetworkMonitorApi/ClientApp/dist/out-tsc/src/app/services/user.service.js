@@ -20,7 +20,8 @@ var UserService = /** @class */ (function () {
             id: null,
             password: null,
             roles: [],
-            token: undefined
+            token: undefined,
+            avatarImage: null
         };
         this.httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     }

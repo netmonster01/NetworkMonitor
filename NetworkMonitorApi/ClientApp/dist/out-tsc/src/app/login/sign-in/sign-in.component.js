@@ -58,7 +58,8 @@ var SignInComponent = /** @class */ (function () {
             email: null,
             token: undefined,
             id: null,
-            roles: null
+            roles: null,
+            avatarImage: null
         };
     }
     SignInComponent.prototype.ngOnInit = function () {

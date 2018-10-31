@@ -13,13 +13,15 @@ namespace NetworkMonitorApi.Repositories
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IServiceProvider _serviceProvider;
+        private readonly ILoggerRepository _loggerRepository;
 
         public BlogRepository(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _applicationDbContext = _serviceProvider.GetRequiredService<ApplicationDbContext>();
-
+            _loggerRepository = _serviceProvider.GetRequiredService<ILoggerRepository>();
         }
+
         public async Task<bool> CreateBlog(Blog blog)
         {
             bool didCreate = false;
@@ -29,11 +31,11 @@ namespace NetworkMonitorApi.Repositories
                 await _applicationDbContext.SaveChangesAsync();
                 didCreate = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _loggerRepository.Write(ex);
             }
+
             return didCreate;
         }
 
@@ -46,11 +48,11 @@ namespace NetworkMonitorApi.Repositories
                 await _applicationDbContext.SaveChangesAsync();
                 didCreate = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _loggerRepository.Write(ex);
             }
+
             return didCreate;
         }
 
@@ -63,11 +65,11 @@ namespace NetworkMonitorApi.Repositories
                 await _applicationDbContext.SaveChangesAsync();
                 didCreate = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _loggerRepository.Write(ex);
             }
+
             return didCreate;
         }
 
@@ -78,11 +80,11 @@ namespace NetworkMonitorApi.Repositories
             {
                 blog = _applicationDbContext.Blogs.FirstOrDefault(x => x.BlogId == blogId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _loggerRepository.Write(ex);
             }
+
             return blog;
         }
 
@@ -101,17 +103,18 @@ namespace NetworkMonitorApi.Repositories
                              where b.BlogId > 0
                              select (b)).ToList();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    _loggerRepository.Write(ex);
                 }
+
                 return roles;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _loggerRepository.Write(ex);
             }
+
             return blogs;
         }
 
@@ -122,11 +125,11 @@ namespace NetworkMonitorApi.Repositories
             {
                 post = _applicationDbContext.Posts.FirstOrDefault(x => x.PostId == postId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _loggerRepository.Write(ex);
             }
+
             return post;
         }
 
@@ -137,16 +140,34 @@ namespace NetworkMonitorApi.Repositories
             {
                 posts = _applicationDbContext.Posts.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _loggerRepository.Write(ex);
             }
+
             return posts;
         }
+
         public bool BlogExists(string title)
         {
             return _applicationDbContext.Blogs.Any(e => e.Title == title);
+        }
+
+        public async Task<bool> CreateBlogImageAsync(BlogImage blogImage)
+        {
+            bool didCreate = false;
+            try
+            {
+                _applicationDbContext.BlogImages.Add(blogImage);
+                await _applicationDbContext.SaveChangesAsync();
+                didCreate = true;
+            }
+            catch (Exception ex)
+            {
+                _loggerRepository.Write(ex);
+            }
+
+            return didCreate;
         }
     }
 }

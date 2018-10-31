@@ -12,6 +12,8 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\admin\index.ts" />
     <None Remove="ClientApp\src\app\blogs\index.ts" />
+    <None Remove="ClientApp\src\app\forbidden\index.ts" />
+    <None Remove="ClientApp\src\app\guards\index.ts" />
     <None Remove="ClientApp\src\app\home\index.ts" />
     <None Remove="ClientApp\src\app\login\index.ts" />
     <None Remove="ClientApp\src\app\models\blog.ts" />
@@ -27,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="Services\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -45,6 +46,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\admin\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\blogs\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\forbidden\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\guards\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\home\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\login\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\blog.ts" />

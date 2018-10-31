@@ -6,12 +6,14 @@
 $font-stack: Roboto, Helvetica, sans-serif;
 $primary-color: #00BDF3;
 $primary-color-light: #B9EDFB;
+$primary-text: #FFFFFF;
 
 html, body {
   height: 100%;
 }
 
 body {
+  color: $primary-text;
   margin: 0;
   font-family: $font-stack;
   background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
@@ -26,11 +28,11 @@ body {
 }
 .navbar {
   background-color: $primary-color;
-  color: #ffffff;
+  color: $primary-text;
   
 }
 .navbar a{
-  color: #ffffff;
+  color: $primary-text;
 }
 a:hover{
   color: deeppink;
@@ -65,5 +67,26 @@ pre {
   padding: 1em 1.5em;
   display: block;
   word-wrap: break-word;
+}
+#bigPofileImg
+{
+  width: 128px;
+  height: 128px;
+}
+.mat-form-field-label{
+  color: $primary-text !important;
+
+}
+.mat-form-field-underline
+{
+  color: $primary-text !important;
+}
+
+label
+{
+  color: $primary-text;
+}
+h1 {
+  color: $primary-text;
 }
 

@@ -18,7 +18,8 @@ export class SignUpComponent implements OnInit {
     email: null,
     password: null,
     token: undefined,
-    roles: null
+    roles: null,
+    avatarImage: null
   };
   constructor(private fb: FormBuilder, private auth: AuthService) { }
 

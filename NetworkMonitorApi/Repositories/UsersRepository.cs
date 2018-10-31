@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static NetworkMonitorApi.CustomEnums;
 
 namespace NetworkMonitorApi.Repositories
 {
@@ -15,16 +16,18 @@ namespace NetworkMonitorApi.Repositories
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ApplicationDbContext _dbContext;
+        private readonly ILoggerRepository _loggerRepository;
         public UsersRepository(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            _loggerRepository = _serviceProvider.GetRequiredService<ILoggerRepository>();
         }
 
         public List<User> GetAllUsersAsync()
         {
             List<User> users = new List<User>();
-
+            _loggerRepository.Write(LogType.Info, string.Format("GetAllUsersAsync called:"));
             try
             {
                 var userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -72,7 +75,7 @@ namespace NetworkMonitorApi.Repositories
             }
             catch (Exception ex)
             {
-
+                _loggerRepository.Write(ex);
             }
             return users;
         }

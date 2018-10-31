@@ -35,7 +35,7 @@ export class BlogService {
       headers: this.headers
     };
 
-    this._http.post('/api/Blogs/UploadFiles', { blogFile }).subscribe(result => { console.log(result) });
+    this._http.post('/api/FileUpload', blogFile).subscribe(result => { console.log(result) });
   }
 
 

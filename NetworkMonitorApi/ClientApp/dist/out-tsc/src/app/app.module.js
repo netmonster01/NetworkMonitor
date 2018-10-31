@@ -39,6 +39,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SafePipe } from './safe.pipe';
 import { BlogComponent } from './admin/blog/blog.component';
 import { ImagesComponent } from './admin/blog/images/images.component';
+import { AuthGuard, RoleGuard } from "./guards";
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -65,6 +67,7 @@ var AppModule = /** @class */ (function () {
                 SafePipe,
                 BlogComponent,
                 ImagesComponent,
+                ForbiddenComponent,
             ],
             imports: [
                 BrowserModule,
@@ -79,7 +82,7 @@ var AppModule = /** @class */ (function () {
                 MatChipsModule,
                 BrowserAnimationsModule
             ],
-            providers: [AuthService, UserService, StatsService, BlogService],
+            providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard],
             bootstrap: [AppComponent]
         })
     ], AppModule);

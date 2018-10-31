@@ -25,13 +25,13 @@ var ImagesComponent = /** @class */ (function () {
         //console.log(event);
     };
     ImagesComponent.prototype.uploadFile = function () {
-        var fd = new FormData();
-        fd.append('image', this.selectedFile, this.selectedFile.name);
+        this.formData = new FormData();
+        this.formData.append('image', this.selectedFile, this.selectedFile.name);
         //let blogImage = new BlogImage {
         //  Image: this.selectedFile
         //}
         //// call service.
-        this.blogService.uploadIamge(fd);
+        this.blogService.uploadIamge(this.formData);
     };
     ImagesComponent.prototype.ngOnInit = function () {
     };

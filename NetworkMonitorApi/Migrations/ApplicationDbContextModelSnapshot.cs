@@ -257,6 +257,26 @@ namespace NetworkMonitorApi.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("NetworkMonitorApi.Models.Log", b =>
+                {
+                    b.Property<int>("LogId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<int>("LogType");
+
+                    b.Property<string>("Message");
+
+                    b.Property<string>("Source");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("LogId");
+
+                    b.ToTable("Logs");
+                });
+
             modelBuilder.Entity("NetworkMonitorApi.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
@@ -283,6 +303,20 @@ namespace NetworkMonitorApi.Migrations
                     b.HasIndex("BlogId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("NetworkMonitorApi.Models.Setting", b =>
+                {
+                    b.Property<int>("SettingId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Key");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("SettingId");
+
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("NetworkMonitorApi.Models.SpeedTestResults", b =>

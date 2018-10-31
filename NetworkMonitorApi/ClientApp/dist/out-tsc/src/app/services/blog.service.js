@@ -33,7 +33,7 @@ var BlogService = /** @class */ (function () {
         var options = {
             headers: this.headers
         };
-        this._http.post('/api/Blogs/UploadFiles', blogFile).subscribe(function (result) { console.log(result); });
+        this._http.post('/api/FileUpload', blogFile).subscribe(function (result) { console.log(result); });
     };
     BlogService = __decorate([
         Injectable({

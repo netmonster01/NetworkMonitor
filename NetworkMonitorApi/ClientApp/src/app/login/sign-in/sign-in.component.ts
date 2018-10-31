@@ -14,27 +14,29 @@ export class SignInComponent implements OnInit {
   loading: boolean;
   success: boolean;
   signInForm: FormGroup;
-  return: string = '';
+  return = '';
 
   user: User = {
     password: null,
     email: null,
     token: undefined,
     id: null,
-    roles: null
-  }
+    roles: null,
+    avatarImage: null
+  };
 
   constructor(private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute) { }
-  
 
   ngOnInit() {
+
     this.signInForm = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
+
     this.signInForm.valueChanges.subscribe(console.log);
     this.auth.user$.subscribe(data => this.processData(data));
   }

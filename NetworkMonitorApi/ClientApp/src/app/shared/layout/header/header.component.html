@@ -12,8 +12,7 @@
     <div class="navbar-nav">
     
       <a *ngIf="user.email" [routerLink]="['/profile']" class="nav-item nav-link">Welcome, {{user.email}}</a>
-
-      <a *ngIf="user.email" (click)="logout()" class="nav-item nav-link">SignOut</a>
+      <button *ngIf="user.email" (click)="logout()" class="btn btn-info">SignOut </button>
 
       <a [routerLink]="['/login']" *ngIf="!user.email" class="nav-item nav-link">Login</a>
       <a class="nav-item nav-link" href="https://github.com/beeman" target="_blank">

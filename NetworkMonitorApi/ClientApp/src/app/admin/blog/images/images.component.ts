@@ -18,7 +18,8 @@ export class ImagesComponent implements OnInit {
   constructor(private blogService: BlogService, private fb: FormBuilder) { }
 
   selectedFile: File;
-  fd: FormData;
+  formData: FormData;
+
   onFileSelected(event) {
     this.selectedFile = <File>event.target.files[0];
     console.log(this.selectedFile);
@@ -27,13 +28,13 @@ export class ImagesComponent implements OnInit {
   }
 
   uploadFile() {
-   
-    this.fd.append('image', this.selectedFile, this.selectedFile.name);
+    this.formData = new FormData();
+    this.formData.append('image', this.selectedFile, this.selectedFile.name);
     //let blogImage = new BlogImage {
     //  Image: this.selectedFile
     //}
     //// call service.
-    this.blogService.uploadIamge(this.fd);
+    this.blogService.uploadIamge(this.formData);
   }
 
   ngOnInit() {

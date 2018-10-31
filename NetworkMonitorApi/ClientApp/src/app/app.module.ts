@@ -33,6 +33,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SafePipe } from './safe.pipe';
 import { BlogComponent } from './admin/blog/blog.component';
 import { ImagesComponent } from './admin/blog/images/images.component';
+import { AuthGuard, RoleGuard } from "./guards";
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,7 @@ import { ImagesComponent } from './admin/blog/images/images.component';
     SafePipe,
     BlogComponent,
     ImagesComponent,
+    ForbiddenComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,7 @@ import { ImagesComponent } from './admin/blog/images/images.component';
     MatChipsModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthService, UserService, StatsService, BlogService],
+  providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

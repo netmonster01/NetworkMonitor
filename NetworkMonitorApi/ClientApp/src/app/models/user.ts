@@ -7,4 +7,5 @@ export class User {
   password: string;
   token: string;
   roles: Role[];
+  avatarImage: string;
 }

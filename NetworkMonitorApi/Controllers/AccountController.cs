@@ -17,6 +17,7 @@ using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Dtos;
 using NetworkMonitorApi.Models;
 using NetworkMonitorApi.Repositories;
+using static NetworkMonitorApi.CustomEnums;
 
 namespace NetworkMonitorApi.Controllers
 {
@@ -31,7 +32,8 @@ namespace NetworkMonitorApi.Controllers
         private readonly AppSettings _appSettings;
         private readonly IRolesRepository _rolesRepository;
         private readonly IServiceProvider _serviceProvider;
-        
+        private readonly ILoggerRepository _loggerRepository;
+
         public AccountController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -45,6 +47,7 @@ namespace NetworkMonitorApi.Controllers
 
             _appSettings = _serviceProvider.GetRequiredService<IOptions<AppSettings>>().Value; // appSettings.Value;
             _rolesRepository = _serviceProvider.GetRequiredService<IRolesRepository>();
+            _loggerRepository = _serviceProvider.GetRequiredService<ILoggerRepository>();
         }
 
         [HttpPost]
@@ -57,10 +60,21 @@ namespace NetworkMonitorApi.Controllers
             if (result.Succeeded)
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
+                _loggerRepository.Write(LogType.Pass, string.Format("User: {0} Logged In.", appUser.UserName));
                 return await GenerateJwtToken(model.Email, appUser);
             }
 
+            _loggerRepository.Write(LogType.Fail, string.Format("User: {0} Failed to Log In.", model.Email));
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
+        }
+
+        [HttpGet]
+        [Route("isAuthenticated")]
+        [AllowAnonymous]
+        public IActionResult IsAuthenticated()
+        {
+            _loggerRepository.Write(LogType.Info, string.Format("AuthCheck"));
+            return Ok(User.Identity.IsAuthenticated);
         }
 
         [HttpGet]
@@ -68,6 +82,7 @@ namespace NetworkMonitorApi.Controllers
         [AllowAnonymous]
         public async void Logout()
         {
+            _loggerRepository.Write(LogType.Info, string.Format("User: {0} LoggedOut!", User.Identity.Name ));
             await _signInManager.SignOutAsync();
         }
 
@@ -89,6 +104,7 @@ namespace NetworkMonitorApi.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
+                _loggerRepository.Write(LogType.Info, string.Format("New User: {0} Registered.", model.Email));
                 return await GenerateJwtToken(model.Email, user);
             }
 
@@ -180,10 +196,13 @@ namespace NetworkMonitorApi.Controllers
             }
             if (roles.Any())
             {
-                claims.AddRange(roles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
+                claims.AddRange(roles.Select(role => new Claim("Role", role)));
                 user.Roles = roles.ToList();
                 user.IsAdmin = roles.Contains("Admin");
             }
+
+            // check for image.
+
 
             //security key
             var securityKey = Encoding.UTF8.GetBytes(_appSettings.Secret);//  Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -208,6 +227,7 @@ namespace NetworkMonitorApi.Controllers
             user.Token = sToken;
             user.Email = appUser.UserName;
             user.Password = null;
+            _loggerRepository.Write(LogType.Pass, string.Format("Generated Token {0} for User: {1} Registered.", user.Token, user.Email));
             return user;
 
         }

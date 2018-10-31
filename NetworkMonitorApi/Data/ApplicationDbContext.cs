@@ -15,6 +15,7 @@ namespace NetworkMonitorApi.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            //builder.Entity<Setting>().HasAlternateKey(u => u.Key);
             // Customize the ASP.NET Core Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Core Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
@@ -29,5 +30,8 @@ namespace NetworkMonitorApi.Data
         public DbSet<BlogImage> BlogImages { get; set; }
         public DbSet<Alias> Aliases { get; set; }
 
+        public DbSet<Log> Logs { get; set; }
+
+        public DbSet<Setting> Settings { get; set; }
     }
 }

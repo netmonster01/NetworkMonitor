@@ -21,6 +21,7 @@ namespace NetworkMonitorApi.Data
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var rolesRepository = serviceProvider.GetRequiredService<IRolesRepository>();
             var usersRepository = serviceProvider.GetRequiredService<IUsersRepository>();
+            var logRepository = serviceProvider.GetRequiredService<ILoggerRepository>();
 
             ApplicationUser adminUser = new ApplicationUser();
             // 1. check if admin user exists.
@@ -48,10 +49,8 @@ namespace NetworkMonitorApi.Data
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw;
             }
 
             // 2 check if roles are created 
@@ -60,6 +59,19 @@ namespace NetworkMonitorApi.Data
             {
                 // if not create them.
               bool didCreateRoles =  await rolesRepository.CreateInitialRoles();
+            }
+
+            if (!context.Logs.Any())
+            {
+                // if not create them.
+                logRepository.Write(new Log
+                {
+                    DateCreated = DateTime.Now,
+                    LogType = CustomEnums.LogType.Debug,
+                    Message = "initial create",
+                    Source = "SeedData>InitializeAsync",
+                    UserId ="kscavitt@gmail.com"
+                });
             }
 
             // 3. check if admin user has admin role.

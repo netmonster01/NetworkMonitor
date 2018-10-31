@@ -15,10 +15,12 @@ namespace NetworkMonitorApi.Repositories
     {
   
         private readonly IServiceProvider _serviceProvider;
+        private readonly ILoggerRepository _loggerRepository;
 
         public RoleRepository(IConfiguration configuration, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _loggerRepository = _serviceProvider.GetRequiredService<ILoggerRepository>();
         }
 
         public async Task<bool> AssignRole(string userName, string roleName)
@@ -56,9 +58,8 @@ namespace NetworkMonitorApi.Repositories
                 }
                 didCreateRoles = true;
             }
+
             return didCreateRoles;
-            // check if primary user has access.
-            //var user = await userManager.FindByEmailAsync("test@gmail.com");
         }
 
         public List<RoleDto> GetAllRoles()
@@ -76,8 +77,9 @@ namespace NetworkMonitorApi.Repositories
             }
             catch (Exception ex)
             {
-
+                _loggerRepository.Write(ex);
             }
+
             return roles;
         }
 
@@ -99,6 +101,7 @@ namespace NetworkMonitorApi.Repositories
             }
             catch (Exception ex)
             {
+                _loggerRepository.Write(ex);
                 return null;
             }
 

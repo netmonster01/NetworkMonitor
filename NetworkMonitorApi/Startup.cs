@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -34,14 +35,17 @@ namespace NetworkMonitorApi
 
             // configure DI for application services
             services.Configure<AppSettings>(appSettingsSection);
+
+
             //services.AddScoped<RoleRepository>();
             services.AddScoped<IRolesRepository, RoleRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<ILoggerRepository, LoggerRepository>();
             services.AddScoped<IBlog,BlogRepository>();
             services.AddDbContext<ApplicationDbContext>(options =>
                             options.UseSqlite(Configuration.GetConnectionString("IdentityConnection")), ServiceLifetime.Transient);
 
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -64,6 +68,12 @@ namespace NetworkMonitorApi
                     IssuerSigningKey = signingKey,
                     ClockSkew = TimeSpan.FromMinutes(5)
                 };
+            });
+
+            services.AddCors(options => {
+                options.AddPolicy("CorsPolicy", builder => {
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+                });
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -105,7 +115,7 @@ namespace NetworkMonitorApi
                 app.UseHsts();
             }
 
-            app.UseCors();
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             // add static files

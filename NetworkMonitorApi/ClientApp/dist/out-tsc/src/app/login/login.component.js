@@ -20,7 +20,8 @@ var LoginComponent = /** @class */ (function () {
             email: null,
             password: null,
             token: undefined,
-            roles: []
+            roles: [],
+            avatarImage: null
         };
         // this.user = new User
     };

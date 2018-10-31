@@ -9,19 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { User } from '../models/user';
 import { BehaviorSubject } from 'rxjs';
+import decode from 'jwt-decode';
 export var ANONYMOUS_USER = {
     password: null,
     email: null,
     token: undefined,
     id: null,
-    roles: []
+    roles: [],
+    avatarImage: null
 };
 var AuthService = /** @class */ (function () {
     function AuthService(http) {
         this.http = http;
         this.subject = new BehaviorSubject(ANONYMOUS_USER);
+        this.storagekey = 'loggedInUser';
         this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+        this.options = {
+            headers: this.headers
+        };
         this.user$ = this.subject.asObservable();
         this.isLoggedIn$ = this.user$.map(function (user) { return !!user.id; });
         this.isLoggedOut$ = this.isLoggedIn$.map(function (isLoggedIn) { return !isLoggedIn; });
@@ -29,15 +36,12 @@ var AuthService = /** @class */ (function () {
     // attempt to login.
     AuthService.prototype.login = function (email, password) {
         // set options
-        var options = {
-            headers: this.headers
-        };
-        return this.http.post('/api/Account/Login', { email: email, password: password }, options).shareReplay().do(function (user) { return console.log(user); });
+        return this.http.post('/api/Account/Login', { email: email, password: password }, this.options).shareReplay().do(function (user) { return console.log(user); });
     };
     /* call logout */
     AuthService.prototype.logout = function () {
         // remove the current user
-        localStorage.removeItem('currentUser');
+        localStorage.removeItem(this.storagekey);
         // call logout service.
         this.http.get('/api/Account/Logout');
     };
@@ -50,15 +54,32 @@ var AuthService = /** @class */ (function () {
     };
     AuthService.prototype.broardcastUpdate = function (user) {
         this.subject.next(user);
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem(this.storagekey, JSON.stringify(user));
     };
     AuthService.prototype.isUserLoggedIn = function () {
+        var user = new User();
+        user = JSON.parse(localStorage.getItem(this.storagekey));
+        var a = user != null;
+        return user != null;
+    };
+    AuthService.prototype.loggedInUser = function () {
+        var user = new User();
+        user = JSON.parse(localStorage.getItem(this.storagekey));
+        return user;
+    };
+    AuthService.prototype.isAuthenticated = function () {
+        return this.http.get('/api/Account/isAuthenticated', this.options);
     };
     AuthService.prototype.register = function (user) {
         var options = {
             headers: this.headers
         };
-        return this.http.post('/api/Account/Login', { user: user }, options).shareReplay().do(function (user) { return console.log(user); });
+        return this.http.post('/api/Account/Login', { user: user }, options).shareReplay().do(function (u) { return console.log(u); });
+    };
+    AuthService.prototype.decode = function () {
+        var user = new User();
+        user = JSON.parse(localStorage.getItem(this.storagekey));
+        return decode(user.token);
     };
     AuthService = __decorate([
         Injectable({

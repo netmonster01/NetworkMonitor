@@ -9,16 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { UserService, AuthService } from '../../../services';
+import { Router, ActivatedRoute } from '@angular/router';
 var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent(_userService, auth) {
+    function HeaderComponent(_userService, auth, router, route) {
         this._userService = _userService;
         this.auth = auth;
+        this.router = router;
+        this.route = route;
         this.user = {
             email: null,
             id: null,
             password: null,
             roles: [],
-            token: undefined
+            token: undefined,
+            avatarImage: null
         };
         //user$: Observable<User>;
         this.isLoggedIn = false;
@@ -29,12 +33,20 @@ var HeaderComponent = /** @class */ (function () {
     };
     HeaderComponent.prototype.activate = function () {
         var _this = this;
-        this.auth.user$.subscribe(function (data) { return _this.processData(data); });
-        this.auth.isLoggedIn$.subscribe(function (isLoggedIn) { return _this.isLoggedIn === isLoggedIn; });
-        this.auth.isLoggedOut$.subscribe(function (isLoggedOut) { return _this.isLoggedOut === isLoggedOut; });
+        // check if user is logged in.
+        this.isLoggedIn = this.auth.isUserLoggedIn();
+        if (this.isLoggedIn) {
+            this.user = this.auth.loggedInUser();
+        }
+        else {
+            this.auth.user$.subscribe(function (data) { return _this.processData(data); });
+            this.auth.isLoggedIn$.subscribe(function (isLoggedIn) { return _this.isLoggedIn === isLoggedIn; });
+            this.auth.isLoggedOut$.subscribe(function (isLoggedOut) { return _this.isLoggedOut === isLoggedOut; });
+        }
     };
     HeaderComponent.prototype.logout = function () {
         this.auth.logout();
+        this.router.navigateByUrl('login');
     };
     HeaderComponent.prototype.processData = function (data) {
         this.user = data;
@@ -46,7 +58,7 @@ var HeaderComponent = /** @class */ (function () {
             templateUrl: './header.component.html',
             styleUrls: ['./header.component.css']
         }),
-        __metadata("design:paramtypes", [UserService, AuthService])
+        __metadata("design:paramtypes", [UserService, AuthService, Router, ActivatedRoute])
     ], HeaderComponent);
     return HeaderComponent;
 }());
