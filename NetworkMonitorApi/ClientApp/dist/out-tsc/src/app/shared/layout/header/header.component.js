@@ -22,7 +22,9 @@ var HeaderComponent = /** @class */ (function () {
             password: null,
             roles: [],
             token: undefined,
-            avatarImage: null
+            avatarImage: null,
+            firstName: null,
+            lastName: null
         };
         //user$: Observable<User>;
         this.isLoggedIn = false;

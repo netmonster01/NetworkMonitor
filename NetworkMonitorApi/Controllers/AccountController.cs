@@ -12,8 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NetworkMonitorApi.Core;
+using NetworkMonitorApi.Data;
 using NetworkMonitorApi.Dtos;
 using NetworkMonitorApi.Models;
+using Newtonsoft.Json;
 using static NetworkMonitorApi.CustomEnums;
 
 namespace NetworkMonitorApi.Controllers
@@ -30,21 +32,20 @@ namespace NetworkMonitorApi.Controllers
         private readonly IRolesRepository _rolesRepository;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILoggerRepository _loggerRepository;
+        private readonly IUsersRepository _usersRepository;
+        private readonly ApplicationDbContext _db;
 
         public AccountController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _signInManager = _serviceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
-
-
             _userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-            //_configuration = configuration;
-            _roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); //roleManager;
-
-            _appSettings = _serviceProvider.GetRequiredService<IOptions<AppSettings>>().Value; // appSettings.Value;
+            _roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            _appSettings = _serviceProvider.GetRequiredService<IOptions<AppSettings>>().Value;
             _rolesRepository = _serviceProvider.GetRequiredService<IRolesRepository>();
             _loggerRepository = _serviceProvider.GetRequiredService<ILoggerRepository>();
+            _usersRepository = _serviceProvider.GetRequiredService<IUsersRepository>();
+            _db = _serviceProvider.GetRequiredService<ApplicationDbContext>();
         }
 
         [HttpPost]
@@ -66,12 +67,30 @@ namespace NetworkMonitorApi.Controllers
         }
 
         [HttpGet]
-        [Route("isAuthenticated")]
+        [Route("IsAuthenticated")]
         [AllowAnonymous]
         public IActionResult IsAuthenticated()
         {
             _loggerRepository.Write(LogType.Info, string.Format("AuthCheck"));
             return Ok(User.Identity.IsAuthenticated);
+        }
+
+
+        [HttpPut]
+        [Route("UpdateProfile")]
+        [Produces("application/json")]
+        [Consumes("application/json", "application/json-patch+json", "multipart/form-data")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateProfile([FromBody] object user) 
+        {
+            //var usr = (User)user;
+            user.ObjectToClass<User>();
+            string json = JsonConvert.SerializeObject(user);
+            var usr = JsonConvert.DeserializeObject<User>(json);
+            //usr.AvatarImage =
+            bool didUpdate = await _usersRepository.UpdateProfileAsync(usr);
+            
+            return Ok(didUpdate);
         }
 
         [HttpGet]
@@ -199,7 +218,7 @@ namespace NetworkMonitorApi.Controllers
             }
 
             // check for image.
-
+            
 
             //security key
             var securityKey = Encoding.UTF8.GetBytes(_appSettings.Secret);//  Encoding.ASCII.GetBytes(_appSettings.Secret);

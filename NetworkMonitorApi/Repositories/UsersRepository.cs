@@ -6,6 +6,7 @@ using NetworkMonitorApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static NetworkMonitorApi.CustomEnums;
 
 namespace NetworkMonitorApi.Repositories
@@ -87,6 +88,41 @@ namespace NetworkMonitorApi.Repositories
             }
             return false;
             //return GetRolesByEmail(email) != null ?  
+        }
+
+        public async Task<bool> UpdateProfileAsync(User user)
+        {
+            if(user == null || user.UserName == null)
+            {
+                throw new Exception("user is required");
+
+            }
+
+            bool didCreate = false;
+            try
+            {
+                var profile = _dbContext.Users.Where(c => c.UserName == user.UserName).FirstOrDefault();
+                if ( profile != null)
+                {
+                    ApplicationUser userToUpdate = new ApplicationUser
+                    {
+                        Email = profile.Email,
+                        FirstName = profile.FirstName,
+                        LastName = profile.LastName,
+                        UserName = profile.UserName,
+                        AvatarImage = profile.AvatarImage
+                    };
+                    _dbContext.Users.Update(userToUpdate);
+                    await _dbContext.SaveChangesAsync();
+                    didCreate = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggerRepository.Write(ex);
+            }
+
+            return didCreate;
         }
 
         private List<string> GetRolesByEmail(string email)

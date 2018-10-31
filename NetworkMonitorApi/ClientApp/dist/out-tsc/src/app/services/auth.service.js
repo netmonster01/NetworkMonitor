@@ -18,7 +18,9 @@ export var ANONYMOUS_USER = {
     token: undefined,
     id: null,
     roles: [],
-    avatarImage: null
+    avatarImage: null,
+    firstName: null,
+    lastName: null
 };
 var AuthService = /** @class */ (function () {
     function AuthService(http) {
@@ -75,6 +77,12 @@ var AuthService = /** @class */ (function () {
             headers: this.headers
         };
         return this.http.post('/api/Account/Login', { user: user }, options).shareReplay().do(function (u) { return console.log(u); });
+    };
+    AuthService.prototype.updateProfile = function (user) {
+        var options = {
+            headers: this.headers
+        };
+        return this.http.put('/api/Account/UpdateProfile', user, options); //.shareReplay().do(u => console.log(u));
     };
     AuthService.prototype.decode = function () {
         var user = new User();

@@ -23,8 +23,9 @@ export class LoginComponent implements OnInit {
       password: null,
       token: undefined,
       roles: [],
-      avatarImage: null
-
+      avatarImage: null,
+      firstName: null,
+      lastName: null
     }
     // this.user = new User
   }

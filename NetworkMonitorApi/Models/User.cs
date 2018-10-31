@@ -17,5 +17,7 @@ namespace NetworkMonitorApi.Models
         public List<string> Roles { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        public byte[] AvatarImage { get; set; }
     }
 }

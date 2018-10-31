@@ -21,7 +21,9 @@ var LoginComponent = /** @class */ (function () {
             password: null,
             token: undefined,
             roles: [],
-            avatarImage: null
+            avatarImage: null,
+            firstName: null,
+            lastName: null
         };
         // this.user = new User
     };

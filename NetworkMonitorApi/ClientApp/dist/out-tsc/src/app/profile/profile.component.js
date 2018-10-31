@@ -22,7 +22,9 @@ var ProfileComponent = /** @class */ (function () {
             token: undefined,
             id: null,
             roles: [],
-            avatarImage: null
+            avatarImage: null,
+            firstName: null,
+            lastName: null
         };
     }
     ProfileComponent.prototype.ngOnInit = function () {
@@ -33,12 +35,10 @@ var ProfileComponent = /** @class */ (function () {
             email: ['', Validators.required],
         });
         this.isLoggedIn = this.auth.isUserLoggedIn();
+        this.auth.user$.subscribe(function (data) { return _this.processData(data); });
         if (this.isLoggedIn) {
             this.user = this.auth.loggedInUser();
             var a = false;
-        }
-        else {
-            this.auth.user$.subscribe(function (data) { return _this.processData(data); });
         }
     };
     ProfileComponent.prototype.processData = function (data) {
@@ -47,13 +47,27 @@ var ProfileComponent = /** @class */ (function () {
     };
     ProfileComponent.prototype.onFileSelected = function (event) {
         var _this = this;
+        // set the selected file.
         this.selectedFile = event.target.files[0];
+        // set image on user
         console.log(this.selectedFile);
+        // setup reader to read input.
         var reader = new FileReader();
         reader.onload = function (e) {
             _this.imageSrc = e.target.result;
+            _this.user.avatarImage = e.target.result;
         };
         reader.readAsDataURL(this.selectedFile);
+    };
+    ProfileComponent.prototype.submitHandler = function () {
+        var u = this.user;
+        this.formData = new FormData();
+        this.formData.append("AvatarImage", this.user.avatarImage);
+        this.formData.append("FirstName", this.user.firstName);
+        this.formData.append("LastName", this.user.lastName);
+        this.formData.append("FirstName", this.user.firstName);
+        this.formData.append("Email", this.user.email);
+        this.auth.updateProfile(this.user).subscribe(function (data) { console.log(data); });
     };
     ProfileComponent = __decorate([
         Component({

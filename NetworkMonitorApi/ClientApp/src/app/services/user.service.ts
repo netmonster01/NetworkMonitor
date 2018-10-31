@@ -23,7 +23,9 @@ export class UserService {
     password: null,
     roles: [],
     token: undefined,
-    avatarImage: null
+    avatarImage: null,
+    firstName: null,
+    lastName: null
   }
 
   getUsers() {

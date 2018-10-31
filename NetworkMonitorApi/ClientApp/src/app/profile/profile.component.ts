@@ -21,7 +21,9 @@ export class ProfileComponent implements OnInit {
     token: undefined,
     id: null,
     roles: [],
-    avatarImage: null
+    avatarImage: null,
+    firstName: null,
+    lastName: null
   };
 
   constructor(private fb: FormBuilder, private auth: AuthService) { }
@@ -34,14 +36,13 @@ export class ProfileComponent implements OnInit {
     });
 
     this.isLoggedIn = this.auth.isUserLoggedIn();
+    this.auth.user$.subscribe(data => this.processData(data));
 
     if (this.isLoggedIn) {
       this.user = this.auth.loggedInUser();
       var a = false;
     }
-    else {
-      this.auth.user$.subscribe(data => this.processData(data));
-    }
+   
   }
 
   processData(data: User) {
@@ -50,13 +51,32 @@ export class ProfileComponent implements OnInit {
   }
 
   onFileSelected(event) {
+    // set the selected file.
     this.selectedFile = <File>event.target.files[0];
+    // set image on user
+
+
     console.log(this.selectedFile);
+    // setup reader to read input.
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this.imageSrc = e.target.result;
+      this.user.avatarImage = e.target.result;
     };
+
     reader.readAsDataURL(this.selectedFile);
+
+  }
+
+  submitHandler() {
+    var u = this.user;
+    this.formData = new FormData();
+    this.formData.append("AvatarImage", this.user.avatarImage);
+    this.formData.append("FirstName", this.user.firstName);
+    this.formData.append("LastName", this.user.lastName);
+    this.formData.append("FirstName", this.user.firstName);
+    this.formData.append("Email", this.user.email);
+    this.auth.updateProfile(this.user).subscribe(data => { console.log(data) });
   }
 
 }

@@ -8,4 +8,6 @@ export class User {
   token: string;
   roles: Role[];
   avatarImage: string;
+  firstName = '';
+  lastName = '';
 }
