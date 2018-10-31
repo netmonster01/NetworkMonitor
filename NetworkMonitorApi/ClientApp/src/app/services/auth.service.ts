@@ -11,7 +11,9 @@ export const ANONYMOUS_USER: User = {
   token: undefined,
   id: null,
   roles: [],
-  avatarImage: null
+  avatarImage: null,
+  firstName: null,
+  lastName: null
 };
 
 @Injectable({
@@ -62,24 +64,30 @@ export class AuthService {
   }
 
   broardcastUpdate(user: User) {
+
     this.subject.next(user);
     localStorage.setItem(this.storagekey , JSON.stringify(user));
   }
 
   isUserLoggedIn(): boolean {
+
     let user = new User();
     user = JSON.parse(localStorage.getItem(this.storagekey));
     var a = user != null;
+
     return user != null;
   }
 
   loggedInUser(): User {
+
     let user = new User();
     user = JSON.parse(localStorage.getItem(this.storagekey));
+
     return user;
   }
 
   isAuthenticated(): any {
+
     return this.http.get<boolean>('/api/Account/isAuthenticated', this.options);
   }
 
@@ -90,6 +98,15 @@ export class AuthService {
     };
 
     return this.http.post<User>('/api/Account/Login', { user }, options).shareReplay().do(u => console.log(u));
+  }
+
+  updateProfile(user: User) {
+
+    const options = {
+      headers: this.headers
+    };
+
+    return this.http.put<User>('/api/Account/UpdateProfile', user , options);//.shareReplay().do(u => console.log(u));
   }
 
   decode() {

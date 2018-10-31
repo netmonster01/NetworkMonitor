@@ -57,7 +57,9 @@ var SignUpComponent = /** @class */ (function () {
             password: null,
             token: undefined,
             roles: null,
-            avatarImage: null
+            avatarImage: null,
+            firstName: null,
+            lastName: null
         };
     }
     SignUpComponent.prototype.ngOnInit = function () {

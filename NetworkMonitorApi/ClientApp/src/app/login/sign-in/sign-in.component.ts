@@ -22,7 +22,9 @@ export class SignInComponent implements OnInit {
     token: undefined,
     id: null,
     roles: null,
-    avatarImage: null
+    avatarImage: null,
+    firstName: null,
+    lastName: null
   };
 
   constructor(private fb: FormBuilder,
