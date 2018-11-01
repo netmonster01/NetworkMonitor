@@ -7,7 +7,7 @@ export class User {
   password: string;
   token: string;
   roles: Role[];
-  avatarImage: string;
-  firstName = '';
-  lastName = '';
+  avatarImage: Uint8Array;
+  firstName: string;
+  lastName: string;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {AuthService} from '../services';
+import { AuthService, ANONYMOUS_USER} from '../services';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -15,19 +15,21 @@ export class ProfileComponent implements OnInit {
   imageSrc = '/assets/user.png';
   profileForm: FormGroup;
 
-  user: User = {
-    password: null,
-    email: null,
-    token: undefined,
-    id: null,
-    roles: [],
-    avatarImage: null,
-    firstName: null,
-    lastName: null
-  };
+ 
 
   constructor(private fb: FormBuilder, private auth: AuthService) { }
 
+  user: User = ANONYMOUS_USER;
+  //  {
+  //  password: null,
+  //  email: null,
+  //  token: undefined,
+  //  id: null,
+  //  roles: [],
+  //  avatarImageBas64: null,
+  //  firstName: null,
+  //  lastName: null
+  //};
   ngOnInit() {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -61,21 +63,39 @@ export class ProfileComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this.imageSrc = e.target.result;
-      this.user.avatarImage = e.target.result;
+      this.user.avatarImage = this.base64ToArrayBuffer(e.target.result.split('base64,')[1]);
     };
 
     reader.readAsDataURL(this.selectedFile);
+    //reader.readAsArrayBuffer(this.selectedFile);
+
+    //const r = new FileReader();
+    //r.onload = (e: any) => {
+    //  this.imageSrc = e.target.result;
+    //  this.user.avatarImageBas64 = e.target.result;
+    //};
+
+    //r.readAsArrayBuffer(this.selectedFile);
 
   }
-
+  base64ToArrayBuffer(base64) {
+    var binaryString = atob(base64);
+    var binaryLen = binaryString.length;
+    var bytes = new Uint8Array(binaryLen);
+    for (var i = 0; i < binaryLen; i++) {
+      var ascii = binaryString.charCodeAt(i);
+      bytes[i] = ascii;
+    }
+    return bytes;
+  }
   submitHandler() {
     var u = this.user;
-    this.formData = new FormData();
-    this.formData.append("AvatarImage", this.user.avatarImage);
-    this.formData.append("FirstName", this.user.firstName);
-    this.formData.append("LastName", this.user.lastName);
-    this.formData.append("FirstName", this.user.firstName);
-    this.formData.append("Email", this.user.email);
+    //this.formData = new FormData();
+    //this.formData.append("AvatarImage", this.user.avatarImage);
+    //this.formData.append("FirstName", this.user.firstName);
+    //this.formData.append("LastName", this.user.lastName);
+    //this.formData.append("FirstName", this.user.firstName);
+    //this.formData.append("Email", this.user.email);
     this.auth.updateProfile(this.user).subscribe(data => { console.log(data) });
   }
 

@@ -101,6 +101,7 @@ namespace NetworkMonitorApi.Repositories
             bool didCreate = false;
             try
             {
+                user.AvatarImage = Convert.FromBase64String(user.AvatarImageBas64);
                 var profile = _dbContext.Users.Where(c => c.UserName == user.UserName).FirstOrDefault();
                 if ( profile != null)
                 {

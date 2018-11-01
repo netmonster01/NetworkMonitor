@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services';
+import { AuthService, ANONYMOUS_USER } from '../../services';
 import { User} from '../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -16,16 +16,17 @@ export class SignInComponent implements OnInit {
   signInForm: FormGroup;
   return = '';
 
-  user: User = {
-    password: null,
-    email: null,
-    token: undefined,
-    id: null,
-    roles: null,
-    avatarImage: null,
-    firstName: null,
-    lastName: null
-  };
+  user: User = ANONYMOUS_USER;
+  //user: User = {
+  //  password: null,
+  //  email: null,
+  //  token: undefined,
+  //  id: null,
+  //  roles: null,
+  //  avatarImageBas64: null,
+  //  firstName: null,
+  //  lastName: null
+  //};
 
   constructor(private fb: FormBuilder,
     private auth: AuthService,

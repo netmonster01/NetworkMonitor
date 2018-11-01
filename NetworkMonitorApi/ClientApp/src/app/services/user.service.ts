@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models';
-
+import { ANONYMOUS_USER } from '../services'
 @Injectable({
   providedIn: 'root'
 })
@@ -17,16 +17,17 @@ export class UserService {
   options = {
     headers: this.httpHeaders
   }
-  user: User = {
-    email: null,
-    id: null,
-    password: null,
-    roles: [],
-    token: undefined,
-    avatarImage: null,
-    firstName: null,
-    lastName: null
-  }
+  user: User = ANONYMOUS_USER;
+  //  {
+  //  email: null,
+  //  id: null,
+  //  password: null,
+  //  roles: [],
+  //  token: undefined,
+  //  avatarImageBas64: null,
+  //  firstName: null,
+  //  lastName: null
+  //}
 
   getUsers() {
    

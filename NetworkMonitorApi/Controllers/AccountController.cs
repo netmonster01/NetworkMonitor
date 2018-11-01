@@ -81,15 +81,12 @@ namespace NetworkMonitorApi.Controllers
         [Produces("application/json")]
         [Consumes("application/json", "application/json-patch+json", "multipart/form-data")]
         [AllowAnonymous]
-        public async Task<IActionResult> UpdateProfile([FromBody] object user) 
+        public async Task<IActionResult> UpdateProfile([FromBody] User user) 
         {
-            //var usr = (User)user;
-            user.ObjectToClass<User>();
-            string json = JsonConvert.SerializeObject(user);
-            var usr = JsonConvert.DeserializeObject<User>(json);
+            dynamic dynObj = JsonConvert.DeserializeObject(user.ToString());
             //usr.AvatarImage =
-            bool didUpdate = await _usersRepository.UpdateProfileAsync(usr);
-            
+            //bool didUpdate = await _usersRepository.UpdateProfileAsync(user);
+            bool didUpdate = false;
             return Ok(didUpdate);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,7 +18,8 @@ namespace NetworkMonitorApi.Models
         public List<string> Roles { get; set; }
 
         public bool IsAdmin { get; set; }
-
+        [NotMapped]
+        public string AvatarImageBas64 { get; set; }
         public byte[] AvatarImage { get; set; }
     }
 }

@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { UserService, AuthService } from '../../../services';
+import { UserService, AuthService, ANONYMOUS_USER } from '../../../services';
 import { Router, ActivatedRoute } from '@angular/router';
 var HeaderComponent = /** @class */ (function () {
     function HeaderComponent(_userService, auth, router, route) {
@@ -16,16 +16,17 @@ var HeaderComponent = /** @class */ (function () {
         this.auth = auth;
         this.router = router;
         this.route = route;
-        this.user = {
-            email: null,
-            id: null,
-            password: null,
-            roles: [],
-            token: undefined,
-            avatarImage: null,
-            firstName: null,
-            lastName: null
-        };
+        this.user = ANONYMOUS_USER;
+        //  {
+        //  email: null,
+        //  id: null,
+        //  password: null,
+        //  roles: [],
+        //  token: undefined,
+        //  avatarImageBas64: null,
+        //  firstName: null,
+        //  lastName: null
+        //}
         //user$: Observable<User>;
         this.isLoggedIn = false;
         this.isLoggedOut = false;

@@ -9,24 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../services';
+import { AuthService, ANONYMOUS_USER } from '../services';
 var ProfileComponent = /** @class */ (function () {
     function ProfileComponent(fb, auth) {
         this.fb = fb;
         this.auth = auth;
         this.isLoggedIn = false;
         this.imageSrc = '/assets/user.png';
-        this.user = {
-            password: null,
-            email: null,
-            token: undefined,
-            id: null,
-            roles: [],
-            avatarImage: null,
-            firstName: null,
-            lastName: null
-        };
+        this.user = ANONYMOUS_USER;
     }
+    //  {
+    //  password: null,
+    //  email: null,
+    //  token: undefined,
+    //  id: null,
+    //  roles: [],
+    //  avatarImageBas64: null,
+    //  firstName: null,
+    //  lastName: null
+    //};
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.profileForm = this.fb.group({
@@ -55,18 +56,25 @@ var ProfileComponent = /** @class */ (function () {
         var reader = new FileReader();
         reader.onload = function (e) {
             _this.imageSrc = e.target.result;
-            _this.user.avatarImage = e.target.result;
+            _this.user.avatarImage = new Uint8Array(e.target.result);
         };
-        reader.readAsDataURL(this.selectedFile);
+        // reader.readAsDataURL(this.selectedFile);
+        reader.readAsArrayBuffer(this.selectedFile);
+        //const r = new FileReader();
+        //r.onload = (e: any) => {
+        //  this.imageSrc = e.target.result;
+        //  this.user.avatarImageBas64 = e.target.result;
+        //};
+        //r.readAsArrayBuffer(this.selectedFile);
     };
     ProfileComponent.prototype.submitHandler = function () {
         var u = this.user;
-        this.formData = new FormData();
-        this.formData.append("AvatarImage", this.user.avatarImage);
-        this.formData.append("FirstName", this.user.firstName);
-        this.formData.append("LastName", this.user.lastName);
-        this.formData.append("FirstName", this.user.firstName);
-        this.formData.append("Email", this.user.email);
+        //this.formData = new FormData();
+        //this.formData.append("AvatarImage", this.user.avatarImage);
+        //this.formData.append("FirstName", this.user.firstName);
+        //this.formData.append("LastName", this.user.lastName);
+        //this.formData.append("FirstName", this.user.firstName);
+        //this.formData.append("Email", this.user.email);
         this.auth.updateProfile(this.user).subscribe(function (data) { console.log(data); });
     };
     ProfileComponent = __decorate([

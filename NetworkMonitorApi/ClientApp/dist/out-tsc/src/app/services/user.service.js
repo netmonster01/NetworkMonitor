@@ -9,24 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ANONYMOUS_USER } from '../services';
 var UserService = /** @class */ (function () {
     function UserService(_http) {
         this._http = _http;
         this.options = {
             headers: this.httpHeaders
         };
-        this.user = {
-            email: null,
-            id: null,
-            password: null,
-            roles: [],
-            token: undefined,
-            avatarImage: null,
-            firstName: null,
-            lastName: null
-        };
+        this.user = ANONYMOUS_USER;
         this.httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     }
+    //  {
+    //  email: null,
+    //  id: null,
+    //  password: null,
+    //  roles: [],
+    //  token: undefined,
+    //  avatarImageBas64: null,
+    //  firstName: null,
+    //  lastName: null
+    //}
     UserService.prototype.getUsers = function () {
         return this._http.get('/api/Account/Users')
             .catch(this.handleError);

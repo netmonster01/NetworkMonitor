@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, AuthService } from '../../../services';
+import { UserService, AuthService, ANONYMOUS_USER } from '../../../services';
 import { User } from '../../../models';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,16 +14,17 @@ export class HeaderComponent implements OnInit {
 
   constructor(private _userService: UserService, private auth: AuthService, private router: Router, private route: ActivatedRoute) { }
 
-  user: User = {
-    email: null,
-    id: null,
-    password: null,
-    roles: [],
-    token: undefined,
-    avatarImage: null,
-    firstName: null,
-    lastName: null
-  }
+  user: User = ANONYMOUS_USER;
+  //  {
+  //  email: null,
+  //  id: null,
+  //  password: null,
+  //  roles: [],
+  //  token: undefined,
+  //  avatarImageBas64: null,
+  //  firstName: null,
+  //  lastName: null
+  //}
 
   //user$: Observable<User>;
   isLoggedIn: boolean = false;

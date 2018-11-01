@@ -44,25 +44,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services';
+import { AuthService, ANONYMOUS_USER } from '../../services';
 import { Router, ActivatedRoute } from '@angular/router';
 var SignInComponent = /** @class */ (function () {
+    //user: User = {
+    //  password: null,
+    //  email: null,
+    //  token: undefined,
+    //  id: null,
+    //  roles: null,
+    //  avatarImageBas64: null,
+    //  firstName: null,
+    //  lastName: null
+    //};
     function SignInComponent(fb, auth, router, route) {
         this.fb = fb;
         this.auth = auth;
         this.router = router;
         this.route = route;
         this.return = '';
-        this.user = {
-            password: null,
-            email: null,
-            token: undefined,
-            id: null,
-            roles: null,
-            avatarImage: null,
-            firstName: null,
-            lastName: null
-        };
+        this.user = ANONYMOUS_USER;
     }
     SignInComponent.prototype.ngOnInit = function () {
         var _this = this;

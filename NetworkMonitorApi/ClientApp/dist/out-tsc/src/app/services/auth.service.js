@@ -82,7 +82,7 @@ var AuthService = /** @class */ (function () {
         var options = {
             headers: this.headers
         };
-        return this.http.put('/api/Account/UpdateProfile', user, options); //.shareReplay().do(u => console.log(u));
+        return this.http.put('/api/Account/UpdateProfile', JSON.stringify(user), options); //.shareReplay().do(u => console.log(u));
     };
     AuthService.prototype.decode = function () {
         var user = new User();

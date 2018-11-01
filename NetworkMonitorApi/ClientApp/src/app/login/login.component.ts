@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services';
+import { AuthService, ANONYMOUS_USER } from '../services';
 import { User, Role } from '../models';
 
 
@@ -17,16 +17,17 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // this.user.userName = '';
-    this.user = {
-      id: null,
-      email: null,
-      password: null,
-      token: undefined,
-      roles: [],
-      avatarImage: null,
-      firstName: null,
-      lastName: null
-    }
+    this.user = ANONYMOUS_USER;
+    //this.user = {
+    //  id: null,
+    //  email: null,
+    //  password: null,
+    //  token: undefined,
+    //  roles: [],
+    //  avatarImageBas64: null,
+    //  firstName: null,
+    //  lastName: null
+    //}
     // this.user = new User
   }
 

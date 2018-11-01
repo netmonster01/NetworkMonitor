@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { UserService, AuthService } from '../../services';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService, AuthService, ANONYMOUS_USER } from '../../services';
 import { User, Role } from '../../models';
 
 @Component({
@@ -13,16 +13,17 @@ export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
   loading = false;
   success = false;
-  user: User = {
-    id: null,
-    email: null,
-    password: null,
-    token: undefined,
-    roles: null,
-    avatarImage: null,
-    firstName: null,
-    lastName: null
-  };
+  user: User = ANONYMOUS_USER;
+  //  {
+  //  id: null,
+  //  email: null,
+  //  password: null,
+  //  token: undefined,
+  //  roles: null,
+  //  avatarImageBas64: null,
+  //  firstName: null,
+  //  lastName: null
+  //};
   constructor(private fb: FormBuilder, private auth: AuthService) { }
 
   ngOnInit() {

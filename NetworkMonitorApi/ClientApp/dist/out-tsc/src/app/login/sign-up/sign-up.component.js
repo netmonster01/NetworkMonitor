@@ -44,23 +44,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services';
+import { AuthService, ANONYMOUS_USER } from '../../services';
 var SignUpComponent = /** @class */ (function () {
+    //  {
+    //  id: null,
+    //  email: null,
+    //  password: null,
+    //  token: undefined,
+    //  roles: null,
+    //  avatarImageBas64: null,
+    //  firstName: null,
+    //  lastName: null
+    //};
     function SignUpComponent(fb, auth) {
         this.fb = fb;
         this.auth = auth;
         this.loading = false;
         this.success = false;
-        this.user = {
-            id: null,
-            email: null,
-            password: null,
-            token: undefined,
-            roles: null,
-            avatarImage: null,
-            firstName: null,
-            lastName: null
-        };
+        this.user = ANONYMOUS_USER;
     }
     SignUpComponent.prototype.ngOnInit = function () {
         this.signUpForm = this.fb.group({
