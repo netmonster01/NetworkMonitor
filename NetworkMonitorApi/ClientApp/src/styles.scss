@@ -7,6 +7,7 @@ $font-stack: Roboto, Helvetica, sans-serif;
 $primary-color: #00BDF3;
 $primary-color-light: #B9EDFB;
 $primary-text: #FFFFFF;
+$primary-text-dark: #000000;
 
 html, body {
   height: 100%;
@@ -74,12 +75,12 @@ pre {
   height: 128px;
 }
 .mat-form-field-label{
-  color: $primary-text !important;
+  color: $primary-text-dark !important;
 
 }
 .mat-form-field-underline
 {
-  color: $primary-text !important;
+  color: $primary-text-dark !important;
 }
 
 label
@@ -101,4 +102,8 @@ h1 {
 .headerBar{
  background-color: $primary-color;
  padding:10px 10px 10px 0px;
+}
+
+.fa-dark{
+  color:$primary-text-dark;
 }

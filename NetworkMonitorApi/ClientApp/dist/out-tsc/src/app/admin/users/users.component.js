@@ -9,9 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { UserService } from '../../services';
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { NewUserDialogComponent } from '../../dialogs';
 var UsersComponent = /** @class */ (function () {
-    function UsersComponent(_usersService) {
+    function UsersComponent(_usersService, dialog) {
         this._usersService = _usersService;
+        this.dialog = dialog;
         this.Users = [];
     }
     UsersComponent.prototype.ngOnInit = function () {
@@ -26,9 +29,19 @@ var UsersComponent = /** @class */ (function () {
         this.Users = users;
         for (var _i = 0, _a = this.Users; _i < _a.length; _i++) {
             var entry = _a[_i];
-            console.log("base64: " + entry.avatarImageType + entry.avatarImage);
             entry.avatarBase64 = entry.avatarImageType + entry.avatarImage;
         }
+    };
+    UsersComponent.prototype.openDialog = function () {
+        var dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            id: 1
+        };
+        this.dialog.open(NewUserDialogComponent, dialogConfig);
+        var dialogRef = this.dialog.open(NewUserDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     UsersComponent = __decorate([
         Component({
@@ -36,7 +49,7 @@ var UsersComponent = /** @class */ (function () {
             templateUrl: './users.component.html',
             styleUrls: ['./users.component.css']
         }),
-        __metadata("design:paramtypes", [UserService])
+        __metadata("design:paramtypes", [UserService, MatDialog])
     ], UsersComponent);
     return UsersComponent;
 }());

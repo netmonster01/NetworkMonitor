@@ -10,27 +10,28 @@
   </div>
   <div class="navbar-expand ml-auto navbar-nav">
     <div class="navbar-nav">
-    <div class="row" *ngIf="user.id">
-      <div class="col-sm-2">
-        <img class="img-cir" [src]="user.avatarBase64 " alt="Avatar" style="width:25px">
+      <div class="row" *ngIf="user.id">
+        <div class="col-sm-2">
+          <img class="img-cir" [src]="user.avatarBase64 " alt="Avatar" style="width:25px">
+        </div>
+        <div class="col-sm-6">
+          <a [routerLink]="['/profile']" class="nav-item nav-link">Welcome, {{user.firstName}}</a>
+        </div>
+        <div class="col-sm-4">
+          <button *ngIf="user.id" (click)="logout()" class="btn btn-danger">SignOut </button>
+        </div>
       </div>
-      <div class="col-sm-6">
-        <a [routerLink]="['/profile']" class="nav-item nav-link">Welcome, {{user.firstName}}</a>
-      </div>
-      <div class="col-sm-4">
-        <button *ngIf="user.id" (click)="logout()" class="btn btn-danger">SignOut </button>
-      </div>
-    </div>
+      <a *ngIf="!user.id" class="nav-item nav-link" [routerLink]="['/login']">Login</a>
       <!--<a [routerLink]="['/login']" *ngIf="!user.email" class="nav-item nav-link">Login</a>
-      <a class="nav-item nav-link" href="https://github.com/beeman" target="_blank">
-        <i class="fa fa-github"></i>
-      </a>
-      <a class="nav-item nav-link" href="https://twitter.com/beeman_nl" target="_blank">
-        <i class="fa fa-twitter"></i>
-      </a>
-      <a class="nav-item nav-link" href="https://medium.com/@beeman" target="_blank">
-        <i class="fa fa-medium"></i>
-      </a>-->
+  <a class="nav-item nav-link" href="https://github.com/beeman" target="_blank">
+    <i class="fa fa-github"></i>
+  </a>
+  <a class="nav-item nav-link" href="https://twitter.com/beeman_nl" target="_blank">
+    <i class="fa fa-twitter"></i>
+  </a>
+  <a class="nav-item nav-link" href="https://medium.com/@beeman" target="_blank">
+    <i class="fa fa-medium"></i>
+  </a>-->
     </div>
   </div>
 </nav>

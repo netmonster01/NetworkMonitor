@@ -35,6 +35,10 @@ import { BlogComponent } from './admin/blog/blog.component';
 import { ImagesComponent } from './admin/blog/images/images.component';
 import { AuthGuard, RoleGuard } from "./guards";
 import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { NewUserDialogComponent } from './dialogs/new-user-dialog/new-user-dialog.component';
+import { NewBlogDialogComponent } from './dialogs/new-blog-dialog/new-blog-dialog.component';
+import { NewRoleDialogComponent } from './dialogs/new-role-dialog/new-role-dialog.component';
+import { MatDialogModule } from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -59,6 +63,9 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
     BlogComponent,
     ImagesComponent,
     ForbiddenComponent,
+    NewUserDialogComponent,
+    NewBlogDialogComponent,
+    NewRoleDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,9 +78,11 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
     MatSelectModule,
     MatButtonModule,
     MatChipsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [NewUserDialogComponent, NewRoleDialogComponent, NewBlogDialogComponent]
 })
 export class AppModule { }

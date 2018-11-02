@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\admin\index.ts" />
     <None Remove="ClientApp\src\app\blogs\index.ts" />
+    <None Remove="ClientApp\src\app\dialogs\index.ts" />
     <None Remove="ClientApp\src\app\forbidden\index.ts" />
     <None Remove="ClientApp\src\app\guards\index.ts" />
     <None Remove="ClientApp\src\app\home\index.ts" />
@@ -47,6 +48,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\admin\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\blogs\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\dialogs\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\forbidden\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\guards\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\home\index.ts" />

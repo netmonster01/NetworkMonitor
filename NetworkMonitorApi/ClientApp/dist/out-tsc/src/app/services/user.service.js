@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ANONYMOUS_USER } from '../services';
+import { ANONYMOUS_USER } from './auth.service';
 var UserService = /** @class */ (function () {
     function UserService(_http) {
         this._http = _http;
@@ -41,10 +41,10 @@ var UserService = /** @class */ (function () {
         return this._http.get('/api/Role/Roles')
             .catch(this.handleError);
     };
-    UserService.prototype.addUser = function (user) {
-    };
-    UserService.prototype.addUserToRole = function (userName, role) {
-    };
+    //addUser(user: User) {
+    //}
+    //addUserToRole(userName: string, role: string) {
+    //}
     UserService.prototype.handleError = function (handleError) {
         console.log(handleError);
     };

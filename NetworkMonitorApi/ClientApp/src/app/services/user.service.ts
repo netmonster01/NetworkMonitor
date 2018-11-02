@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models';
-import { ANONYMOUS_USER } from '../services'
+import { ANONYMOUS_USER } from './auth.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -47,13 +48,13 @@ export class UserService {
       .catch(this.handleError);
   }
 
-  addUser(user: User) {
+  //addUser(user: User) {
 
-  }
+  //}
 
-  addUserToRole(userName: string, role: string) {
+  //addUserToRole(userName: string, role: string) {
 
-  }
+  //}
 
   handleError(handleError: any): any {
     console.log(handleError);

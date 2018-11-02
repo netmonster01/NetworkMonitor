@@ -18,16 +18,6 @@ var ProfileComponent = /** @class */ (function () {
         this.imageSrc = '/assets/user.png';
         this.user = ANONYMOUS_USER;
     }
-    //  {
-    //  password: null,
-    //  email: null,
-    //  token: undefined,
-    //  id: null,
-    //  roles: [],
-    //  avatarImageBas64: null,
-    //  firstName: null,
-    //  lastName: null
-    //};
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.profileForm = this.fb.group({
@@ -39,8 +29,8 @@ var ProfileComponent = /** @class */ (function () {
         this.auth.user$.subscribe(function (data) { return _this.processData(data); });
         if (this.isLoggedIn) {
             this.user = this.auth.loggedInUser();
-            var a = false;
         }
+        this.imageSrc = this.user.avatarImageType + this.user.avatarImage;
     };
     ProfileComponent.prototype.processData = function (data) {
         this.user = data;
@@ -56,17 +46,10 @@ var ProfileComponent = /** @class */ (function () {
         var reader = new FileReader();
         reader.onload = function (e) {
             _this.imageSrc = e.target.result;
-            _this.user.avatarImage = e.target.result.split('base64,')[1]; //this.base64ToArrayBuffer(e.target.result.split('base64,')[1]);
+            _this.user.avatarImage = e.target.result.split('base64,')[1];
             _this.user.avatarImageType = e.target.result.split(',')[0] + ',';
         };
         reader.readAsDataURL(this.selectedFile);
-        //reader.readAsArrayBuffer(this.selectedFile);
-        //const r = new FileReader();
-        //r.onload = (e: any) => {
-        //  this.imageSrc = e.target.result;
-        //  this.user.avatarImageBas64 = e.target.result;
-        //};
-        //r.readAsArrayBuffer(this.selectedFile);
     };
     ProfileComponent.prototype.base64ToArrayBuffer = function (base64) {
         var binaryString = atob(base64);
@@ -79,13 +62,6 @@ var ProfileComponent = /** @class */ (function () {
         return bytes;
     };
     ProfileComponent.prototype.submitHandler = function () {
-        var u = this.user;
-        //this.formData = new FormData();
-        //this.formData.append("AvatarImage", this.user.avatarImage);
-        //this.formData.append("FirstName", this.user.firstName);
-        //this.formData.append("LastName", this.user.lastName);
-        //this.formData.append("FirstName", this.user.firstName);
-        //this.formData.append("Email", this.user.email);
         this.auth.updateProfile(this.user).subscribe(function (data) { console.log(data); });
     };
     ProfileComponent = __decorate([

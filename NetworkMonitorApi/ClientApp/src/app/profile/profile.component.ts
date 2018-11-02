@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   user: User = ANONYMOUS_USER;
 
   ngOnInit() {
+
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -60,6 +61,7 @@ export class ProfileComponent implements OnInit {
 
     reader.readAsDataURL(this.selectedFile);
   }
+
   base64ToArrayBuffer(base64) {
     var binaryString = atob(base64);
     var binaryLen = binaryString.length;
