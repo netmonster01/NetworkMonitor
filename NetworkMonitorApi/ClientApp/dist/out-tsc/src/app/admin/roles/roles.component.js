@@ -9,9 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { NewRoleDialogComponent } from 'src/app/dialogs';
+import { MatDialogConfig, MatDialog } from '@angular/material';
 var RolesComponent = /** @class */ (function () {
-    function RolesComponent(_usersService) {
+    function RolesComponent(_usersService, dialog) {
         this._usersService = _usersService;
+        this.dialog = dialog;
         this.Roles = [];
     }
     RolesComponent.prototype.ngOnInit = function () {
@@ -25,13 +28,25 @@ var RolesComponent = /** @class */ (function () {
         console.log(roles);
         this.Roles = roles;
     };
+    RolesComponent.prototype.openDialog = function () {
+        var dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            id: 1,
+            hasBackdrop: false,
+            width: '500px'
+        };
+        var dialogRef = this.dialog.open(NewRoleDialogComponent, { width: '300px', hasBackdrop: false });
+        dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
+    };
     RolesComponent = __decorate([
         Component({
             selector: 'app-roles',
             templateUrl: './roles.component.html',
             styleUrls: ['./roles.component.css']
         }),
-        __metadata("design:paramtypes", [UserService])
+        __metadata("design:paramtypes", [UserService, MatDialog])
     ], RolesComponent);
     return RolesComponent;
 }());

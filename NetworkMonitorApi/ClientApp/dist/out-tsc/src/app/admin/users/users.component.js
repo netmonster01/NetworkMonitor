@@ -33,14 +33,20 @@ var UsersComponent = /** @class */ (function () {
         }
     };
     UsersComponent.prototype.openDialog = function () {
+        var e = new Error();
+        e.message = 'crap an error happened';
+        e.stack = 'stack trace = c:dfjkalsdjf;lksadjf';
+        e.name = 'terreoasdf';
+        throw e;
         var dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.data = {
-            id: 1
+            id: 1,
+            hasBackdrop: false,
+            width: '500px'
         };
-        this.dialog.open(NewUserDialogComponent, dialogConfig);
-        var dialogRef = this.dialog.open(NewUserDialogComponent, dialogConfig);
+        var dialogRef = this.dialog.open(NewUserDialogComponent, { width: '300px', hasBackdrop: false });
         dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     UsersComponent = __decorate([

@@ -22,11 +22,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
 
-    this.profileForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-    });
+   
 
     this.isLoggedIn = this.auth.isUserLoggedIn();
 
@@ -37,11 +33,17 @@ export class ProfileComponent implements OnInit {
       this.user = this.auth.loggedInUser();
     }
     this.imageSrc = this.user.avatarImageType + this.user.avatarImage;
+
+    this.profileForm = this.fb.group({
+      firstName: [this.user.firstName, Validators.required],
+      lastName: [this.user.lastName, Validators.required],
+      email: [this.user.email, Validators.required],
+    });
   }
 
   processData(data: User) {
     this.user = data;
-   
+    //this.profileForm.controls.firstName.setValue(this.user.firstName);  //.get('firstName').setValue(this.user.firstName);
     console.log(data);
   }
 

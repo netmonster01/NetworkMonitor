@@ -7,11 +7,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component } from '@angular/core';
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService, UserService } from '../../services';
 var NewRoleDialogComponent = /** @class */ (function () {
-    function NewRoleDialogComponent() {
+    function NewRoleDialogComponent(auth, userService, fb, dialogRef, data) {
+        this.auth = auth;
+        this.userService = userService;
+        this.fb = fb;
+        this.dialogRef = dialogRef;
     }
     NewRoleDialogComponent.prototype.ngOnInit = function () {
+        this.form = this.fb.group({
+            roleName: ['', Validators.required]
+        });
+    };
+    NewRoleDialogComponent.prototype.save = function () {
+        this.newRole.name = this.form.controls.roleName.value;
+        // Save to db.
+        this.dialogRef.close(this.newRole);
+    };
+    NewRoleDialogComponent.prototype.close = function () {
+        this.dialogRef.close();
     };
     NewRoleDialogComponent = __decorate([
         Component({
@@ -19,7 +40,11 @@ var NewRoleDialogComponent = /** @class */ (function () {
             templateUrl: './new-role-dialog.component.html',
             styleUrls: ['./new-role-dialog.component.css']
         }),
-        __metadata("design:paramtypes", [])
+        __param(4, Inject(MAT_DIALOG_DATA)),
+        __metadata("design:paramtypes", [AuthService,
+            UserService,
+            FormBuilder,
+            MatDialogRef, Object])
     ], NewRoleDialogComponent);
     return NewRoleDialogComponent;
 }());
