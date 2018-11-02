@@ -18,9 +18,10 @@ var LoggerService = /** @class */ (function () {
         var options = {
             headers: this.headers
         };
-        this.http.post('/api/Logs', log).subscribe(function (result) {
-            console.log(result);
-        });
+        this.http.post('/api/Logs', log).subscribe();
+    };
+    LoggerService.prototype.getLogs = function () {
+        return this.http.get('/api/Logs').catch(this.handleError).shareReplay().do(function (log) { return console.log(log); });
     };
     LoggerService.prototype.handleError = function (handleError) {
         console.log(handleError);

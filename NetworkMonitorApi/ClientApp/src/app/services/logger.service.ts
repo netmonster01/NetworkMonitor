@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Log} from '../models'
+import { Log } from '../models'
+import { Observable } from 'rxjs/Observable';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +19,10 @@ export class LoggerService {
     };
     this.http.post('/api/Logs', log).subscribe();
 
+  }
+
+  getLogs() {
+    return this.http.get<Log[]>('/api/Logs').catch(this.handleError).shareReplay().do(log => console.log(log)); 
   }
 
   handleError(handleError: any): any {

@@ -63,6 +63,26 @@ namespace NetworkMonitorApi.Controllers
         }
 
 
+        // GET: api/Logs/5
+        [HttpGet("{numberOfDays}")]
+        public IActionResult GetLogByDays([FromRoute] int numberOfDays)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var logs =  _context.Logs.Where(c => c.DateCreated <= DateTime.Now.AddDays(-numberOfDays)).ToList();
+
+            if (logs == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(logs);
+        }
+
+
         // DELETE: api/Logs/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLog([FromRoute] int id)
