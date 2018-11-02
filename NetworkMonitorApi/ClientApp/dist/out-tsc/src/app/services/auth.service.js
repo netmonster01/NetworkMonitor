@@ -19,6 +19,8 @@ export var ANONYMOUS_USER = {
     id: null,
     roles: [],
     avatarImage: null,
+    avatarImageType: null,
+    avatarBase64: null,
     firstName: null,
     lastName: null
 };
@@ -46,6 +48,7 @@ var AuthService = /** @class */ (function () {
         localStorage.removeItem(this.storagekey);
         // call logout service.
         this.http.get('/api/Account/Logout');
+        this.subject.next(ANONYMOUS_USER);
     };
     AuthService.prototype.loginAsync = function (email, password) {
         var _this = this;
@@ -80,7 +83,7 @@ var AuthService = /** @class */ (function () {
     };
     AuthService.prototype.updateProfile = function (user) {
         var options = {
-            headers: this.headers
+            headers: this.headers,
         };
         return this.http.put('/api/Account/UpdateProfile', JSON.stringify(user), options); //.shareReplay().do(u => console.log(u));
     };

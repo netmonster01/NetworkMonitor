@@ -19,7 +19,8 @@ namespace NetworkMonitorApi.Models
 
         public bool IsAdmin { get; set; }
         [NotMapped]
-        public string AvatarImageBas64 { get; set; }
-        public byte[] AvatarImage { get; set; }
+        public string AvatarImageBase64 { get; set; }
+        public string AvatarImage { get; set; }
+        public string AvatarImageType { get; set; }
     }
 }

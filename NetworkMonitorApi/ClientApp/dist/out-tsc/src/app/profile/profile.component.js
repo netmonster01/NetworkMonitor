@@ -56,16 +56,27 @@ var ProfileComponent = /** @class */ (function () {
         var reader = new FileReader();
         reader.onload = function (e) {
             _this.imageSrc = e.target.result;
-            _this.user.avatarImage = new Uint8Array(e.target.result);
+            _this.user.avatarImage = e.target.result.split('base64,')[1]; //this.base64ToArrayBuffer(e.target.result.split('base64,')[1]);
+            _this.user.avatarImageType = e.target.result.split(',')[0] + ',';
         };
-        // reader.readAsDataURL(this.selectedFile);
-        reader.readAsArrayBuffer(this.selectedFile);
+        reader.readAsDataURL(this.selectedFile);
+        //reader.readAsArrayBuffer(this.selectedFile);
         //const r = new FileReader();
         //r.onload = (e: any) => {
         //  this.imageSrc = e.target.result;
         //  this.user.avatarImageBas64 = e.target.result;
         //};
         //r.readAsArrayBuffer(this.selectedFile);
+    };
+    ProfileComponent.prototype.base64ToArrayBuffer = function (base64) {
+        var binaryString = atob(base64);
+        var binaryLen = binaryString.length;
+        var bytes = new Uint8Array(binaryLen);
+        for (var i = 0; i < binaryLen; i++) {
+            var ascii = binaryString.charCodeAt(i);
+            bytes[i] = ascii;
+        }
+        return bytes;
     };
     ProfileComponent.prototype.submitHandler = function () {
         var u = this.user;

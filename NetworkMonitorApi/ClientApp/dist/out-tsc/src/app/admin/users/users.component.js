@@ -24,6 +24,11 @@ var UsersComponent = /** @class */ (function () {
     UsersComponent.prototype.popData = function (users) {
         console.log(users);
         this.Users = users;
+        for (var _i = 0, _a = this.Users; _i < _a.length; _i++) {
+            var entry = _a[_i];
+            console.log("base64: " + entry.avatarImageType + entry.avatarImage);
+            entry.avatarBase64 = entry.avatarImageType + entry.avatarImage;
+        }
     };
     UsersComponent = __decorate([
         Component({

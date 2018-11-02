@@ -3,17 +3,17 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12">
       <div class="row">
-        <div class="col-xs-4 col-sm-4">
-          UserID:
+        <div class="col-sm-2">
+          <span class="tblHeader">Photo</span>
         </div>
         <div class="col-xs-4 col-sm-3">
-          UserName:
+          <span class="tblHeader">UserName:</span>
         </div>
         <div class="col-xs-4 col-sm-2">
-          Role:
+          <span class="tblHeader">Role:</span>
         </div>
         <div class="col-xs-4 col-sm-3">
-          &nbsp;
+          <span class="tblHeader">Action:</span>
         </div>
       </div>
     </div>
@@ -21,9 +21,12 @@
   <div class="row p-3" *ngFor="let user of Users;  let odd=odd; let even=even" [ngClass]="{ odd: odd, even: even}">
     <div class="col-xs-12 col-sm-12">
       <div class="row">
-        <div class="col-xs-4 col-sm-4">
-          {{user.id}}
+        <div class="col-sm-2">
+          <img class="img-cir" [src]="user.avatarBase64 " alt="Avatar" style="width:25px">
         </div>
+        <!--<div class="col-xs-4 col-sm-4">
+          {{user.id}}
+        </div>-->
         <div class="col-xs-4 col-sm-3">
           {{user.email}}
         </div>

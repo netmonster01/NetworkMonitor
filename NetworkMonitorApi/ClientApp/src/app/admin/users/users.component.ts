@@ -12,6 +12,7 @@ export class UsersComponent implements OnInit {
   constructor(private _usersService: UserService) { }
 
   Users: User[] = [];
+  userImage: string;
 
   ngOnInit() {
     this.getUsers();
@@ -24,6 +25,9 @@ export class UsersComponent implements OnInit {
   popData(users: User[]) {
     console.log(users);
     this.Users = users;
+    for (let entry of this.Users) {
+      entry.avatarBase64 = entry.avatarImageType + entry.avatarImage;
+    }
   }
 
 }

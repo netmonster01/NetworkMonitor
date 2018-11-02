@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using NetworkMonitorApi.Convertors;
 using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Data;
 using NetworkMonitorApi.Models;
@@ -42,6 +43,9 @@ namespace NetworkMonitorApi
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<ILoggerRepository, LoggerRepository>();
             services.AddScoped<IBlog,BlogRepository>();
+            services.AddScoped<IConverter<ApplicationUser, User>, IdentityToUserConvertor>();
+            services.AddScoped<IConverter<User, ApplicationUser>, UserToIdentityConvertor>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                             options.UseSqlite(Configuration.GetConnectionString("IdentityConnection")), ServiceLifetime.Transient);
 

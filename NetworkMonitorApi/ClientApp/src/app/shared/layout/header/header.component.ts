@@ -39,13 +39,15 @@ export class HeaderComponent implements OnInit {
     // check if user is logged in.
     this.isLoggedIn = this.auth.isUserLoggedIn();
 
+    this.auth.user$.subscribe(data => this.processData(data));
+    this.auth.isLoggedIn$.subscribe(isLoggedIn => this.isLoggedIn === isLoggedIn);
+    this.auth.isLoggedOut$.subscribe(isLoggedOut => this.isLoggedOut === isLoggedOut);
+
     if (this.isLoggedIn) {
       this.user = this.auth.loggedInUser();
     }
     else {
-      this.auth.user$.subscribe(data => this.processData(data));
-      this.auth.isLoggedIn$.subscribe(isLoggedIn => this.isLoggedIn === isLoggedIn);
-      this.auth.isLoggedOut$.subscribe(isLoggedOut => this.isLoggedOut === isLoggedOut);
+     
     }
 
    
@@ -58,6 +60,7 @@ export class HeaderComponent implements OnInit {
 
   processData(data: User) {
     this.user = data;
+    this.user.avatarBase64 = this.user.avatarImageType + this.user.avatarImage;
     console.log(data);
   }
 }

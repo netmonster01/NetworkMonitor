@@ -10,11 +10,18 @@
   </div>
   <div class="navbar-expand ml-auto navbar-nav">
     <div class="navbar-nav">
-    
-      <a *ngIf="user.email" [routerLink]="['/profile']" class="nav-item nav-link">Welcome, {{user.email}}</a>
-      <button *ngIf="user.email" (click)="logout()" class="btn btn-info">SignOut </button>
-
-      <a [routerLink]="['/login']" *ngIf="!user.email" class="nav-item nav-link">Login</a>
+    <div class="row" *ngIf="user.id">
+      <div class="col-sm-2">
+        <img class="img-cir" [src]="user.avatarBase64 " alt="Avatar" style="width:25px">
+      </div>
+      <div class="col-sm-6">
+        <a [routerLink]="['/profile']" class="nav-item nav-link">Welcome, {{user.firstName}}</a>
+      </div>
+      <div class="col-sm-4">
+        <button *ngIf="user.id" (click)="logout()" class="btn btn-danger">SignOut </button>
+      </div>
+    </div>
+      <!--<a [routerLink]="['/login']" *ngIf="!user.email" class="nav-item nav-link">Login</a>
       <a class="nav-item nav-link" href="https://github.com/beeman" target="_blank">
         <i class="fa fa-github"></i>
       </a>
@@ -23,7 +30,7 @@
       </a>
       <a class="nav-item nav-link" href="https://medium.com/@beeman" target="_blank">
         <i class="fa fa-medium"></i>
-      </a>
+      </a>-->
     </div>
   </div>
 </nav>

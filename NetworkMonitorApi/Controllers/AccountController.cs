@@ -83,10 +83,9 @@ namespace NetworkMonitorApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> UpdateProfile([FromBody] User user) 
         {
-            dynamic dynObj = JsonConvert.DeserializeObject(user.ToString());
-            //usr.AvatarImage =
-            //bool didUpdate = await _usersRepository.UpdateProfileAsync(user);
-            bool didUpdate = false;
+       
+            bool didUpdate = await _usersRepository.UpdateProfileAsync(user);
+
             return Ok(didUpdate);
         }
 
@@ -240,6 +239,9 @@ namespace NetworkMonitorApi.Controllers
             user.Token = sToken;
             user.Email = appUser.UserName;
             user.Password = null;
+            user.AvatarImage = appUser.AvatarImage;
+            user.AvatarImageType = appUser.AvatarImageType;
+            user.Id = appUser.Id;
             _loggerRepository.Write(LogType.Pass, string.Format("Generated Token {0} for User: {1} Registered.", user.Token, user.Email));
             return user;
 

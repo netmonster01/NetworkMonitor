@@ -38,13 +38,13 @@ var HeaderComponent = /** @class */ (function () {
         var _this = this;
         // check if user is logged in.
         this.isLoggedIn = this.auth.isUserLoggedIn();
+        this.auth.user$.subscribe(function (data) { return _this.processData(data); });
+        this.auth.isLoggedIn$.subscribe(function (isLoggedIn) { return _this.isLoggedIn === isLoggedIn; });
+        this.auth.isLoggedOut$.subscribe(function (isLoggedOut) { return _this.isLoggedOut === isLoggedOut; });
         if (this.isLoggedIn) {
             this.user = this.auth.loggedInUser();
         }
         else {
-            this.auth.user$.subscribe(function (data) { return _this.processData(data); });
-            this.auth.isLoggedIn$.subscribe(function (isLoggedIn) { return _this.isLoggedIn === isLoggedIn; });
-            this.auth.isLoggedOut$.subscribe(function (isLoggedOut) { return _this.isLoggedOut === isLoggedOut; });
         }
     };
     HeaderComponent.prototype.logout = function () {
@@ -53,6 +53,7 @@ var HeaderComponent = /** @class */ (function () {
     };
     HeaderComponent.prototype.processData = function (data) {
         this.user = data;
+        this.user.avatarBase64 = this.user.avatarImageType + this.user.avatarImage;
         console.log(data);
     };
     HeaderComponent = __decorate([

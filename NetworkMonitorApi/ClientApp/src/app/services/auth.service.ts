@@ -12,6 +12,8 @@ export const ANONYMOUS_USER: User = {
   id: null,
   roles: [],
   avatarImage: null,
+  avatarImageType: null,
+  avatarBase64: null,
   firstName: null,
   lastName: null
 };
@@ -46,10 +48,11 @@ export class AuthService {
   logout() {
 
     // remove the current user
-    localStorage.removeItem(this.storagekey );
+    localStorage.removeItem(this.storagekey);
 
     // call logout service.
     this.http.get('/api/Account/Logout');
+    this.subject.next(ANONYMOUS_USER);
   }
 
   loginAsync(email: string, password: string) {
@@ -103,9 +106,10 @@ export class AuthService {
   updateProfile(user: User) {
 
     const options = {
-      headers: this.headers
+      headers: this.headers,
+      //processData: false
     };
-
+    
     return this.http.put<User>('/api/Account/UpdateProfile', JSON.stringify(user), options);//.shareReplay().do(u => console.log(u));
   }
 

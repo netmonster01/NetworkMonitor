@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetworkMonitorApi.Data;
 
 namespace NetworkMonitorApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181101185238_Update2AvatarImage")]
+    partial class Update2AvatarImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,8 +149,6 @@ namespace NetworkMonitorApi.Migrations
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<byte[]>("AvatarImage");
-
-                    b.Property<string>("AvatarImageType");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();

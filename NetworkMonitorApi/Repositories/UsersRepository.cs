@@ -40,7 +40,9 @@ namespace NetworkMonitorApi.Repositories
                     UserName = user.UserName,
                     Email = user.Email,
                     Roles = GetRolesByEmail(user.Email),
-                    IsAdmin = IsAdmin(user.Email)
+                    IsAdmin = IsAdmin(user.Email),
+                    AvatarImage = user.AvatarImage,
+                    AvatarImageType = user.AvatarImageType
 
                 }).ToList();
 
@@ -101,20 +103,66 @@ namespace NetworkMonitorApi.Repositories
             bool didCreate = false;
             try
             {
-                user.AvatarImage = Convert.FromBase64String(user.AvatarImageBas64);
+                //user.AvatarImage = Convert.FromBase64String(user.AvatarImageBas64);
                 var profile = _dbContext.Users.Where(c => c.UserName == user.UserName).FirstOrDefault();
                 if ( profile != null)
                 {
+                    // convert to a 
                     ApplicationUser userToUpdate = new ApplicationUser
                     {
-                        Email = profile.Email,
-                        FirstName = profile.FirstName,
-                        LastName = profile.LastName,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
                         UserName = profile.UserName,
-                        AvatarImage = profile.AvatarImage
+                        AvatarImage = user.AvatarImage,
+                        AvatarImageType = user.AvatarImageType
                     };
-                    _dbContext.Users.Update(userToUpdate);
-                    await _dbContext.SaveChangesAsync();
+                    //_dbContext.Users.Update(userToUpdate);
+                    await UpdateProfileAsync(userToUpdate);
+                    didCreate = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggerRepository.Write(ex);
+            }
+
+            return didCreate;
+        }
+        public async Task<bool> UpdateProfileAsync(ApplicationUser user)
+        {
+            if (user == null || user.UserName == null)
+            {
+                throw new Exception("user is required");
+
+            }
+
+            bool didCreate = false;
+            try
+            {
+                //user.AvatarImage = Convert.FromBase64String(user.AvatarImageBas64);
+                var profile = _dbContext.Users.Where(c => c.UserName == user.UserName).FirstOrDefault();
+                if (profile != null)
+                {
+                    profile.FirstName = user.FirstName;
+                    profile.LastName = user.LastName;
+                    profile.Email = user.Email;
+                    profile.UserName = user.UserName;
+                    profile.AvatarImage = user.AvatarImage;
+                    profile.AvatarImageType = user.AvatarImageType;
+
+
+                    //ApplicationUser userToUpdate = new ApplicationUser
+                    //{
+                    //    Email = profile.Email,
+                    //    FirstName = profile.FirstName,
+                    //    LastName = profile.LastName,
+                    //    UserName = profile.UserName,
+                    //    AvatarImage = profile.AvatarImage
+                    //};
+                    _dbContext.Entry(profile).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    //_dbContext.Users.Update(user);
+                    _dbContext.SaveChanges();
                     didCreate = true;
                 }
             }
