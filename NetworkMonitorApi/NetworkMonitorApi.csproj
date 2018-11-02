@@ -17,6 +17,7 @@
     <None Remove="ClientApp\src\app\guards\index.ts" />
     <None Remove="ClientApp\src\app\home\index.ts" />
     <None Remove="ClientApp\src\app\login\index.ts" />
+    <None Remove="ClientApp\src\app\models\applicationError.ts" />
     <None Remove="ClientApp\src\app\models\blog.ts" />
     <None Remove="ClientApp\src\app\models\blogImage.ts" />
     <None Remove="ClientApp\src\app\models\index.ts" />
@@ -53,6 +54,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\guards\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\home\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\login\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\applicationError.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\blog.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\blogImage.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\index.ts" />

@@ -31,8 +31,14 @@ export class UsersComponent implements OnInit {
     }
   }
 
+
   openDialog() {
 
+    const e = new Error();
+    e.message = 'crap an error happened';
+    e.stack = 'stack trace = c:dfjkalsdjf;lksadjf';
+    e.name = 'terreoasdf';
+    throw e;
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -40,12 +46,11 @@ export class UsersComponent implements OnInit {
 
     dialogConfig.data = {
       id: 1,
-      hasBackdrop: false
+      hasBackdrop: false,
+      width: '500px'
     };
 
-    this.dialog.open(NewUserDialogComponent, dialogConfig);
-
-    const dialogRef = this.dialog.open(NewUserDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(NewUserDialogComponent, {width: '300px',hasBackdrop: false});
 
     dialogRef.afterClosed().subscribe(
       data => console.log('Dialog output:', data)

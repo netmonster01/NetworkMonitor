@@ -8,6 +8,7 @@ $primary-color: #00BDF3;
 $primary-color-light: #B9EDFB;
 $primary-text: #FFFFFF;
 $primary-text-dark: #000000;
+$error-text: #bd2130;
 
 html, body {
   height: 100%;
@@ -106,4 +107,61 @@ h1 {
 
 .fa-dark{
   color:$primary-text-dark;
+}
+
+nav .mat-button {
+  flex: 1;
+  border-radius: 0;
+  line-height: 1;
+  background: transparent;
+}
+
+nav .mat-button, nav .mat-button:visited {
+  color: #369;
+}
+
+nav .mat-button.active {
+  background: #369;
+}
+
+.mat-button md-icon, .mat-button .caption {
+  color: #369;
+}
+
+.mat-button.active md-icon, .mat-button.active .caption {
+  color: #FFF;
+}
+
+.mat-button .caption {
+  font-variant: small-caps;
+  font-weight: 400;
+}
+
+/* the below makes the difference */
+
+.mat-button-focus-overlay, .mat-button-ripple {
+  z-index: -1;
+}
+
+.mat-button-focus-overlay {
+  display: none;
+}
+
+#errorContainer {
+  color: $primary-color !important;
+}
+
+/*#errorContainer div.h1 {
+  //background-color: $primary-color !important;
+  color: $error-text;
+}*/
+
+/*#errorContainer div {
+  color: $primary-color !important;
+}*/
+
+.errorHead  {
+  //background-color: $primary-color !important;
+  font-size:2em;
+  color: $error-text !important;
 }

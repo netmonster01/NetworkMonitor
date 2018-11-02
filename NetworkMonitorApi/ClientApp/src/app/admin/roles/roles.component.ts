@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Role } from '../../models/role';
 import { UserService } from '../../services/user.service';
+import { NewRoleDialogComponent } from 'src/app/dialogs';
+import { MatDialogConfig, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-roles',
@@ -9,7 +11,7 @@ import { UserService } from '../../services/user.service';
 })
 export class RolesComponent implements OnInit {
 
-  constructor(private _usersService: UserService) { }
+  constructor(private _usersService: UserService, private dialog: MatDialog) { }
   Roles: Role[] = [];
 
   ngOnInit() {
@@ -23,5 +25,24 @@ export class RolesComponent implements OnInit {
   popData(roles: Role[]) {
     console.log(roles);
     this.Roles = roles;
+  }
+  openDialog() {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      id: 1,
+      hasBackdrop: false,
+      width: '500px'
+    };
+
+    const dialogRef = this.dialog.open(NewRoleDialogComponent, { width: '300px', hasBackdrop: false });
+
+    dialogRef.afterClosed().subscribe(
+      data => console.log('Dialog output:', data)
+    );
   }
 }

@@ -20,20 +20,21 @@ var ProfileComponent = /** @class */ (function () {
     }
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.profileForm = this.fb.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            email: ['', Validators.required],
-        });
         this.isLoggedIn = this.auth.isUserLoggedIn();
         this.auth.user$.subscribe(function (data) { return _this.processData(data); });
         if (this.isLoggedIn) {
             this.user = this.auth.loggedInUser();
         }
         this.imageSrc = this.user.avatarImageType + this.user.avatarImage;
+        this.profileForm = this.fb.group({
+            firstName: [this.user.firstName, Validators.required],
+            lastName: [this.user.lastName, Validators.required],
+            email: [this.user.email, Validators.required],
+        });
     };
     ProfileComponent.prototype.processData = function (data) {
         this.user = data;
+        //this.profileForm.controls.firstName.setValue(this.user.firstName);  //.get('firstName').setValue(this.user.firstName);
         console.log(data);
     };
     ProfileComponent.prototype.onFileSelected = function (event) {

@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 //import { UiModule } from './ui/ui.module';
@@ -34,7 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BlogsComponent } from './blogs/blogs.component';
 import { PostsComponent } from './blogs/posts/posts.component';
 import { CommentsDirective } from './blogs';
-import { AuthService, BlogService, StatsService, UserService } from './services';
+import { AuthService, BlogService, StatsService, UserService, LoggerService } from './services';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SafePipe } from './safe.pipe';
 import { BlogComponent } from './admin/blog/blog.component';
@@ -45,6 +45,8 @@ import { NewUserDialogComponent } from './dialogs/new-user-dialog/new-user-dialo
 import { NewBlogDialogComponent } from './dialogs/new-blog-dialog/new-blog-dialog.component';
 import { NewRoleDialogComponent } from './dialogs/new-role-dialog/new-role-dialog.component';
 import { MatDialogModule } from "@angular/material";
+import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
+import { ApplicationErrorHandler } from './custom-error-handler';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -75,6 +77,7 @@ var AppModule = /** @class */ (function () {
                 NewUserDialogComponent,
                 NewBlogDialogComponent,
                 NewRoleDialogComponent,
+                ErrorDialogComponent,
             ],
             imports: [
                 BrowserModule,
@@ -90,9 +93,9 @@ var AppModule = /** @class */ (function () {
                 BrowserAnimationsModule,
                 MatDialogModule
             ],
-            providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard],
+            providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard, LoggerService, { provide: ErrorHandler, useClass: ApplicationErrorHandler }],
             bootstrap: [AppComponent],
-            entryComponents: [NewUserDialogComponent, NewRoleDialogComponent, NewBlogDialogComponent]
+            entryComponents: [NewUserDialogComponent, NewRoleDialogComponent, NewBlogDialogComponent, ErrorDialogComponent]
         })
     ], AppModule);
     return AppModule;

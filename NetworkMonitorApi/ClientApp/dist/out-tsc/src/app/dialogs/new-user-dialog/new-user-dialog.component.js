@@ -13,30 +13,48 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService, ANONYMOUS_USER } from '../../services';
+import { AuthService, ANONYMOUS_USER, UserService } from '../../services';
 var NewUserDialogComponent = /** @class */ (function () {
-    function NewUserDialogComponent(auth, fb, dialogRef, data) {
+    function NewUserDialogComponent(auth, userService, fb, dialogRef, data) {
         this.auth = auth;
+        this.userService = userService;
         this.fb = fb;
         this.dialogRef = dialogRef;
         this.user = ANONYMOUS_USER;
+        this.roles = [];
         // this.description = data.description;
     }
     NewUserDialogComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        // load roles for dropdown.
+        this.userService.getRoles().subscribe(function (roles) { _this.processRoles(roles); });
         this.form = this.fb.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
-            email: ['', Validators.required]
+            email: ['', Validators.required],
+            password: ['', Validators.required],
+            confirmPassword: ['', Validators.required],
+            rolesList: [this.roles]
         });
+        this.form.patchValue({
+            'role': 'Author'
+        });
+    };
+    NewUserDialogComponent.prototype.processRoles = function (roles) {
+        console.log("roles: " + roles);
+        this.roles = roles;
     };
     NewUserDialogComponent.prototype.save = function () {
         this.user.email = this.form.controls.email.value;
         this.user.firstName = this.form.controls.firstName.value;
         this.user.lastName = this.form.controls.lastName.value;
+        this.user.password = this.form.controls.password.value;
         this.dialogRef.close(this.user);
     };
     NewUserDialogComponent.prototype.close = function () {
         this.dialogRef.close();
+    };
+    NewUserDialogComponent.prototype.onSelect = function (event) {
     };
     NewUserDialogComponent = __decorate([
         Component({
@@ -44,8 +62,9 @@ var NewUserDialogComponent = /** @class */ (function () {
             templateUrl: './new-user-dialog.component.html',
             styleUrls: ['./new-user-dialog.component.css']
         }),
-        __param(3, Inject(MAT_DIALOG_DATA)),
+        __param(4, Inject(MAT_DIALOG_DATA)),
         __metadata("design:paramtypes", [AuthService,
+            UserService,
             FormBuilder,
             MatDialogRef, Object])
     ], NewUserDialogComponent);

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Data;
 using NetworkMonitorApi.Models;
 
@@ -14,11 +16,15 @@ namespace NetworkMonitorApi.Controllers
     [ApiController]
     public class LogsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
 
-        public LogsController(ApplicationDbContext context)
+        private readonly ApplicationDbContext _context;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILoggerRepository _loggerRepository;
+        public LogsController(IServiceProvider serviceProvider)
         {
-            _context = context;
+            _serviceProvider = serviceProvider;
+           _context = _serviceProvider.GetRequiredService<ApplicationDbContext>();
+            _loggerRepository = _serviceProvider.GetRequiredService<ILoggerRepository>();
         }
 
         // GET: api/Logs
@@ -26,6 +32,15 @@ namespace NetworkMonitorApi.Controllers
         public IEnumerable<Log> GetLogs()
         {
             return _context.Logs;
+        }
+
+
+        // GET: api/Logs
+        [HttpPost]
+        public IActionResult AddLog(Log log)
+        {
+            _loggerRepository.Write(log);
+            return Ok();  
         }
 
         // GET: api/Logs/5
@@ -45,6 +60,26 @@ namespace NetworkMonitorApi.Controllers
             }
 
             return Ok(log);
+        }
+
+
+        // GET: api/Logs/5
+        [HttpGet("{numberOfDays}")]
+        public IActionResult GetLogByDays([FromRoute] int numberOfDays)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var logs =  _context.Logs.Where(c => c.DateCreated <= DateTime.Now.AddDays(-numberOfDays)).ToList();
+
+            if (logs == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(logs);
         }
 
 

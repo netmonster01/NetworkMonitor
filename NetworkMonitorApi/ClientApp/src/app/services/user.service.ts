@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { User } from '../models';
+import { User, Role } from '../models';
 import { ANONYMOUS_USER } from './auth.service';
 
 @Injectable({
@@ -48,10 +48,21 @@ export class UserService {
       .catch(this.handleError);
   }
 
-  //addUser(user: User) {
+  addRole(role: Role) {
 
-  //}
+  }
 
+  deleteRole(role: Role) {
+
+  }
+
+  addUser(user: User) {
+
+  }
+
+  deleteUser(user: User) {
+
+  }
   //addUserToRole(userName: string, role: string) {
 
   //}
