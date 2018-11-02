@@ -21,7 +21,13 @@ export class BlogService {
 
   getBlogs() {
 
-    return this._http.get('/api/Blogs')
+    return this._http.get<Post[]>('/api/Blogs')
+      .catch(this.handleError);
+  }
+
+  getPosts() {
+
+    return this._http.get<Post[]>('/api/Blogs/Posts')
       .catch(this.handleError);
   }
 

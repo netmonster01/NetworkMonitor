@@ -13,7 +13,7 @@ namespace NetworkMonitorApi.Core
         Post GetPost(int postId);
         List<Post> GetPosts();
         Task<bool> CreatePostAsync(Post post);
-        Task<bool> CreateComment(Comment comment);
+        Task<bool> CreateCommentAsync(Comment comment);
         Task<bool> CreateBlog(Blog blog);
 
         Task<bool> CreateBlogImageAsync(BlogImage blogImage);

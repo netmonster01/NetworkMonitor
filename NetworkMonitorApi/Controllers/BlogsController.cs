@@ -17,6 +17,7 @@ namespace NetworkMonitorApi.Controllers
     public class BlogsController : ControllerBase
     {
         private readonly IBlog _blogRepository;
+     
 
         public BlogsController(IBlog blogRepository)
         {
@@ -28,6 +29,33 @@ namespace NetworkMonitorApi.Controllers
         public IEnumerable<Blog> GetBlogs()
         {
             return _blogRepository.GetBlogs();
+        }
+
+        [HttpGet]
+        [Route("Posts")]
+        public IActionResult GetPosts()
+        {
+            var posts = _blogRepository.GetPosts();
+
+            return Ok(posts);
+        }
+
+        [HttpPost]
+        [Route("Post")]
+        public async Task<IActionResult> CreatePostAsync(Post post)
+        {
+            var posts = await _blogRepository.CreatePostAsync(post);
+
+            return Ok(posts);
+        }
+
+        [HttpPost]
+        [Route("Comment")]
+        public async Task<IActionResult> CreateCommentAsync(Comment comment)
+        {
+            var posts = await _blogRepository.CreateCommentAsync(comment);
+
+            return Ok(posts);
         }
 
         // GET: api/Blogs/5

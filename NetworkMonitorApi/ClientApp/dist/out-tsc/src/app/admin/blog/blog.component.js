@@ -8,10 +8,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
+import { BlogService } from '../../services';
 var BlogComponent = /** @class */ (function () {
-    function BlogComponent() {
+    function BlogComponent(blog) {
+        this.blog = blog;
+        this.Posts = [];
     }
     BlogComponent.prototype.ngOnInit = function () {
+        this.loadPosts();
+    };
+    BlogComponent.prototype.loadPosts = function () {
+        //Posts = blog.
+    };
+    BlogComponent.prototype.openDialog = function () {
     };
     BlogComponent = __decorate([
         Component({
@@ -19,7 +28,7 @@ var BlogComponent = /** @class */ (function () {
             templateUrl: './blog.component.html',
             styleUrls: ['./blog.component.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [BlogService])
     ], BlogComponent);
     return BlogComponent;
 }());

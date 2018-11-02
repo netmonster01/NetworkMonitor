@@ -37,7 +37,8 @@ var UsersComponent = /** @class */ (function () {
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.data = {
-            id: 1
+            id: 1,
+            hasBackdrop: false
         };
         this.dialog.open(NewUserDialogComponent, dialogConfig);
         var dialogRef = this.dialog.open(NewUserDialogComponent, dialogConfig);

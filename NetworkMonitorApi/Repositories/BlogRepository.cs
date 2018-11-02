@@ -39,7 +39,7 @@ namespace NetworkMonitorApi.Repositories
             return didCreate;
         }
 
-        public async Task<bool> CreateComment(Comment comment)
+        public async Task<bool> CreateCommentAsync(Comment comment)
         {
             bool didCreate = false;
             try
@@ -138,7 +138,23 @@ namespace NetworkMonitorApi.Repositories
             List<Post> posts = new List<Post>();
             try
             {
-                posts = _applicationDbContext.Posts.ToList();
+                posts = (from p in _applicationDbContext.Posts
+                               //join u in _applicationDbContext.Users on p.UserId equals u.Id
+                               //join c in _applicationDbContext.Comments on p.PostId equals c.PostId
+                               //where p.PostId > 0
+                               select ( new Post {
+                                   Author = p.Author,
+                                   Comments = (from comment in _applicationDbContext.Comments
+                                               where comment.PostId == p.PostId 
+                                               select(comment)).ToList(),
+                                   Content = p.Content,
+                                   DateCreated = p.DateCreated,
+                                   DateModified = p.DateModified,
+                                   Likes = p.Likes,
+                                   PostId = p.PostId,
+                                   Title = p.Title,
+                                   UserId = p.UserId
+                               })).ToList();
             }
             catch (Exception ex)
             {
