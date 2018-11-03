@@ -8,10 +8,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
+import { BlogService } from '../../services';
 var PostsComponent = /** @class */ (function () {
-    function PostsComponent() {
+    function PostsComponent(blog) {
+        this.blog = blog;
+        this.posts = [];
     }
     PostsComponent.prototype.ngOnInit = function () {
+        this.loadPosts();
+    };
+    PostsComponent.prototype.loadPosts = function () {
+        var _this = this;
+        this.blog.getPosts().subscribe(function (posts) { return _this.processPosts(posts); });
+    };
+    PostsComponent.prototype.processPosts = function (posts) {
+        this.posts = posts;
     };
     PostsComponent = __decorate([
         Component({
@@ -19,7 +30,7 @@ var PostsComponent = /** @class */ (function () {
             templateUrl: './posts.component.html',
             styleUrls: ['./posts.component.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [BlogService])
     ], PostsComponent);
     return PostsComponent;
 }());

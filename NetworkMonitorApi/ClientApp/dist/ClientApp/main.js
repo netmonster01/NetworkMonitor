@@ -41,7 +41,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  <app-admin-blog></app-admin-blog>\r\n  <app-users></app-users>\r\n  <app-roles></app-roles>\r\n\r\n</p>\r\n"
+module.exports = "<p>\r\n  <app-users></app-users>\r\n  <app-roles></app-roles>\r\n  <app-admin-blog></app-admin-blog>\r\n</p>\r\n"
 
 /***/ }),
 
@@ -104,7 +104,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-images></app-images>\r\n"
+module.exports = "<app-images></app-images>\r\n<h2>Posts</h2>\r\n<div class=\"container\" style=\"background-color:#ffffff\">\r\n  <div class=\"row\">\r\n    <div class=\"col-xs-12 col-sm-12\">\r\n      <div class=\"row\">\r\n        <div class=\"col-xs-4 col-sm-8\">\r\n          <span class=\"tblHeader\">Post Title:</span>\r\n        </div>\r\n        <div class=\"col-xs-4 col-sm-4\">\r\n          <button class=\"btn btn-outline-success fa fa-plus\" title=\"Add New Post\" (click)=\"openDialog()\"></button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"row p-3\" *ngFor=\"let post of posts;  let odd=odd; let even=even\" [ngClass]=\"{ odd: odd, even: even}\">\r\n    <div class=\"col-xs-12 col-sm-12\">\r\n      <div class=\"row\">\r\n          \r\n        <div class=\"col-xs-4 col-sm-8\">\r\n          <a href=\"#\"> {{post.title}}</a>\r\n          <!--<div [innerHTML]=\"post.content | safe:'html'\"></div>-->\r\n        </div>\r\n        <div class=\"col-xs-4 col-sm-4\">\r\n          <button class=\"btn btn-outline-secondary fa fa-pencil\" (click)=\"openEditDialog(post)\"></button>\r\n          &nbsp;\r\n          <button class=\"btn btn-outline-danger fa fa-trash\"></button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n  <div class=\"row\">&nbsp;</div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -119,6 +119,9 @@ module.exports = "<app-images></app-images>\r\n"
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlogComponent", function() { return BlogComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services */ "./src/app/services/index.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _dialogs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../dialogs */ "./src/app/dialogs/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -129,10 +132,44 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
+
+
 var BlogComponent = /** @class */ (function () {
-    function BlogComponent() {
+    function BlogComponent(blog, dialog) {
+        this.blog = blog;
+        this.dialog = dialog;
+        this.posts = [];
     }
     BlogComponent.prototype.ngOnInit = function () {
+        this.loadPosts();
+    };
+    BlogComponent.prototype.loadPosts = function () {
+        var _this = this;
+        this.blog.getPosts().subscribe(function (posts) { return _this.processPosts(posts); });
+    };
+    BlogComponent.prototype.processPosts = function (posts) {
+        this.posts = posts;
+    };
+    BlogComponent.prototype.openDialog = function () {
+        var dialogConfig = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogConfig"]();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            id: 1,
+            hasBackdrop: false,
+            width: '500px'
+        };
+        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_3__["NewBlogDialogComponent"], { width: '300px', hasBackdrop: false });
+        dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
+    };
+    BlogComponent.prototype.openEditDialog = function (post) {
+        var dialogConfig = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogConfig"]();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_3__["EditPostDialogComponent"], { width: '300px', hasBackdrop: false, data: post });
+        dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     BlogComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -140,7 +177,7 @@ var BlogComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./blog.component.html */ "./src/app/admin/blog/blog.component.html"),
             styles: [__webpack_require__(/*! ./blog.component.css */ "./src/app/admin/blog/blog.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_1__["BlogService"], _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"]])
     ], BlogComponent);
     return BlogComponent;
 }());
@@ -279,7 +316,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Roles</h2>\r\n<div class=\"container\" style=\"background-color:#ffffff\">\r\n  <div class=\"row\">\r\n    <div class=\"col-xs-12 col-sm-12\">\r\n      <div class=\"row\">\r\n        <!--<div class=\"col-xs-4 col-sm-4\">\r\n          <span class=\"tblHeader\">RoleId:</span>\r\n        </div>-->\r\n        <div class=\"col-xs-4 col-sm-7\">\r\n          <span class=\"tblHeader\">Name:</span>\r\n        </div>\r\n        <div class=\"col-xs-4 col-sm-5\">\r\n          <span class=\"fa fa-plus\" title=\"Add New Role\"></span>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"row p-3\" *ngFor=\"let role of Roles;  let odd=odd; let even=even\" [ngClass]=\"{ odd: odd, even: even}\">\r\n    <div class=\"col-xs-12 col-sm-12\">\r\n      <div class=\"row\">\r\n        <!--<div class=\"col-xs-4 col-sm-4\">\r\n          {{role.id}}\r\n        </div>-->\r\n        <div class=\"col-xs-4 col-sm-7\">\r\n          {{role.name}}\r\n        </div>\r\n        <div class=\"col-xs-4 col-sm-5\">\r\n          <button class=\"btn btn-outline-secondary fa fa-pencil\"></button>\r\n          &nbsp;\r\n          <button class=\"btn btn-outline-danger fa fa-trash\"></button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n  <div class=\"row\">&nbsp;</div>\r\n</div>\r\n"
+module.exports = "<h2>Roles</h2>\r\n<div class=\"container\" style=\"background-color:#ffffff\">\r\n  <div class=\"row\">\r\n    <div class=\"col-xs-12 col-sm-12\">\r\n      <div class=\"row\">\r\n        <!--<div class=\"col-xs-4 col-sm-4\">\r\n    <span class=\"tblHeader\">RoleId:</span>\r\n  </div>-->\r\n        <div class=\"col-xs-4 col-sm-7\">\r\n          <span class=\"tblHeader\">Name:</span>\r\n        </div>\r\n        <div class=\"col-xs-4 col-sm-5\">\r\n          <button class=\"btn btn-outline-success fa fa-plus\" title=\"Add New Role\" (click)=\"openDialog()\"></button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"row p-3\" *ngFor=\"let role of Roles;  let odd=odd; let even=even\" [ngClass]=\"{ odd: odd, even: even}\">\r\n    <div class=\"col-xs-12 col-sm-12\">\r\n      <div class=\"row\">\r\n        <!--<div class=\"col-xs-4 col-sm-4\">\r\n          {{role.id}}\r\n        </div>-->\r\n        <div class=\"col-xs-4 col-sm-7\">\r\n          {{role.name}}\r\n        </div>\r\n        <div class=\"col-xs-4 col-sm-5\">\r\n          <button class=\"btn btn-outline-secondary fa fa-pencil\"></button>\r\n          &nbsp;\r\n          <button class=\"btn btn-outline-danger fa fa-trash\"></button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n  <div class=\"row\">&nbsp;</div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -295,6 +332,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RolesComponent", function() { return RolesComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
+/* harmony import */ var src_app_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/dialogs */ "./src/app/dialogs/index.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -306,9 +345,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var RolesComponent = /** @class */ (function () {
-    function RolesComponent(_usersService) {
+    function RolesComponent(_usersService, dialog) {
         this._usersService = _usersService;
+        this.dialog = dialog;
         this.Roles = [];
     }
     RolesComponent.prototype.ngOnInit = function () {
@@ -322,13 +364,25 @@ var RolesComponent = /** @class */ (function () {
         console.log(roles);
         this.Roles = roles;
     };
+    RolesComponent.prototype.openDialog = function () {
+        var dialogConfig = new _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialogConfig"]();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            id: 1,
+            hasBackdrop: false,
+            width: '500px'
+        };
+        var dialogRef = this.dialog.open(src_app_dialogs__WEBPACK_IMPORTED_MODULE_2__["NewRoleDialogComponent"], { width: '300px', hasBackdrop: false });
+        dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
+    };
     RolesComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-roles',
             template: __webpack_require__(/*! ./roles.component.html */ "./src/app/admin/roles/roles.component.html"),
             styles: [__webpack_require__(/*! ./roles.component.css */ "./src/app/admin/roles/roles.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"]])
+        __metadata("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"], _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"]])
     ], RolesComponent);
     return RolesComponent;
 }());
@@ -404,18 +458,29 @@ var UsersComponent = /** @class */ (function () {
         this.Users = users;
         for (var _i = 0, _a = this.Users; _i < _a.length; _i++) {
             var entry = _a[_i];
-            entry.avatarBase64 = entry.avatarImageType + entry.avatarImage;
+            if (entry.avatarImage) {
+                entry.avatarBase64 = entry.avatarImageType + entry.avatarImage;
+            }
+            else {
+                entry.avatarBase64 = '/assets/user.png';
+            }
         }
     };
     UsersComponent.prototype.openDialog = function () {
+        //const e = new Error();
+        //e.message = 'crap an error happened';
+        //e.stack = 'stack trace = c:dfjkalsdjf;lksadjf';
+        //e.name = 'terreoasdf';
+        //throw e;
         var dialogConfig = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogConfig"]();
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.data = {
-            id: 1
+            id: 1,
+            hasBackdrop: false,
+            width: '500px'
         };
-        this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_3__["NewUserDialogComponent"], dialogConfig);
-        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_3__["NewUserDialogComponent"], dialogConfig);
+        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_3__["NewUserDialogComponent"], { width: '300px', hasBackdrop: false });
         dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     UsersComponent = __decorate([
@@ -610,6 +675,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dialogs_new_blog_dialog_new_blog_dialog_component__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./dialogs/new-blog-dialog/new-blog-dialog.component */ "./src/app/dialogs/new-blog-dialog/new-blog-dialog.component.ts");
 /* harmony import */ var _dialogs_new_role_dialog_new_role_dialog_component__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./dialogs/new-role-dialog/new-role-dialog.component */ "./src/app/dialogs/new-role-dialog/new-role-dialog.component.ts");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _dialogs_error_dialog_error_dialog_component__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./dialogs/error-dialog/error-dialog.component */ "./src/app/dialogs/error-dialog/error-dialog.component.ts");
+/* harmony import */ var _custom_error_handler__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./custom-error-handler */ "./src/app/custom-error-handler.ts");
+/* harmony import */ var _dialogs__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./dialogs */ "./src/app/dialogs/index.ts");
+/* harmony import */ var ngx_highlightjs__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ngx-highlightjs */ "./node_modules/ngx-highlightjs/fesm5/ngx-highlightjs.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -621,6 +690,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 //import { UiModule } from './ui/ui.module';
+
+
+
+
 
 
 
@@ -687,6 +760,8 @@ var AppModule = /** @class */ (function () {
                 _dialogs_new_user_dialog_new_user_dialog_component__WEBPACK_IMPORTED_MODULE_36__["NewUserDialogComponent"],
                 _dialogs_new_blog_dialog_new_blog_dialog_component__WEBPACK_IMPORTED_MODULE_37__["NewBlogDialogComponent"],
                 _dialogs_new_role_dialog_new_role_dialog_component__WEBPACK_IMPORTED_MODULE_38__["NewRoleDialogComponent"],
+                _dialogs_error_dialog_error_dialog_component__WEBPACK_IMPORTED_MODULE_40__["ErrorDialogComponent"],
+                _dialogs__WEBPACK_IMPORTED_MODULE_42__["EditPostDialogComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -700,11 +775,12 @@ var AppModule = /** @class */ (function () {
                 _angular_material_button__WEBPACK_IMPORTED_MODULE_23__["MatButtonModule"],
                 _angular_material_chips__WEBPACK_IMPORTED_MODULE_24__["MatChipsModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_25__["BrowserAnimationsModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_39__["MatDialogModule"]
+                _angular_material__WEBPACK_IMPORTED_MODULE_39__["MatDialogModule"],
+                ngx_highlightjs__WEBPACK_IMPORTED_MODULE_43__["HighlightModule"].forRoot({ theme: 'agate' })
             ],
-            providers: [_services__WEBPACK_IMPORTED_MODULE_29__["AuthService"], _services__WEBPACK_IMPORTED_MODULE_29__["UserService"], _services__WEBPACK_IMPORTED_MODULE_29__["StatsService"], _services__WEBPACK_IMPORTED_MODULE_29__["BlogService"], _guards__WEBPACK_IMPORTED_MODULE_34__["AuthGuard"], _guards__WEBPACK_IMPORTED_MODULE_34__["RoleGuard"]],
+            providers: [_services__WEBPACK_IMPORTED_MODULE_29__["AuthService"], _services__WEBPACK_IMPORTED_MODULE_29__["UserService"], _services__WEBPACK_IMPORTED_MODULE_29__["StatsService"], _services__WEBPACK_IMPORTED_MODULE_29__["BlogService"], _guards__WEBPACK_IMPORTED_MODULE_34__["AuthGuard"], _guards__WEBPACK_IMPORTED_MODULE_34__["RoleGuard"], _services__WEBPACK_IMPORTED_MODULE_29__["LoggerService"], { provide: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ErrorHandler"], useClass: _custom_error_handler__WEBPACK_IMPORTED_MODULE_41__["ApplicationErrorHandler"] }],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]],
-            entryComponents: [_dialogs_new_user_dialog_new_user_dialog_component__WEBPACK_IMPORTED_MODULE_36__["NewUserDialogComponent"], _dialogs_new_role_dialog_new_role_dialog_component__WEBPACK_IMPORTED_MODULE_38__["NewRoleDialogComponent"], _dialogs_new_blog_dialog_new_blog_dialog_component__WEBPACK_IMPORTED_MODULE_37__["NewBlogDialogComponent"]]
+            entryComponents: [_dialogs_new_user_dialog_new_user_dialog_component__WEBPACK_IMPORTED_MODULE_36__["NewUserDialogComponent"], _dialogs_new_role_dialog_new_role_dialog_component__WEBPACK_IMPORTED_MODULE_38__["NewRoleDialogComponent"], _dialogs_new_blog_dialog_new_blog_dialog_component__WEBPACK_IMPORTED_MODULE_37__["NewBlogDialogComponent"], _dialogs_error_dialog_error_dialog_component__WEBPACK_IMPORTED_MODULE_40__["ErrorDialogComponent"], _dialogs__WEBPACK_IMPORTED_MODULE_42__["EditPostDialogComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -872,7 +948,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  posts works!\n</p>\n"
+module.exports = "<div class=\"row p-3\" *ngFor=\"let post of posts;  let odd=odd; let even=even\" [ngClass]=\"{ odd: odd, even: even}\">\r\n  <div class=\"col-xs-12 col-sm-12\">\r\n    <div class=\"row\">\r\n\r\n      <div class=\"col-xs-4 col-sm-8\">\r\n        <a href=\"#\"> {{post.title}}</a>\r\n        <div [innerHTML]=\"post.content | safe:'html'\"></div>\r\n      </div>\r\n      <div class=\"col-xs-4 col-sm-4\">\r\n        <button class=\"btn btn-outline-secondary fa fa-pencil\" (click)=\"openEditDialog(post)\"></button>\r\n        &nbsp;\r\n        <button class=\"btn btn-outline-danger fa fa-trash\"></button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n</div>\r\n"
 
 /***/ }),
 
@@ -887,6 +963,7 @@ module.exports = "<p>\n  posts works!\n</p>\n"
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PostsComponent", function() { return PostsComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services */ "./src/app/services/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -897,10 +974,21 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var PostsComponent = /** @class */ (function () {
-    function PostsComponent() {
+    function PostsComponent(blog) {
+        this.blog = blog;
+        this.posts = [];
     }
     PostsComponent.prototype.ngOnInit = function () {
+        this.loadPosts();
+    };
+    PostsComponent.prototype.loadPosts = function () {
+        var _this = this;
+        this.blog.getPosts().subscribe(function (posts) { return _this.processPosts(posts); });
+    };
+    PostsComponent.prototype.processPosts = function (posts) {
+        this.posts = posts;
     };
     PostsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -908,9 +996,104 @@ var PostsComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./posts.component.html */ "./src/app/blogs/posts/posts.component.html"),
             styles: [__webpack_require__(/*! ./posts.component.css */ "./src/app/blogs/posts/posts.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_1__["BlogService"]])
     ], PostsComponent);
     return PostsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/custom-error-handler.ts":
+/*!*****************************************!*\
+  !*** ./src/app/custom-error-handler.ts ***!
+  \*****************************************/
+/*! exports provided: ApplicationErrorHandler */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ApplicationErrorHandler", function() { return ApplicationErrorHandler; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dialogs */ "./src/app/dialogs/index.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services */ "./src/app/services/index.ts");
+/* harmony import */ var stacktrace_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! stacktrace-js */ "./node_modules/stacktrace-js/stacktrace.js");
+/* harmony import */ var stacktrace_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(stacktrace_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./models */ "./src/app/models/index.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var ApplicationErrorHandler = /** @class */ (function () {
+    function ApplicationErrorHandler(injector, dialog, logger, auth) {
+        this.injector = injector;
+        this.dialog = dialog;
+        this.logger = logger;
+        this.auth = auth;
+        this.user = _services__WEBPACK_IMPORTED_MODULE_4__["ANONYMOUS_USER"];
+    }
+    ApplicationErrorHandler.prototype.handleError = function (error) {
+        var _this = this;
+        //const loggingService = this.injector.get(LoggingService);
+        var location = this.injector.get(_angular_common__WEBPACK_IMPORTED_MODULE_3__["LocationStrategy"]);
+        var message = error.message ? error.message : error.toString();
+        var url = location instanceof _angular_common__WEBPACK_IMPORTED_MODULE_3__["PathLocationStrategy"]
+            ? location.path() : '';
+        // get the stack trace, lets grab the last 10 stacks only
+        stacktrace_js__WEBPACK_IMPORTED_MODULE_5__["fromError"](error).then(function (stackframes) {
+            var stackString = stackframes
+                .splice(0, 20)
+                .map(function (sf) {
+                return sf.toString();
+            }).join('\n');
+            // log on the server
+            // get user.
+            _this.user = _this.auth.loggedInUser();
+            _this.openDialog({ message: message, url: url, stack: stackString, userId: _this.user.id });
+        });
+    };
+    //addError(error: ApplicationError) {
+    //  //this.errors.push(error);
+    //  this.openDialog(error);
+    //}
+    ApplicationErrorHandler.prototype.openDialog = function (error) {
+        var log = new _models__WEBPACK_IMPORTED_MODULE_6__["Log"]();
+        log.source = error.url;
+        log.logType = 0;
+        log.message = "message: " + error.message + " stack:" + error.stack;
+        log.userId = error.userId;
+        this.logger.addLog(log);
+        var dialogConfig = new _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialogConfig"]();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            id: 1,
+            hasBackdrop: false,
+            width: '500px'
+        };
+        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_2__["ErrorDialogComponent"], { width: '300px', hasBackdrop: false, data: error });
+        dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
+    };
+    ApplicationErrorHandler = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injector"], _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialog"], _services__WEBPACK_IMPORTED_MODULE_4__["LoggerService"], _services__WEBPACK_IMPORTED_MODULE_4__["AuthService"]])
+    ], ApplicationErrorHandler);
+    return ApplicationErrorHandler;
 }());
 
 
@@ -935,7 +1118,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      1\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      2\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      3\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      4\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div [innerHTML]=\"post | safe:'html'\"></div>\r\n</div>\r\n"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      1\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      2\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      3\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      4\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div [innerHTML]=\"post | safe:'html'\"></div>\r\n  <pre><code highlight [textContent]=\"p\"></code></pre>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -963,6 +1146,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 //import { DomSanitizer, SafeResourceUrl, SafeHtml } from '@angular/platform-browser';
 var DashboardComponent = /** @class */ (function () {
     function DashboardComponent() {
+        this.p = 'function(){}';
     }
     DashboardComponent.prototype.ngOnInit = function () {
         this.post = "<b>hello world</b><br><pre data-lang='HTML'><code>function cool(x) {return x + 1;}</code></pre>";
@@ -982,11 +1166,176 @@ var DashboardComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/dialogs/edit-post-dialog/edit-post-dialog.component.css":
+/*!*************************************************************************!*\
+  !*** ./src/app/dialogs/edit-post-dialog/edit-post-dialog.component.css ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2RpYWxvZ3MvZWRpdC1wb3N0LWRpYWxvZy9lZGl0LXBvc3QtZGlhbG9nLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/dialogs/edit-post-dialog/edit-post-dialog.component.html":
+/*!**************************************************************************!*\
+  !*** ./src/app/dialogs/edit-post-dialog/edit-post-dialog.component.html ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h2 mat-dialog-title>EditPost</h2>\r\n<mat-dialog-content [formGroup]=\"form\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-12\">\r\n      <!-- roles  -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"text\" formControlName=\"title\" class=\"form-control\" id=\"addNewPostTitle\" placeholder=\"Post Title\">\r\n        </mat-form-field>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <!--<div [innerHTML]=\"post.content | safe:'html'\"></div>-->\r\n          <textarea matInput type=\"text\" formControlName=\"content\" class=\"form-control\" id=\"addNewPostContent\" placeholder=\"Content Title\"></textarea>\r\n        </mat-form-field>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</mat-dialog-content>\r\n\r\n<mat-dialog-actions>\r\n  <button mat-button (click)=\"close()\">Cancel</button>\r\n  <button class=\"mat-raised-button mat-primary\" (click)=\"save()\">Save</button>\r\n</mat-dialog-actions>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/dialogs/edit-post-dialog/edit-post-dialog.component.ts":
+/*!************************************************************************!*\
+  !*** ./src/app/dialogs/edit-post-dialog/edit-post-dialog.component.ts ***!
+  \************************************************************************/
+/*! exports provided: EditPostDialogComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditPostDialogComponent", function() { return EditPostDialogComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services */ "./src/app/services/index.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+
+var EditPostDialogComponent = /** @class */ (function () {
+    function EditPostDialogComponent(auth, userService, fb, dialogRef, data) {
+        this.auth = auth;
+        this.userService = userService;
+        this.fb = fb;
+        this.dialogRef = dialogRef;
+        this.post = data;
+    }
+    EditPostDialogComponent.prototype.ngOnInit = function () {
+        this.form = this.fb.group({
+            title: [this.post.title, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            content: [this.post.content, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+        });
+    };
+    EditPostDialogComponent.prototype.close = function () {
+        this.dialogRef.close();
+    };
+    EditPostDialogComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-edit-post-dialog',
+            template: __webpack_require__(/*! ./edit-post-dialog.component.html */ "./src/app/dialogs/edit-post-dialog/edit-post-dialog.component.html"),
+            styles: [__webpack_require__(/*! ./edit-post-dialog.component.css */ "./src/app/dialogs/edit-post-dialog/edit-post-dialog.component.css")]
+        }),
+        __param(4, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])),
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _services__WEBPACK_IMPORTED_MODULE_3__["UserService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialogRef"], Object])
+    ], EditPostDialogComponent);
+    return EditPostDialogComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/dialogs/error-dialog/error-dialog.component.css":
+/*!*****************************************************************!*\
+  !*** ./src/app/dialogs/error-dialog/error-dialog.component.css ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2RpYWxvZ3MvZXJyb3ItZGlhbG9nL2Vycm9yLWRpYWxvZy5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/dialogs/error-dialog/error-dialog.component.html":
+/*!******************************************************************!*\
+  !*** ./src/app/dialogs/error-dialog/error-dialog.component.html ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\" id=\"errorContainer\">\r\n  <div class=\"errorHead\">\r\n    Error:\r\n  </div>\r\n  \r\n  <div class=\"row\">\r\n    <strong>Message: </strong> {{error.message}}\r\n    <strong>Stack: </strong> {{error.stack}}\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/dialogs/error-dialog/error-dialog.component.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/dialogs/error-dialog/error-dialog.component.ts ***!
+  \****************************************************************/
+/*! exports provided: ErrorDialogComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ErrorDialogComponent", function() { return ErrorDialogComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+var ErrorDialogComponent = /** @class */ (function () {
+    function ErrorDialogComponent(injector, dialogRef, error) {
+        this.injector = injector;
+        this.dialogRef = dialogRef;
+        this.error = error;
+    }
+    ErrorDialogComponent.prototype.ngOnInit = function () {
+        console.log(this.error);
+        //const message = error.message ? error.message : error.toString();
+    };
+    ErrorDialogComponent.prototype.close = function () {
+        this.dialogRef.close();
+    };
+    ErrorDialogComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-error-dialog',
+            template: __webpack_require__(/*! ./error-dialog.component.html */ "./src/app/dialogs/error-dialog/error-dialog.component.html"),
+            styles: [__webpack_require__(/*! ./error-dialog.component.css */ "./src/app/dialogs/error-dialog/error-dialog.component.css")]
+        }),
+        __param(2, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])),
+        __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injector"], _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialogRef"], Object])
+    ], ErrorDialogComponent);
+    return ErrorDialogComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/dialogs/index.ts":
 /*!**********************************!*\
   !*** ./src/app/dialogs/index.ts ***!
   \**********************************/
-/*! exports provided: NewBlogDialogComponent, NewUserDialogComponent, NewRoleDialogComponent */
+/*! exports provided: NewBlogDialogComponent, NewUserDialogComponent, NewRoleDialogComponent, ErrorDialogComponent, EditPostDialogComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -999,6 +1348,14 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _new_role_dialog_new_role_dialog_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./new-role-dialog/new-role-dialog.component */ "./src/app/dialogs/new-role-dialog/new-role-dialog.component.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NewRoleDialogComponent", function() { return _new_role_dialog_new_role_dialog_component__WEBPACK_IMPORTED_MODULE_2__["NewRoleDialogComponent"]; });
+
+/* harmony import */ var _error_dialog_error_dialog_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./error-dialog/error-dialog.component */ "./src/app/dialogs/error-dialog/error-dialog.component.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ErrorDialogComponent", function() { return _error_dialog_error_dialog_component__WEBPACK_IMPORTED_MODULE_3__["ErrorDialogComponent"]; });
+
+/* harmony import */ var _edit_post_dialog_edit_post_dialog_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./edit-post-dialog/edit-post-dialog.component */ "./src/app/dialogs/edit-post-dialog/edit-post-dialog.component.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EditPostDialogComponent", function() { return _edit_post_dialog_edit_post_dialog_component__WEBPACK_IMPORTED_MODULE_4__["EditPostDialogComponent"]; });
+
+
 
 
 
@@ -1025,7 +1382,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  new-blog-dialog works!\n</p>\n"
+module.exports = "<h2 mat-dialog-title>Add New Post</h2>\r\n<mat-dialog-content [formGroup]=\"form\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-12\">\r\n      <!-- roles  -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"text\" formControlName=\"title\" class=\"form-control\" id=\"addNewPostTitle\" placeholder=\"Post Title\">\r\n        </mat-form-field>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <textarea matInput type=\"text\" formControlName=\"content\" class=\"form-control\" id=\"addNewPostContent\" placeholder=\"Content Title\" ></textarea>\r\n        </mat-form-field>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</mat-dialog-content>\r\n\r\n<mat-dialog-actions>\r\n  <button mat-button (click)=\"close()\">Cancel</button>\r\n  <button class=\"mat-raised-button mat-primary\" (click)=\"save()\">Save</button>\r\n</mat-dialog-actions>\r\n"
 
 /***/ }),
 
@@ -1040,6 +1397,9 @@ module.exports = "<p>\n  new-blog-dialog works!\n</p>\n"
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewBlogDialogComponent", function() { return NewBlogDialogComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services */ "./src/app/services/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1049,11 +1409,28 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
 
 var NewBlogDialogComponent = /** @class */ (function () {
-    function NewBlogDialogComponent() {
+    function NewBlogDialogComponent(auth, userService, fb, dialogRef, data) {
+        this.auth = auth;
+        this.userService = userService;
+        this.fb = fb;
+        this.dialogRef = dialogRef;
     }
     NewBlogDialogComponent.prototype.ngOnInit = function () {
+        this.form = this.fb.group({
+            title: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            content: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+        });
+    };
+    NewBlogDialogComponent.prototype.close = function () {
+        this.dialogRef.close();
     };
     NewBlogDialogComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1061,7 +1438,11 @@ var NewBlogDialogComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./new-blog-dialog.component.html */ "./src/app/dialogs/new-blog-dialog/new-blog-dialog.component.html"),
             styles: [__webpack_require__(/*! ./new-blog-dialog.component.css */ "./src/app/dialogs/new-blog-dialog/new-blog-dialog.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __param(4, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])),
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _services__WEBPACK_IMPORTED_MODULE_3__["UserService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialogRef"], Object])
     ], NewBlogDialogComponent);
     return NewBlogDialogComponent;
 }());
@@ -1088,7 +1469,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  new-role-dialog works!\n</p>\n"
+module.exports = "<h2 mat-dialog-title>Add New Role</h2>\r\n<mat-dialog-content [formGroup]=\"form\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-12\">\r\n      <!-- roles  -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"text\" formControlName=\"newRole\" class=\"form-control\" id=\"addNewRole\" placeholder=\"RoleName\">\r\n        </mat-form-field>\r\n      </div>\r\n  </div>\r\n</div>\r\n</mat-dialog-content>\r\n\r\n<mat-dialog-actions>\r\n  <button mat-button (click)=\"close()\">Cancel</button>\r\n  <button class=\"mat-raised-button mat-primary\" (click)=\"save()\">Save</button>\r\n</mat-dialog-actions>\r\n"
 
 /***/ }),
 
@@ -1103,6 +1484,9 @@ module.exports = "<p>\n  new-role-dialog works!\n</p>\n"
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewRoleDialogComponent", function() { return NewRoleDialogComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services */ "./src/app/services/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1112,11 +1496,32 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
 
 var NewRoleDialogComponent = /** @class */ (function () {
-    function NewRoleDialogComponent() {
+    function NewRoleDialogComponent(auth, userService, fb, dialogRef, data) {
+        this.auth = auth;
+        this.userService = userService;
+        this.fb = fb;
+        this.dialogRef = dialogRef;
     }
     NewRoleDialogComponent.prototype.ngOnInit = function () {
+        this.form = this.fb.group({
+            roleName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+        });
+    };
+    NewRoleDialogComponent.prototype.save = function () {
+        this.newRole.name = this.form.controls.roleName.value;
+        // Save to db.
+        this.dialogRef.close(this.newRole);
+    };
+    NewRoleDialogComponent.prototype.close = function () {
+        this.dialogRef.close();
     };
     NewRoleDialogComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1124,7 +1529,11 @@ var NewRoleDialogComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./new-role-dialog.component.html */ "./src/app/dialogs/new-role-dialog/new-role-dialog.component.html"),
             styles: [__webpack_require__(/*! ./new-role-dialog.component.css */ "./src/app/dialogs/new-role-dialog/new-role-dialog.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __param(4, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])),
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _services__WEBPACK_IMPORTED_MODULE_3__["UserService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialogRef"], Object])
     ], NewRoleDialogComponent);
     return NewRoleDialogComponent;
 }());
@@ -1151,7 +1560,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 mat-dialog-title>Add New User</h2>\r\n<mat-dialog-content [formGroup]=\"form\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-12\">\r\n      <!-- first name -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"text\" formControlName=\"firstName\" class=\"form-control\" id=\"profileFirstName\" placeholder=\"First Name\">\r\n        </mat-form-field>\r\n      </div>\r\n      <!-- last name -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"text\" formControlName=\"lastName\" class=\"form-control\" id=\"profileLastName\" placeholder=\"Last Name\">\r\n        </mat-form-field>\r\n      </div>\r\n      <!-- email -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"email\" formControlName=\"email\" class=\"form-control\" id=\"profileEmail\" placeholder=\"Email\">\r\n        </mat-form-field>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!--<mat-form-field>\r\n    <input matInput\r\n           placeholder=\"Course Description\"\r\n           formControlName=\"description\">\r\n  </mat-form-field>\r\n  ....-->\r\n\r\n</mat-dialog-content>\r\n\r\n<mat-dialog-actions>\r\n  <button mat-button mat-dialog-close>No</button>\r\n  <button class=\"mat-raised-button mat-primary\" (click)=\"save()\">Save</button>\r\n</mat-dialog-actions>\r\n"
+module.exports = "<h2 mat-dialog-title>Add New User</h2>\r\n<mat-dialog-content [formGroup]=\"form\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-12\">\r\n      <!-- first name -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"text\" formControlName=\"firstName\" class=\"form-control\" id=\"profileFirstName\" placeholder=\"First Name\">\r\n        </mat-form-field>\r\n      </div>\r\n      <!-- last name -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"text\" formControlName=\"lastName\" class=\"form-control\" id=\"profileLastName\" placeholder=\"Last Name\">\r\n        </mat-form-field>\r\n      </div>\r\n      <!-- email -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"email\" formControlName=\"email\" class=\"form-control\" id=\"profileEmail\" placeholder=\"Email\">\r\n        </mat-form-field>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <mat-select class=\"form-control\" formControlName=\"rolesList\" id=\"profile\" (change)=\"onSelect($event.target.value)\" placeholder=\"Role\">\r\n            <mat-option *ngFor=\"let role of roles\" [value]=\"role.name\">\r\n              {{role.name}}\r\n            </mat-option>\r\n           </mat-select>\r\n        </mat-form-field>\r\n      </div>\r\n      <!-- password -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"profilePassword\" placeholder=\"Password\">\r\n        </mat-form-field>\r\n      </div>\r\n      <!--  confirm password -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"password\" formControlName=\"confirmPassword\" class=\"form-control\" id=\"profileConfirmPassword\" placeholder=\"Confirm Password\">\r\n        </mat-form-field>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!--<mat-form-field>\r\n    <input matInput\r\n           placeholder=\"Course Description\"\r\n           formControlName=\"description\">\r\n  </mat-form-field>\r\n  ....-->\r\n\r\n</mat-dialog-content>\r\n\r\n<mat-dialog-actions>\r\n  <button mat-button (click)=\"close()\">Cancel</button>\r\n  <button class=\"mat-raised-button mat-primary\" (click)=\"save()\">Save</button>\r\n</mat-dialog-actions>\r\n"
 
 /***/ }),
 
@@ -1186,28 +1595,46 @@ var __param = (undefined && undefined.__param) || function (paramIndex, decorato
 
 
 var NewUserDialogComponent = /** @class */ (function () {
-    function NewUserDialogComponent(auth, fb, dialogRef, data) {
+    function NewUserDialogComponent(auth, userService, fb, dialogRef, data) {
         this.auth = auth;
+        this.userService = userService;
         this.fb = fb;
         this.dialogRef = dialogRef;
         this.user = _services__WEBPACK_IMPORTED_MODULE_3__["ANONYMOUS_USER"];
+        this.roles = [];
         // this.description = data.description;
     }
     NewUserDialogComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        // load roles for dropdown.
+        this.userService.getRoles().subscribe(function (roles) { _this.processRoles(roles); });
         this.form = this.fb.group({
             firstName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
             lastName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
-            email: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+            email: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            password: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            confirmPassword: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            rolesList: [this.roles]
         });
+        this.form.patchValue({
+            'role': 'Author'
+        });
+    };
+    NewUserDialogComponent.prototype.processRoles = function (roles) {
+        console.log("roles: " + roles);
+        this.roles = roles;
     };
     NewUserDialogComponent.prototype.save = function () {
         this.user.email = this.form.controls.email.value;
         this.user.firstName = this.form.controls.firstName.value;
         this.user.lastName = this.form.controls.lastName.value;
+        this.user.password = this.form.controls.password.value;
         this.dialogRef.close(this.user);
     };
     NewUserDialogComponent.prototype.close = function () {
         this.dialogRef.close();
+    };
+    NewUserDialogComponent.prototype.onSelect = function (event) {
     };
     NewUserDialogComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1215,8 +1642,9 @@ var NewUserDialogComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./new-user-dialog.component.html */ "./src/app/dialogs/new-user-dialog/new-user-dialog.component.html"),
             styles: [__webpack_require__(/*! ./new-user-dialog.component.css */ "./src/app/dialogs/new-user-dialog/new-user-dialog.component.css")]
         }),
-        __param(3, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])),
+        __param(4, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])),
         __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _services__WEBPACK_IMPORTED_MODULE_3__["UserService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
             _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialogRef"], Object])
     ], NewUserDialogComponent);
@@ -1937,6 +2365,211 @@ var SignUpComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/models/applicationError.ts":
+/*!********************************************!*\
+  !*** ./src/app/models/applicationError.ts ***!
+  \********************************************/
+/*! exports provided: ApplicationError */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ApplicationError", function() { return ApplicationError; });
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var ApplicationError = /** @class */ (function (_super) {
+    __extends(ApplicationError, _super);
+    function ApplicationError(message) {
+        var _this = _super.call(this, message) || this;
+        _this.httpStatus = 404;
+        _this.handled = false;
+        _this.name = ApplicationError.name;
+        Object.setPrototypeOf(_this, ApplicationError.prototype);
+        return _this;
+    }
+    return ApplicationError;
+}(Error));
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/blog.ts":
+/*!********************************!*\
+  !*** ./src/app/models/blog.ts ***!
+  \********************************/
+/*! exports provided: Blog */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Blog", function() { return Blog; });
+var Blog = /** @class */ (function () {
+    function Blog() {
+    }
+    return Blog;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/blogImage.ts":
+/*!*************************************!*\
+  !*** ./src/app/models/blogImage.ts ***!
+  \*************************************/
+/*! exports provided: BlogImage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlogImage", function() { return BlogImage; });
+var BlogImage = /** @class */ (function () {
+    function BlogImage() {
+    }
+    return BlogImage;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/index.ts":
+/*!*********************************!*\
+  !*** ./src/app/models/index.ts ***!
+  \*********************************/
+/*! exports provided: Role, Stats, User, Blog, Post, BlogImage, ApplicationError, Log */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _role__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./role */ "./src/app/models/role.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Role", function() { return _role__WEBPACK_IMPORTED_MODULE_0__["Role"]; });
+
+/* harmony import */ var _stats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stats */ "./src/app/models/stats.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Stats", function() { return _stats__WEBPACK_IMPORTED_MODULE_1__["Stats"]; });
+
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./src/app/models/user.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "User", function() { return _user__WEBPACK_IMPORTED_MODULE_2__["User"]; });
+
+/* harmony import */ var _blog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./blog */ "./src/app/models/blog.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Blog", function() { return _blog__WEBPACK_IMPORTED_MODULE_3__["Blog"]; });
+
+/* harmony import */ var _post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./post */ "./src/app/models/post.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Post", function() { return _post__WEBPACK_IMPORTED_MODULE_4__["Post"]; });
+
+/* harmony import */ var _blogImage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./blogImage */ "./src/app/models/blogImage.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BlogImage", function() { return _blogImage__WEBPACK_IMPORTED_MODULE_5__["BlogImage"]; });
+
+/* harmony import */ var _applicationError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./applicationError */ "./src/app/models/applicationError.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ApplicationError", function() { return _applicationError__WEBPACK_IMPORTED_MODULE_6__["ApplicationError"]; });
+
+/* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./log */ "./src/app/models/log.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Log", function() { return _log__WEBPACK_IMPORTED_MODULE_7__["Log"]; });
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/log.ts":
+/*!*******************************!*\
+  !*** ./src/app/models/log.ts ***!
+  \*******************************/
+/*! exports provided: Log */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Log", function() { return Log; });
+var Log = /** @class */ (function () {
+    function Log() {
+    }
+    return Log;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/post.ts":
+/*!********************************!*\
+  !*** ./src/app/models/post.ts ***!
+  \********************************/
+/*! exports provided: Post */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Post", function() { return Post; });
+var Post = /** @class */ (function () {
+    function Post() {
+    }
+    return Post;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/role.ts":
+/*!********************************!*\
+  !*** ./src/app/models/role.ts ***!
+  \********************************/
+/*! exports provided: Role */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Role", function() { return Role; });
+var Role = /** @class */ (function () {
+    function Role() {
+    }
+    return Role;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/stats.ts":
+/*!*********************************!*\
+  !*** ./src/app/models/stats.ts ***!
+  \*********************************/
+/*! exports provided: Stats */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Stats", function() { return Stats; });
+var Stats = /** @class */ (function () {
+    function Stats() {
+    }
+    return Stats;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/models/user.ts":
 /*!********************************!*\
   !*** ./src/app/models/user.ts ***!
@@ -2072,7 +2705,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form [formGroup]=\"profileForm\" (ngSubmit)=\"submitHandler()\">\r\n  <!--value: {{profileForm.value  | json}}\r\n  <br />\r\n  user: {{user  | json}}-->\r\n  <div class=\"container\">\r\n    <div class=\"headerBar\">\r\n\r\n      <div class=\"row\">\r\n        <div class=\"col-12\">\r\n          <h1>Profile</h1>\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n    <div class=\"row\">\r\n      &nbsp;\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"col-sm-3\">\r\n        <div class=\"row\"><img [src]=\"imageSrc\" id=\"bigPofileImg\"> </div>\r\n        <div class=\"row\">\r\n          &nbsp;\r\n        </div>\r\n        <div class=\"row\">\r\n          <input type=\"file\" (change)=\"onFileSelected($event)\" #fileInput multiple />\r\n        </div>\r\n\r\n      </div>\r\n      <div class=\"col-sm-9\">\r\n        <!-- first name -->\r\n        <div class=\"form-group\">\r\n          <mat-form-field>\r\n            <input matInput type=\"text\" formControlName=\"firstName\" class=\"form-control\" id=\"profileFirstName\" placeholder=\"First Name\" [(ngModel)]=\"user.firstName\">\r\n          </mat-form-field>\r\n        </div>\r\n        <!-- last name -->\r\n        <div class=\"form-group\">\r\n          <mat-form-field>\r\n            <input matInput type=\"text\" formControlName=\"lastName\" class=\"form-control\" id=\"profileLastName\" placeholder=\"Last Name\" [(ngModel)]=\"user.lastName\">\r\n          </mat-form-field>\r\n        </div>\r\n        <!-- email -->\r\n        <div class=\"form-group\">\r\n          <mat-form-field>\r\n            <input matInput type=\"email\" formControlName=\"email\" class=\"form-control\" id=\"profileEmail\" placeholder=\"Email\" [(ngModel)]=\"user.email\">\r\n          </mat-form-field>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"form-group\">\r\n        <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"profileForm.invalid\">Submit</button>\r\n      </div>\r\n    </div>\r\n\r\n    <!-- image -->\r\n    <!-- <div class=\"form-group\">\r\n    <mat-form-field>\r\n      <input matInput type=\"file\" formControlName=\"file\" class=\"form-control\" id=\"profileFile\" placeholder=\"Email\" [(ngModel)]=\"user.email\">\r\n    </mat-form-field>\r\n  </div> -->\r\n  </div>\r\n</form>\r\n"
+module.exports = "<form [formGroup]=\"profileForm\" (ngSubmit)=\"submitHandler()\">\r\n  <!--value: {{profileForm.value  | json}}\r\n  <br />\r\n  user: {{user  | json}}-->\r\n  <div class=\"container\">\r\n    <div class=\"headerBar\">\r\n\r\n      <div class=\"row\">\r\n        <div class=\"col-12\">\r\n          <h1>Profile</h1>\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n    <div class=\"row\">\r\n      &nbsp;\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"col-sm-3\">\r\n        <div class=\"row\"><img [src]=\"imageSrc\" id=\"bigPofileImg\"> </div>\r\n        <div class=\"row\">\r\n          &nbsp;\r\n        </div>\r\n        <div class=\"row\">\r\n          <input type=\"file\" (change)=\"onFileSelected($event)\" #fileInput multiple />\r\n        </div>\r\n\r\n      </div>\r\n      <div class=\"col-sm-9\">\r\n        <!-- first name -->\r\n        <div class=\"form-group\">\r\n          <mat-form-field>\r\n            <input matInput type=\"text\" formControlName=\"firstName\" class=\"form-control\" id=\"profileFirstName\" placeholder=\"First Name\" >\r\n          </mat-form-field>\r\n        </div>\r\n        <!-- last name -->\r\n        <div class=\"form-group\">\r\n          <mat-form-field>\r\n            <input matInput type=\"text\" formControlName=\"lastName\" class=\"form-control\" id=\"profileLastName\" placeholder=\"Last Name\" >\r\n          </mat-form-field>\r\n        </div>\r\n        <!-- email -->\r\n        <div class=\"form-group\">\r\n          <mat-form-field>\r\n            <input matInput type=\"email\" formControlName=\"email\" class=\"form-control\" id=\"profileEmail\" placeholder=\"Email\" >\r\n          </mat-form-field>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"form-group\">\r\n        <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"profileForm.invalid\">Submit</button>\r\n      </div>\r\n    </div>\r\n\r\n    <!-- image -->\r\n    <!-- <div class=\"form-group\">\r\n    <mat-form-field>\r\n      <input matInput type=\"file\" formControlName=\"file\" class=\"form-control\" id=\"profileFile\" placeholder=\"Email\" [(ngModel)]=\"user.email\">\r\n    </mat-form-field>\r\n  </div> -->\r\n  </div>\r\n</form>\r\n"
 
 /***/ }),
 
@@ -2111,20 +2744,21 @@ var ProfileComponent = /** @class */ (function () {
     }
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.profileForm = this.fb.group({
-            firstName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
-            lastName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
-            email: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
-        });
         this.isLoggedIn = this.auth.isUserLoggedIn();
         this.auth.user$.subscribe(function (data) { return _this.processData(data); });
         if (this.isLoggedIn) {
             this.user = this.auth.loggedInUser();
         }
         this.imageSrc = this.user.avatarImageType + this.user.avatarImage;
+        this.profileForm = this.fb.group({
+            firstName: [this.user.firstName, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
+            lastName: [this.user.lastName, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
+            email: [this.user.email, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
+        });
     };
     ProfileComponent.prototype.processData = function (data) {
         this.user = data;
+        //this.profileForm.controls.firstName.setValue(this.user.firstName);  //.get('firstName').setValue(this.user.firstName);
         console.log(data);
     };
     ProfileComponent.prototype.onFileSelected = function (event) {
@@ -2384,6 +3018,10 @@ var BlogService = /** @class */ (function () {
         return this._http.get('/api/Blogs')
             .catch(this.handleError);
     };
+    BlogService.prototype.getPosts = function () {
+        return this._http.get('/api/Blogs/Posts')
+            .catch(this.handleError);
+    };
     BlogService.prototype.handleError = function (handleError) {
         console.log(handleError);
     };
@@ -2410,7 +3048,7 @@ var BlogService = /** @class */ (function () {
 /*!***********************************!*\
   !*** ./src/app/services/index.ts ***!
   \***********************************/
-/*! exports provided: UserService, ANONYMOUS_USER, AuthService, StatsService, BlogService */
+/*! exports provided: UserService, ANONYMOUS_USER, AuthService, StatsService, BlogService, LoggerService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2429,9 +3067,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _blog_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./blog.service */ "./src/app/services/blog.service.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BlogService", function() { return _blog_service__WEBPACK_IMPORTED_MODULE_3__["BlogService"]; });
 
+/* harmony import */ var _logger_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./logger.service */ "./src/app/services/logger.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggerService", function() { return _logger_service__WEBPACK_IMPORTED_MODULE_4__["LoggerService"]; });
 
 
 
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/logger.service.ts":
+/*!********************************************!*\
+  !*** ./src/app/services/logger.service.ts ***!
+  \********************************************/
+/*! exports provided: LoggerService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoggerService", function() { return LoggerService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var LoggerService = /** @class */ (function () {
+    function LoggerService(http) {
+        this.http = http;
+        this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ 'Content-Type': 'application/json; charset=utf-8' });
+    }
+    LoggerService.prototype.addLog = function (log) {
+        var options = {
+            headers: this.headers
+        };
+        this.http.post('/api/Logs', log).subscribe();
+    };
+    LoggerService.prototype.getLogs = function () {
+        return this.http.get('/api/Logs').catch(this.handleError).shareReplay().do(function (log) { return console.log(log); });
+    };
+    LoggerService.prototype.handleError = function (handleError) {
+        console.log(handleError);
+    };
+    LoggerService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], LoggerService);
+    return LoggerService;
+}());
 
 
 
@@ -2545,8 +3240,14 @@ var UserService = /** @class */ (function () {
         return this._http.get('/api/Role/Roles')
             .catch(this.handleError);
     };
-    //addUser(user: User) {
-    //}
+    UserService.prototype.addRole = function (role) {
+    };
+    UserService.prototype.deleteRole = function (role) {
+    };
+    UserService.prototype.addUser = function (user) {
+    };
+    UserService.prototype.deleteUser = function (user) {
+    };
     //addUserToRole(userName: string, role: string) {
     //}
     UserService.prototype.handleError = function (handleError) {
@@ -2718,7 +3419,12 @@ var HeaderComponent = /** @class */ (function () {
     };
     HeaderComponent.prototype.processData = function (data) {
         this.user = data;
-        this.user.avatarBase64 = this.user.avatarImageType + this.user.avatarImage;
+        if (this.user.avatarImage) {
+            this.user.avatarBase64 = this.user.avatarImageType + this.user.avatarImage;
+        }
+        else {
+            this.user.avatarBase64 = '/assets/user.png';
+        }
         console.log(data);
     };
     HeaderComponent = __decorate([

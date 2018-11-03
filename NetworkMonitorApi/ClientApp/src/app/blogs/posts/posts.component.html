@@ -4,7 +4,7 @@
 
       <div class="col-xs-4 col-sm-8">
         <a href="#"> {{post.title}}</a>
-        <div [innerHTML]="post.content | safe:'html'"></div>
+        <div highlight="all" [innerHTML]="post.content | safe:'html'"></div>
       </div>
       <div class="col-xs-4 col-sm-4">
         <button class="btn btn-outline-secondary fa fa-pencil" (click)="openEditDialog(post)"></button>

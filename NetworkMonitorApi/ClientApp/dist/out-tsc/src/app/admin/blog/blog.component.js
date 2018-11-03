@@ -40,11 +40,11 @@ var BlogComponent = /** @class */ (function () {
         var dialogRef = this.dialog.open(NewBlogDialogComponent, { width: '300px', hasBackdrop: false });
         dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
-    BlogComponent.prototype.openEditDialog = function () {
+    BlogComponent.prototype.openEditDialog = function (post) {
         var dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        var dialogRef = this.dialog.open(EditPostDialogComponent, { width: '300px', hasBackdrop: false });
+        var dialogRef = this.dialog.open(EditPostDialogComponent, { width: '300px', hasBackdrop: false, data: post });
         dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     BlogComponent = __decorate([

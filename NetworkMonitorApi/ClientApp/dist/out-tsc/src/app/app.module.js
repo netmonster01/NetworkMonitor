@@ -48,6 +48,7 @@ import { MatDialogModule } from "@angular/material";
 import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
 import { ApplicationErrorHandler } from './custom-error-handler';
 import { EditPostDialogComponent } from './dialogs';
+import { HighlightModule } from 'ngx-highlightjs';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -93,7 +94,8 @@ var AppModule = /** @class */ (function () {
                 MatButtonModule,
                 MatChipsModule,
                 BrowserAnimationsModule,
-                MatDialogModule
+                MatDialogModule,
+                HighlightModule.forRoot({ theme: 'agate' })
             ],
             providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard, LoggerService, { provide: ErrorHandler, useClass: ApplicationErrorHandler }],
             bootstrap: [AppComponent],

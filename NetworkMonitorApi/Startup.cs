@@ -92,7 +92,7 @@ namespace NetworkMonitorApi
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-           
+            services.AddDirectoryBrowser();
 
         }
 

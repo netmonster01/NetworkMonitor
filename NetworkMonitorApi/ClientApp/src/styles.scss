@@ -9,16 +9,18 @@ $primary-color-light: #B9EDFB;
 $primary-text: #FFFFFF;
 $primary-text-dark: #000000;
 $error-text: #bd2130;
+$primary-background: #303030;
 
 html, body {
   height: 100%;
+  background-color: $primary-background;
 }
 
 body {
   color: $primary-text;
   margin: 0;
   font-family: $font-stack;
-  background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+  //background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
 }
 
 .even {
@@ -55,7 +57,7 @@ a:hover{
 
 // Code Blocks
 pre {
-  background: #f4f4f4;
+  background:$primary-background;
   border: 1px solid #ddd;
   border-left: 3px solid #f36d33;
   color: #666;
@@ -70,19 +72,20 @@ pre {
   display: block;
   word-wrap: break-word;
 }
+
 #bigPofileImg
 {
   width: 128px;
   height: 128px;
 }
-.mat-form-field-label{
+/*.mat-form-field-label{
   color: $primary-text-dark !important;
 
 }
 .mat-form-field-underline
 {
   color: $primary-text-dark !important;
-}
+}*/
 
 label
 {

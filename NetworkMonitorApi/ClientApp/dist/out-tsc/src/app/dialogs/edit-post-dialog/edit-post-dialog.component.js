@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService, UserService } from '../../services';
 var EditPostDialogComponent = /** @class */ (function () {
     function EditPostDialogComponent(auth, userService, fb, dialogRef, data) {
@@ -20,8 +20,16 @@ var EditPostDialogComponent = /** @class */ (function () {
         this.userService = userService;
         this.fb = fb;
         this.dialogRef = dialogRef;
+        this.post = data;
     }
     EditPostDialogComponent.prototype.ngOnInit = function () {
+        this.form = this.fb.group({
+            title: [this.post.title, Validators.required],
+            content: [this.post.content, Validators.required]
+        });
+    };
+    EditPostDialogComponent.prototype.close = function () {
+        this.dialogRef.close();
     };
     EditPostDialogComponent = __decorate([
         Component({

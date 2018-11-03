@@ -21,5 +21,7 @@
   </div>
 </div>
 <div class="row">
-  <div [innerHTML]="post | safe:'html'"></div>
+  <div highlight="all" [innerHTML]="post | safe:'html'"></div>
+  <!--<pre><code highlight [textContent]="post | safe:'html'"></code></pre>-->
+ 
 </div>
