@@ -9,18 +9,43 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { BlogService } from '../../services';
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { NewBlogDialogComponent } from '../../dialogs';
+import { EditPostDialogComponent } from '../../dialogs';
 var BlogComponent = /** @class */ (function () {
-    function BlogComponent(blog) {
+    function BlogComponent(blog, dialog) {
         this.blog = blog;
-        this.Posts = [];
+        this.dialog = dialog;
+        this.posts = [];
     }
     BlogComponent.prototype.ngOnInit = function () {
         this.loadPosts();
     };
     BlogComponent.prototype.loadPosts = function () {
-        //Posts = blog.
+        var _this = this;
+        this.blog.getPosts().subscribe(function (posts) { return _this.processPosts(posts); });
+    };
+    BlogComponent.prototype.processPosts = function (posts) {
+        this.posts = posts;
     };
     BlogComponent.prototype.openDialog = function () {
+        var dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            id: 1,
+            hasBackdrop: false,
+            width: '500px'
+        };
+        var dialogRef = this.dialog.open(NewBlogDialogComponent, { width: '300px', hasBackdrop: false });
+        dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
+    };
+    BlogComponent.prototype.openEditDialog = function () {
+        var dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        var dialogRef = this.dialog.open(EditPostDialogComponent, { width: '300px', hasBackdrop: false });
+        dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     BlogComponent = __decorate([
         Component({
@@ -28,7 +53,7 @@ var BlogComponent = /** @class */ (function () {
             templateUrl: './blog.component.html',
             styleUrls: ['./blog.component.css']
         }),
-        __metadata("design:paramtypes", [BlogService])
+        __metadata("design:paramtypes", [BlogService, MatDialog])
     ], BlogComponent);
     return BlogComponent;
 }());

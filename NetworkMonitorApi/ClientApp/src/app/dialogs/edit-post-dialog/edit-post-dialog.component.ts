@@ -2,39 +2,34 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatInputModule, MatSelectModule } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, ANONYMOUS_USER, UserService } from '../../services';
-import { User, Role } from '../../models';
+import {  Post } from '../../models';
 
 @Component({
-  selector: 'app-new-role-dialog',
-  templateUrl: './new-role-dialog.component.html',
-  styleUrls: ['./new-role-dialog.component.css']
+  selector: 'app-edit-post-dialog',
+  templateUrl: './edit-post-dialog.component.html',
+  styleUrls: ['./edit-post-dialog.component.css']
 })
+export class EditPostDialogComponent implements OnInit {
 
-export class NewRoleDialogComponent implements OnInit {
-
+  post: Post;
   form: FormGroup;
-  newRole: Role;
+
   constructor(private auth: AuthService,
     private userService: UserService,
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<NewRoleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) { }
+    private dialogRef: MatDialogRef<
+      EditPostDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data) {
+    this.post = data;
+    }
 
   ngOnInit() {
 
     this.form = this.fb.group({
-      roleName: ['', Validators.required]
+      title: [this.post.title, Validators.required],
+      content: [this.post.content, Validators.required]
     });
 
-  }
-
-  save() {
-
-    this.newRole.name = this.form.controls.roleName.value;
-
-    // Save to db.
-
-    this.dialogRef.close(this.newRole);
   }
 
   close() {

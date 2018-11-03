@@ -29,19 +29,29 @@ var UsersComponent = /** @class */ (function () {
         this.Users = users;
         for (var _i = 0, _a = this.Users; _i < _a.length; _i++) {
             var entry = _a[_i];
-            entry.avatarBase64 = entry.avatarImageType + entry.avatarImage;
+            if (entry.avatarImage) {
+                entry.avatarBase64 = entry.avatarImageType + entry.avatarImage;
+            }
+            else {
+                entry.avatarBase64 = '/assets/user.png';
+            }
         }
     };
     UsersComponent.prototype.openDialog = function () {
+        //const e = new Error();
+        //e.message = 'crap an error happened';
+        //e.stack = 'stack trace = c:dfjkalsdjf;lksadjf';
+        //e.name = 'terreoasdf';
+        //throw e;
         var dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.data = {
             id: 1,
-            hasBackdrop: false
+            hasBackdrop: false,
+            width: '500px'
         };
-        this.dialog.open(NewUserDialogComponent, dialogConfig);
-        var dialogRef = this.dialog.open(NewUserDialogComponent, dialogConfig);
+        var dialogRef = this.dialog.open(NewUserDialogComponent, { width: '300px', hasBackdrop: false });
         dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     UsersComponent = __decorate([

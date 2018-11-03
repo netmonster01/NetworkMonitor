@@ -26,6 +26,10 @@ var BlogService = /** @class */ (function () {
         return this._http.get('/api/Blogs')
             .catch(this.handleError);
     };
+    BlogService.prototype.getPosts = function () {
+        return this._http.get('/api/Blogs/Posts')
+            .catch(this.handleError);
+    };
     BlogService.prototype.handleError = function (handleError) {
         console.log(handleError);
     };

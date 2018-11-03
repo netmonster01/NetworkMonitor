@@ -12,37 +12,30 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { AuthService, UserService } from '../../services';
-var NewBlogDialogComponent = /** @class */ (function () {
-    function NewBlogDialogComponent(auth, userService, fb, dialogRef, data) {
+var EditPostDialogComponent = /** @class */ (function () {
+    function EditPostDialogComponent(auth, userService, fb, dialogRef, data) {
         this.auth = auth;
         this.userService = userService;
         this.fb = fb;
         this.dialogRef = dialogRef;
     }
-    NewBlogDialogComponent.prototype.ngOnInit = function () {
-        this.form = this.fb.group({
-            title: ['', Validators.required],
-            content: ['', Validators.required]
-        });
+    EditPostDialogComponent.prototype.ngOnInit = function () {
     };
-    NewBlogDialogComponent.prototype.close = function () {
-        this.dialogRef.close();
-    };
-    NewBlogDialogComponent = __decorate([
+    EditPostDialogComponent = __decorate([
         Component({
-            selector: 'app-new-blog-dialog',
-            templateUrl: './new-blog-dialog.component.html',
-            styleUrls: ['./new-blog-dialog.component.css']
+            selector: 'app-edit-post-dialog',
+            templateUrl: './edit-post-dialog.component.html',
+            styleUrls: ['./edit-post-dialog.component.css']
         }),
         __param(4, Inject(MAT_DIALOG_DATA)),
         __metadata("design:paramtypes", [AuthService,
             UserService,
             FormBuilder,
             MatDialogRef, Object])
-    ], NewBlogDialogComponent);
-    return NewBlogDialogComponent;
+    ], EditPostDialogComponent);
+    return EditPostDialogComponent;
 }());
-export { NewBlogDialogComponent };
-//# sourceMappingURL=new-blog-dialog.component.js.map
+export { EditPostDialogComponent };
+//# sourceMappingURL=edit-post-dialog.component.js.map

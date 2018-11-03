@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add New Post</h2>
+<h2 mat-dialog-title>EditPost</h2>
 <mat-dialog-content [formGroup]="form">
   <div class="row">
     <div class="col-sm-12">
@@ -10,7 +10,8 @@
       </div>
       <div class="form-group">
         <mat-form-field>
-          <textarea matInput type="text" formControlName="content" class="form-control" id="addNewPostContent" placeholder="Content Title" ></textarea>
+          <!--<div [innerHTML]="post.content | safe:'html'"></div>-->
+          <textarea matInput type="text" formControlName="content" class="form-control" id="addNewPostContent" placeholder="Content Title"></textarea>
         </mat-form-field>
       </div>
     </div>

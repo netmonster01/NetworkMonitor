@@ -53,7 +53,12 @@ var HeaderComponent = /** @class */ (function () {
     };
     HeaderComponent.prototype.processData = function (data) {
         this.user = data;
-        this.user.avatarBase64 = this.user.avatarImageType + this.user.avatarImage;
+        if (this.user.avatarImage) {
+            this.user.avatarBase64 = this.user.avatarImageType + this.user.avatarImage;
+        }
+        else {
+            this.user.avatarBase64 = '/assets/user.png';
+        }
         console.log(data);
     };
     HeaderComponent = __decorate([

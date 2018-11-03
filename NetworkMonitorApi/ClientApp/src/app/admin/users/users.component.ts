@@ -3,6 +3,7 @@ import { User } from '../../models';
 import { UserService } from '../../services';
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { NewUserDialogComponent } from '../../dialogs';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -27,18 +28,24 @@ export class UsersComponent implements OnInit {
     console.log(users);
     this.Users = users;
     for (const entry of this.Users) {
-      entry.avatarBase64 = entry.avatarImageType + entry.avatarImage;
+
+      if (entry.avatarImage) {
+        entry.avatarBase64 = entry.avatarImageType + entry.avatarImage;
+      }
+      else {
+        entry.avatarBase64 = '/assets/user.png';
+      }
     }
   }
 
 
   openDialog() {
 
-    const e = new Error();
-    e.message = 'crap an error happened';
-    e.stack = 'stack trace = c:dfjkalsdjf;lksadjf';
-    e.name = 'terreoasdf';
-    throw e;
+    //const e = new Error();
+    //e.message = 'crap an error happened';
+    //e.stack = 'stack trace = c:dfjkalsdjf;lksadjf';
+    //e.name = 'terreoasdf';
+    //throw e;
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -50,7 +57,7 @@ export class UsersComponent implements OnInit {
       width: '500px'
     };
 
-    const dialogRef = this.dialog.open(NewUserDialogComponent, {width: '300px',hasBackdrop: false});
+    const dialogRef = this.dialog.open(NewUserDialogComponent, {width: '300px', hasBackdrop: false});
 
     dialogRef.afterClosed().subscribe(
       data => console.log('Dialog output:', data)

@@ -41,6 +41,7 @@ import { NewRoleDialogComponent } from './dialogs/new-role-dialog/new-role-dialo
 import { MatDialogModule } from "@angular/material";
 import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
 import { ApplicationErrorHandler } from './custom-error-handler';
+import { EditPostDialogComponent } from './dialogs';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ApplicationErrorHandler } from './custom-error-handler';
     NewBlogDialogComponent,
     NewRoleDialogComponent,
     ErrorDialogComponent,
+    EditPostDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +88,6 @@ import { ApplicationErrorHandler } from './custom-error-handler';
   ],
   providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard, LoggerService, { provide: ErrorHandler, useClass: ApplicationErrorHandler }],
   bootstrap: [AppComponent],
-  entryComponents: [NewUserDialogComponent, NewRoleDialogComponent, NewBlogDialogComponent, ErrorDialogComponent]
+  entryComponents: [NewUserDialogComponent, NewRoleDialogComponent, NewBlogDialogComponent, ErrorDialogComponent, EditPostDialogComponent]
 })
 export class AppModule { }

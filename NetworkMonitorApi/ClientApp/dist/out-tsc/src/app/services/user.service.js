@@ -41,8 +41,14 @@ var UserService = /** @class */ (function () {
         return this._http.get('/api/Role/Roles')
             .catch(this.handleError);
     };
-    //addUser(user: User) {
-    //}
+    UserService.prototype.addRole = function (role) {
+    };
+    UserService.prototype.deleteRole = function (role) {
+    };
+    UserService.prototype.addUser = function (user) {
+    };
+    UserService.prototype.deleteUser = function (user) {
+    };
     //addUserToRole(userName: string, role: string) {
     //}
     UserService.prototype.handleError = function (handleError) {
