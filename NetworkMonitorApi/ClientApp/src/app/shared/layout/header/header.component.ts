@@ -13,6 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   constructor(private _userService: UserService, private auth: AuthService, private router: Router, private route: ActivatedRoute) { }
+  isAuthenticated: boolean = false;
 
   user: User = ANONYMOUS_USER;
   //  {
@@ -31,10 +32,17 @@ export class HeaderComponent implements OnInit {
   isLoggedOut: boolean = false;
 
   ngOnInit() {
-    this.activate();
+    this.auth.isAuthenticated().subscribe((data: boolean) => {
+      this.isAuthenticated = data;
+      this.activate();
+    });
   }
 
   activate() {
+
+    if (!this.isAuthenticated) {
+      this.auth.logout();
+    }
 
     // check if user is logged in.
     this.isLoggedIn = this.auth.isUserLoggedIn();

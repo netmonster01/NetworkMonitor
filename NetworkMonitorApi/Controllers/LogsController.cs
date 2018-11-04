@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Data;
@@ -20,6 +18,7 @@ namespace NetworkMonitorApi.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILoggerRepository _loggerRepository;
+
         public LogsController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -39,6 +38,7 @@ namespace NetworkMonitorApi.Controllers
         [HttpPost]
         public IActionResult AddLog(Log log)
         {
+            log.DateCreated = DateTime.Now;
             _loggerRepository.Write(log);
             return Ok();  
         }

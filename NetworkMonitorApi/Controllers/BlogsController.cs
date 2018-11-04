@@ -40,6 +40,15 @@ namespace NetworkMonitorApi.Controllers
             return Ok(posts);
         }
 
+        [HttpGet]
+        [Route("LatestPost")]
+        public IActionResult GetLatestPosts()
+        {
+            var lastPost = _blogRepository.GetLatestPost();
+
+            return Ok(lastPost);
+        }
+
         [HttpPost]
         [Route("Post")]
         public async Task<IActionResult> CreatePostAsync(Post post)

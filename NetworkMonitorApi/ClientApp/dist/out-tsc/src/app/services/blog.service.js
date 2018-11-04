@@ -13,17 +13,13 @@ var BlogService = /** @class */ (function () {
     function BlogService(_http) {
         this._http = _http;
         this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
-        this.blog = {
-            id: 0,
-            title: null,
-            url: null,
-            posts: [],
-            author: null,
-            userId: null
-        };
     }
     BlogService.prototype.getBlogs = function () {
         return this._http.get('/api/Blogs')
+            .catch(this.handleError);
+    };
+    BlogService.prototype.getLatestPost = function () {
+        return this._http.get('/api/Blogs/LatestPost')
             .catch(this.handleError);
     };
     BlogService.prototype.getPosts = function () {

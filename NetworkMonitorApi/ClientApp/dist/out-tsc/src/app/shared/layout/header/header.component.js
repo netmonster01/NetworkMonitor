@@ -16,6 +16,7 @@ var HeaderComponent = /** @class */ (function () {
         this.auth = auth;
         this.router = router;
         this.route = route;
+        this.isAuthenticated = false;
         this.user = ANONYMOUS_USER;
         //  {
         //  email: null,
@@ -32,10 +33,17 @@ var HeaderComponent = /** @class */ (function () {
         this.isLoggedOut = false;
     }
     HeaderComponent.prototype.ngOnInit = function () {
-        this.activate();
+        var _this = this;
+        this.auth.isAuthenticated().subscribe(function (data) {
+            _this.isAuthenticated = data;
+            _this.activate();
+        });
     };
     HeaderComponent.prototype.activate = function () {
         var _this = this;
+        if (!this.isAuthenticated) {
+            this.auth.logout();
+        }
         // check if user is logged in.
         this.isLoggedIn = this.auth.isUserLoggedIn();
         this.auth.user$.subscribe(function (data) { return _this.processData(data); });

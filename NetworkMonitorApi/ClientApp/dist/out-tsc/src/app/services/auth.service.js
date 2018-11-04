@@ -9,9 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { User } from '../models/user';
+import { User, Log } from '../models';
 import { BehaviorSubject } from 'rxjs';
 import decode from 'jwt-decode';
+import { LoggerService } from './logger.service';
+import { LogType } from '../enums';
 export var ANONYMOUS_USER = {
     password: null,
     email: null,
@@ -25,9 +27,11 @@ export var ANONYMOUS_USER = {
     lastName: null
 };
 var AuthService = /** @class */ (function () {
-    function AuthService(http) {
+    function AuthService(http, log) {
         this.http = http;
+        this.log = log;
         this.subject = new BehaviorSubject(ANONYMOUS_USER);
+        this.className = 'AuthService>';
         this.storagekey = 'loggedInUser';
         this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
         this.options = {
@@ -48,6 +52,7 @@ var AuthService = /** @class */ (function () {
         localStorage.removeItem(this.storagekey);
         // call logout service.
         this.http.get('/api/Account/Logout');
+        this.log.addLog(new Log(ANONYMOUS_USER.id, LogType.Error, this.className, 'logout', ''));
         this.subject.next(ANONYMOUS_USER);
     };
     AuthService.prototype.loginAsync = function (email, password) {
@@ -63,9 +68,11 @@ var AuthService = /** @class */ (function () {
     };
     AuthService.prototype.isUserLoggedIn = function () {
         var user = new User();
+        //const isAutherticated = this.isAuthenticated().subscribe();
+        //if (this.isLoggedIn$) {
         user = JSON.parse(localStorage.getItem(this.storagekey));
-        var a = user != null;
         return user != null;
+        //}
     };
     AuthService.prototype.loggedInUser = function () {
         var user = new User();
@@ -96,7 +103,7 @@ var AuthService = /** @class */ (function () {
         Injectable({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [HttpClient])
+        __metadata("design:paramtypes", [HttpClient, LoggerService])
     ], AuthService);
     return AuthService;
 }());

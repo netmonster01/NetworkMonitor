@@ -18,6 +18,7 @@ var LoggerService = /** @class */ (function () {
         var options = {
             headers: this.headers
         };
+        console.log('log:' + log);
         this.http.post('/api/Logs', log).subscribe();
     };
     LoggerService.prototype.getLogs = function () {

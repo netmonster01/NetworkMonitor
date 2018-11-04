@@ -17,6 +17,8 @@ export class LoggerService {
     let options = {
       headers: this.headers
     };
+    console.log('log:' + log);
+
     this.http.post('/api/Logs', log).subscribe();
 
   }

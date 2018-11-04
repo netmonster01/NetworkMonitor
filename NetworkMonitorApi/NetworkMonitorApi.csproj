@@ -12,7 +12,9 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\admin\index.ts" />
     <None Remove="ClientApp\src\app\blogs\index.ts" />
+    <None Remove="ClientApp\src\app\dashboard\index.ts" />
     <None Remove="ClientApp\src\app\dialogs\index.ts" />
+    <None Remove="ClientApp\src\app\enums\index.ts" />
     <None Remove="ClientApp\src\app\forbidden\index.ts" />
     <None Remove="ClientApp\src\app\guards\index.ts" />
     <None Remove="ClientApp\src\app\home\index.ts" />
@@ -31,6 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\dashboard\widgets\" />
+    <Folder Include="ClientApp\src\app\responses\" />
     <Folder Include="Services\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -49,7 +53,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\admin\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\blogs\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\dashboard\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\dialogs\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\enums\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\forbidden\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\guards\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\home\index.ts" />

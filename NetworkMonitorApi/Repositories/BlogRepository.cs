@@ -1,10 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Data;
 using NetworkMonitorApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NetworkMonitorApi.Repositories
@@ -14,12 +18,15 @@ namespace NetworkMonitorApi.Repositories
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILoggerRepository _loggerRepository;
-
-        public BlogRepository(IServiceProvider serviceProvider)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHttpContextAccessor _accessor;
+        public BlogRepository(IServiceProvider serviceProvider, IHttpContextAccessor accessor)
         {
             _serviceProvider = serviceProvider;
             _applicationDbContext = _serviceProvider.GetRequiredService<ApplicationDbContext>();
             _loggerRepository = _serviceProvider.GetRequiredService<ILoggerRepository>();
+            _userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            _accessor = accessor;
         }
 
         public async Task<bool> CreateBlog(Blog blog)
@@ -44,6 +51,7 @@ namespace NetworkMonitorApi.Repositories
             bool didCreate = false;
             try
             {
+                comment.UserName = await GetCurrentUser();
                 _applicationDbContext.Comments.Add(comment);
                 await _applicationDbContext.SaveChangesAsync();
                 didCreate = true;
@@ -59,18 +67,47 @@ namespace NetworkMonitorApi.Repositories
         public async Task<bool> CreatePostAsync(Post post)
         {
             bool didCreate = false;
+
+            if (_accessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    // var authenticatedUser = _accessor.HttpContext.User.Identity.Name;
+                    // get user
+                    post.Author = await GetCurrentUser();
+                    _applicationDbContext.Posts.Add(post);
+                    await _applicationDbContext.SaveChangesAsync();
+                    didCreate = true;
+                }
+                catch (Exception ex)
+                {
+                    _loggerRepository.Write(ex);
+                }
+            }
+
+            return didCreate;
+        }
+
+        private async Task<string> GetCurrentUser()
+        {
+            string userName = string.Empty;
             try
             {
-                _applicationDbContext.Posts.Add(post);
-                await _applicationDbContext.SaveChangesAsync();
-                didCreate = true;
+                if (_accessor.HttpContext.User.Identity.IsAuthenticated)
+                {
+                    ClaimsPrincipal currentUser = _accessor.HttpContext.User;
+
+                    var currentUserName = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                    ApplicationUser user = await _userManager.FindByNameAsync(currentUserName);
+                    userName = string.Format("{0} {1}", user.FirstName, user.LastName);
+                }
             }
             catch (Exception ex)
             {
                 _loggerRepository.Write(ex);
             }
-
-            return didCreate;
+            return userName;
         }
 
         public Blog GetBlog(int blogId)
@@ -87,6 +124,8 @@ namespace NetworkMonitorApi.Repositories
 
             return blog;
         }
+
+
 
         public List<Blog> GetBlogs()
         {
@@ -132,6 +171,39 @@ namespace NetworkMonitorApi.Repositories
 
             return post;
         }
+        public Post GetLatestPost()
+        {
+            Post post = new Post();
+            try
+            {
+                post = (from p in _applicationDbContext.Posts
+                        join u in _applicationDbContext.Users on p.UserId equals u.Id
+                        //join c in _applicationDbContext.Comments on p.PostId equals c.PostId
+                        //where p.PostId > 0
+
+                        //(from comment in _applicationDbContext.Comments
+                        // where comment.PostId == p.PostId
+                        // select (comment)).ToList(),
+                        select (new Post
+                        {
+                            Author = p.Author,
+                            Comments = _applicationDbContext.Comments.Where(c => c.PostId == p.PostId).Select(c => c).ToList(),
+                            Content = p.Content,
+                            DateCreated = p.DateCreated,
+                            DateModified = p.DateModified,
+                            Likes = p.Likes,
+                            PostId = p.PostId,
+                            Title = p.Title,
+                            UserId = p.UserId
+                        })).LastOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _loggerRepository.Write(ex);
+            }
+
+            return post;
+        }
 
         public List<Post> GetPosts()
         {
@@ -139,22 +211,25 @@ namespace NetworkMonitorApi.Repositories
             try
             {
                 posts = (from p in _applicationDbContext.Posts
-                               //join u in _applicationDbContext.Users on p.UserId equals u.Id
-                               //join c in _applicationDbContext.Comments on p.PostId equals c.PostId
-                               //where p.PostId > 0
-                               select ( new Post {
-                                   Author = p.Author,
-                                   Comments = (from comment in _applicationDbContext.Comments
-                                               where comment.PostId == p.PostId 
-                                               select(comment)).ToList(),
-                                   Content = p.Content,
-                                   DateCreated = p.DateCreated,
-                                   DateModified = p.DateModified,
-                                   Likes = p.Likes,
-                                   PostId = p.PostId,
-                                   Title = p.Title,
-                                   UserId = p.UserId
-                               })).ToList();
+                         join u in _applicationDbContext.Users on p.UserId equals u.Id
+                         //join c in _applicationDbContext.Comments on p.PostId equals c.PostId
+                         //where p.PostId > 0
+
+                         //(from comment in _applicationDbContext.Comments
+                         // where comment.PostId == p.PostId
+                         // select (comment)).ToList(),
+                         select (new Post
+                         {
+                             Author = p.Author,
+                             Comments = _applicationDbContext.Comments.Where(c => c.PostId == p.PostId).Select(c=> c).ToList(),
+                             Content = p.Content,
+                             DateCreated = p.DateCreated,
+                             DateModified = p.DateModified,
+                             Likes = p.Likes,
+                             PostId = p.PostId,
+                             Title = p.Title,
+                             UserId = p.UserId
+                         })).ToList();
             }
             catch (Exception ex)
             {

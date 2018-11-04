@@ -6,6 +6,8 @@ import { LoggerService, AuthService, ANONYMOUS_USER } from './services';
 
 import * as StackTrace from 'stacktrace-js';
 import { Log, User } from "./models";
+import { SOURCE } from "@angular/core/src/di/injector";
+import { LogType } from "./enums";
 
 @Injectable()
 export class ApplicationErrorHandler implements ErrorHandler {
@@ -45,12 +47,12 @@ export class ApplicationErrorHandler implements ErrorHandler {
 
   openDialog(error) {
 
-    const log = new Log();
+    const log = new Log(error.userId, LogType.Error, error.url, 'Message: ${error.message} stack: ${error.stack}' ,'');
 
-    log.source = error.url;
-    log.logType = 0;
-    log.message = "message: " + error.message + " stack:" + error.stack;
-    log.userId = error.userId;
+    //log.source = error.url;
+    //log.logType = 0;
+    //log.message = "message: " + error.message + " stack:" + error.stack;
+    //log.userId = error.userId;
 
     this.logger.addLog(log);
 

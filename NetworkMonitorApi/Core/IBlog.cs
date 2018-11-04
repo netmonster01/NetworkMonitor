@@ -11,6 +11,7 @@ namespace NetworkMonitorApi.Core
         Blog GetBlog(int blogId);
         List<Blog> GetBlogs();
         Post GetPost(int postId);
+        Post GetLatestPost();
         List<Post> GetPosts();
         Task<bool> CreatePostAsync(Post post);
         Task<bool> CreateCommentAsync(Comment comment);

@@ -11,6 +11,7 @@ namespace NetworkMonitorApi.Models
         public string Message { get; set; }
 
         public string Userid { get; set; }
+        public string UserName { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public int Likes { get; set; }

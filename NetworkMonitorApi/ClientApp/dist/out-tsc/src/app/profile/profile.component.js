@@ -16,9 +16,13 @@ var ProfileComponent = /** @class */ (function () {
         this.auth = auth;
         this.isLoggedIn = false;
         this.imageSrc = '/assets/user.png';
+        this.isAuthenticated = false;
         this.user = ANONYMOUS_USER;
     }
     ProfileComponent.prototype.ngOnInit = function () {
+        this.activate();
+    };
+    ProfileComponent.prototype.activate = function () {
         var _this = this;
         this.isLoggedIn = this.auth.isUserLoggedIn();
         this.auth.user$.subscribe(function (data) { return _this.processData(data); });

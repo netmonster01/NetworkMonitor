@@ -14,6 +14,7 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { LoggerService, AuthService, ANONYMOUS_USER } from './services';
 import * as StackTrace from 'stacktrace-js';
 import { Log } from "./models";
+import { LogType } from "./enums";
 var ApplicationErrorHandler = /** @class */ (function () {
     function ApplicationErrorHandler(injector, dialog, logger, auth) {
         this.injector = injector;
@@ -47,11 +48,11 @@ var ApplicationErrorHandler = /** @class */ (function () {
     //  this.openDialog(error);
     //}
     ApplicationErrorHandler.prototype.openDialog = function (error) {
-        var log = new Log();
-        log.source = error.url;
-        log.logType = 0;
-        log.message = "message: " + error.message + " stack:" + error.stack;
-        log.userId = error.userId;
+        var log = new Log(error.userId, LogType.Error, error.url, 'Message: ${error.message} stack: ${error.stack}', '');
+        //log.source = error.url;
+        //log.logType = 0;
+        //log.message = "message: " + error.message + " stack:" + error.stack;
+        //log.userId = error.userId;
         this.logger.addLog(log);
         var dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;

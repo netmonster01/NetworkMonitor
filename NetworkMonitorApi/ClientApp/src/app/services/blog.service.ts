@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Blog, Post, BlogImage } from '../models';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable({
   providedIn: 'root'
@@ -10,18 +11,15 @@ export class BlogService {
   constructor(private _http: HttpClient) { }
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
 
-  blog: Blog = {
-    id: 0,
-    title: null,
-    url: null,
-    posts: [],
-    author: null,
-    userId: null
-  }
-
   getBlogs() {
 
     return this._http.get<Post[]>('/api/Blogs')
+      .catch(this.handleError);
+  }
+
+  getLatestPost() {
+
+    return this._http.get<Post>('/api/Blogs/LatestPost')
       .catch(this.handleError);
   }
 

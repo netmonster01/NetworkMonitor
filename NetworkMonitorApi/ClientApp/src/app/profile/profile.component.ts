@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {User} from '../models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, ANONYMOUS_USER } from '../services';
-
+import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -15,30 +15,34 @@ export class ProfileComponent implements OnInit {
   isLoggedIn: boolean = false;
   imageSrc = '/assets/user.png';
   profileForm: FormGroup;
-
+  isAuthenticated: boolean = false;
   constructor(private fb: FormBuilder, private auth: AuthService) { }
 
   user: User = ANONYMOUS_USER;
 
   ngOnInit() {
 
-   
+    this.activate();
 
-    this.isLoggedIn = this.auth.isUserLoggedIn();
+  }
 
-    this.auth.user$.subscribe(data => this.processData(data));
+  activate(): void {
 
-    if (this.isLoggedIn) {
-     
-      this.user = this.auth.loggedInUser();
-    }
-    this.imageSrc = this.user.avatarImageType + this.user.avatarImage;
+      this.isLoggedIn = this.auth.isUserLoggedIn();
 
-    this.profileForm = this.fb.group({
-      firstName: [this.user.firstName, Validators.required],
-      lastName: [this.user.lastName, Validators.required],
-      email: [this.user.email, Validators.required],
-    });
+      this.auth.user$.subscribe(data => this.processData(data));
+
+      if (this.isLoggedIn) {
+
+        this.user = this.auth.loggedInUser();
+      }
+      this.imageSrc = this.user.avatarImageType + this.user.avatarImage;
+
+      this.profileForm = this.fb.group({
+        firstName: [this.user.firstName, Validators.required],
+        lastName: [this.user.lastName, Validators.required],
+        email: [this.user.email, Validators.required],
+      });
   }
 
   processData(data: User) {

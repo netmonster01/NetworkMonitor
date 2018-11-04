@@ -29,7 +29,6 @@ import { BlogsComponent } from './blogs/blogs.component';
 import { PostsComponent } from './blogs/posts/posts.component';
 import { CommentsDirective } from './blogs';
 import { AuthService, BlogService, StatsService, UserService, LoggerService } from './services';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { SafePipe } from './safe.pipe';
 import { BlogComponent } from './admin/blog/blog.component';
 import { ImagesComponent } from './admin/blog/images/images.component';
@@ -43,6 +42,9 @@ import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.compon
 import { ApplicationErrorHandler } from './custom-error-handler';
 import { EditPostDialogComponent } from './dialogs';
 import { HighlightModule, HighlightOptions } from 'ngx-highlightjs';
+import { NoRolesComponent } from './responses/no-roles/no-roles.component';
+import {DashboardComponent } from './dashboard';
+import { BlogWidgetComponent } from './dashboard/widgets/blog-widget/blog-widget.component';
 
 
 @NgModule({
@@ -73,6 +75,8 @@ import { HighlightModule, HighlightOptions } from 'ngx-highlightjs';
     NewRoleDialogComponent,
     ErrorDialogComponent,
     EditPostDialogComponent,
+    NoRolesComponent,
+    BlogWidgetComponent,
   ],
   imports: [
     BrowserModule,

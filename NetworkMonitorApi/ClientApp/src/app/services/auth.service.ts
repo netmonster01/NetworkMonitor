@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { User } from '../models/user';
+import { User, Log } from '../models';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs';
 import decode from 'jwt-decode';
+import { LoggerService } from './logger.service';
+import { LogType } from '../enums';
 
 export const ANONYMOUS_USER: User = {
   password: null,
@@ -18,24 +20,31 @@ export const ANONYMOUS_USER: User = {
   lastName: null
 };
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
   private subject = new BehaviorSubject<User>(ANONYMOUS_USER);
+
+  private className = 'AuthService>';
+
   storagekey = 'loggedInUser';
+
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+
   options = {
     headers: this.headers
   };
+
   user$: Observable<User> = this.subject.asObservable();
 
   isLoggedIn$: Observable<boolean> = this.user$.map(user => !!user.id);
 
   isLoggedOut$: Observable<boolean> = this.isLoggedIn$.map(isLoggedIn => !isLoggedIn);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private log: LoggerService) { }
 
   // attempt to login.
   login(email: string, password: string) {
@@ -52,6 +61,7 @@ export class AuthService {
 
     // call logout service.
     this.http.get('/api/Account/Logout');
+    this.log.addLog(new Log(ANONYMOUS_USER.id, LogType.Error, this.className, 'logout', ''));
     this.subject.next(ANONYMOUS_USER);
   }
 
@@ -75,10 +85,14 @@ export class AuthService {
   isUserLoggedIn(): boolean {
 
     let user = new User();
-    user = JSON.parse(localStorage.getItem(this.storagekey));
-    var a = user != null;
+    //const isAutherticated = this.isAuthenticated().subscribe();
+    //if (this.isLoggedIn$) {
+      user = JSON.parse(localStorage.getItem(this.storagekey));
+      return user != null;
+    //}
 
-    return user != null;
+
+    
   }
 
   loggedInUser(): User {
@@ -89,7 +103,7 @@ export class AuthService {
     return user;
   }
 
-  isAuthenticated(): any {
+  isAuthenticated(): Observable<boolean> {
 
     return this.http.get<boolean>('/api/Account/isAuthenticated', this.options);
   }
