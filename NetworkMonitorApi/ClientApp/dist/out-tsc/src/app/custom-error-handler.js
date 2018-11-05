@@ -40,7 +40,11 @@ var ApplicationErrorHandler = /** @class */ (function () {
             // log on the server
             // get user.
             _this.user = _this.auth.loggedInUser();
-            _this.openDialog({ message: message, url: url, stack: stackString, userId: _this.user.id });
+            var usr = 'Un-Authenticated User';
+            if (_this.user != null) {
+                usr = _this.user.id;
+            }
+            _this.openDialog({ message: message, url: url, stack: stackString, userId: usr });
         });
     };
     //addError(error: ApplicationError) {
@@ -62,7 +66,7 @@ var ApplicationErrorHandler = /** @class */ (function () {
             hasBackdrop: false,
             width: '500px'
         };
-        var dialogRef = this.dialog.open(ErrorDialogComponent, { width: '300px', hasBackdrop: false, data: error });
+        var dialogRef = this.dialog.open(ErrorDialogComponent, { width: '500px', hasBackdrop: false, data: error });
         dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     ApplicationErrorHandler = __decorate([

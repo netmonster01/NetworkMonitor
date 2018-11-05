@@ -585,7 +585,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\r\n<div class=\"container\">\r\n  <!--<ng-content>\r\n\r\n  </ng-content>-->\r\n  <router-outlet>\r\n    <!--<ng-content>\r\n\r\n    </ng-content>-->\r\n  </router-outlet>\r\n</div>\r\n<app-footer></app-footer>\r\n"
+module.exports = "<app-header></app-header>\r\n<div class=\"container\">\r\n  <!--<ng-content>\r\n\r\n  </ng-content>-->\r\n  <router-outlet>\r\n    <!--<ng-content>\r\n\r\n    </ng-content>-->\r\n  </router-outlet>\r\n</div>\r\n<!--<app-footer></app-footer>-->\r\n"
 
 /***/ }),
 
@@ -784,7 +784,7 @@ var AppModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_38__["MatDialogModule"],
                 ngx_highlightjs__WEBPACK_IMPORTED_MODULE_42__["HighlightModule"].forRoot({ theme: 'agate' })
             ],
-            providers: [_services__WEBPACK_IMPORTED_MODULE_29__["AuthService"], _services__WEBPACK_IMPORTED_MODULE_29__["UserService"], _services__WEBPACK_IMPORTED_MODULE_29__["StatsService"], _services__WEBPACK_IMPORTED_MODULE_29__["BlogService"], _guards__WEBPACK_IMPORTED_MODULE_33__["AuthGuard"], _guards__WEBPACK_IMPORTED_MODULE_33__["RoleGuard"], _services__WEBPACK_IMPORTED_MODULE_29__["LoggerService"], { provide: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ErrorHandler"], useClass: _custom_error_handler__WEBPACK_IMPORTED_MODULE_40__["ApplicationErrorHandler"] }],
+            providers: [_services__WEBPACK_IMPORTED_MODULE_29__["AuthService"], _services__WEBPACK_IMPORTED_MODULE_29__["UserService"], _services__WEBPACK_IMPORTED_MODULE_29__["StatsService"], _services__WEBPACK_IMPORTED_MODULE_29__["BlogService"], _guards__WEBPACK_IMPORTED_MODULE_33__["AuthGuard"], _guards__WEBPACK_IMPORTED_MODULE_33__["RoleGuard"], _services__WEBPACK_IMPORTED_MODULE_29__["LoggerService"], _services__WEBPACK_IMPORTED_MODULE_29__["DashboardService"], _services__WEBPACK_IMPORTED_MODULE_29__["VoteService"], { provide: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ErrorHandler"], useClass: _custom_error_handler__WEBPACK_IMPORTED_MODULE_40__["ApplicationErrorHandler"] }],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]],
             entryComponents: [_dialogs_new_user_dialog_new_user_dialog_component__WEBPACK_IMPORTED_MODULE_35__["NewUserDialogComponent"], _dialogs_new_role_dialog_new_role_dialog_component__WEBPACK_IMPORTED_MODULE_37__["NewRoleDialogComponent"], _dialogs_new_blog_dialog_new_blog_dialog_component__WEBPACK_IMPORTED_MODULE_36__["NewBlogDialogComponent"], _dialogs_error_dialog_error_dialog_component__WEBPACK_IMPORTED_MODULE_39__["ErrorDialogComponent"], _dialogs__WEBPACK_IMPORTED_MODULE_41__["EditPostDialogComponent"]]
         })
@@ -1072,7 +1072,11 @@ var ApplicationErrorHandler = /** @class */ (function () {
             // log on the server
             // get user.
             _this.user = _this.auth.loggedInUser();
-            _this.openDialog({ message: message, url: url, stack: stackString, userId: _this.user.id });
+            var usr = 'Un-Authenticated User';
+            if (_this.user != null) {
+                usr = _this.user.id;
+            }
+            _this.openDialog({ message: message, url: url, stack: stackString, userId: usr });
         });
     };
     //addError(error: ApplicationError) {
@@ -1094,7 +1098,7 @@ var ApplicationErrorHandler = /** @class */ (function () {
             hasBackdrop: false,
             width: '500px'
         };
-        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_2__["ErrorDialogComponent"], { width: '300px', hasBackdrop: false, data: error });
+        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_2__["ErrorDialogComponent"], { width: '500px', hasBackdrop: false, data: error });
         dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     ApplicationErrorHandler = __decorate([
@@ -1126,7 +1130,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      1\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      2\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      3\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      4\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n<app-blog-widget></app-blog-widget>\r\n \r\n</div>\r\n"
+module.exports = "<div class=\"row justify-content-center align-items-center\">\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts \">\r\n     {{dashboard.errors}}\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      2\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      3\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-3\">\r\n    <div class=\"dashboard dashboardPosts\">\r\n      4\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"row\">&nbsp;</div>\r\n<div class=\"row\">\r\n  <div class=\"col-sm-12\">\r\n    <app-blog-widget></app-blog-widget>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1141,6 +1145,8 @@ module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-3\">\r\n    <div 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DashboardComponent", function() { return DashboardComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services */ "./src/app/services/index.ts");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models */ "./src/app/models/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1151,14 +1157,25 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 //import { DomSanitizer, SafeResourceUrl, SafeHtml } from '@angular/platform-browser';
 var DashboardComponent = /** @class */ (function () {
-    //post: string;
-    //p = 'function(){}';
-    function DashboardComponent() {
+    function DashboardComponent(dash) {
+        this.dash = dash;
     }
     DashboardComponent.prototype.ngOnInit = function () {
+        this.activate();
+        this.dashboard = new _models__WEBPACK_IMPORTED_MODULE_2__["Dashboard"]();
         //this.post = '<div highlight><b>hello world</b><br><pre data-lang=\'HTML\'><code >function cool(x) {return x + 1;}</code></pre><br><pre><code highlight> public class hot(string degrees) {} </code></pre></div>';
+    };
+    DashboardComponent.prototype.activate = function () {
+        var _this = this;
+        this.dash.getDashboard().subscribe(function (dashboard) { return _this.processData(dashboard); }); //blog.getLatestPost().subscribe((post: Post) => this.processData(post));
+    };
+    DashboardComponent.prototype.processData = function (dashboardCounts) {
+        this.dashboard = dashboardCounts;
+        console.log(dashboardCounts);
     };
     DashboardComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1166,7 +1183,7 @@ var DashboardComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./dashboard.component.html */ "./src/app/dashboard/dashboard.component.html"),
             styles: [__webpack_require__(/*! ./dashboard.component.css */ "./src/app/dashboard/dashboard.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_1__["DashboardService"]])
     ], DashboardComponent);
     return DashboardComponent;
 }());
@@ -1214,7 +1231,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--<div class=\"card\">\r\n  <div class=\"row\">\r\n    <div class=\"col-xs-4 col-sm-8\">\r\n      <a href=\"#\"> {{post.title}}</a>\r\n      <div highlight=\"all\" [innerHTML]=\"post.content | safe:'html'\"></div>\r\n    </div>\r\n  </div>\r\n</div>-->\r\n{{post.title}}\r\n"
+module.exports = "<div class=\"card-group\">\r\n  <div class=\"card\">\r\n    <div class=\"card-header\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-11\">{{post.title}}</div>\r\n        <div class=\"col-sm-1\"><button class=\"btn btn-primary fa fa-reply-all\"></button></div>\r\n      </div>\r\n    </div>\r\n    <div class=\"card-body\">\r\n      <div highlight=\"all\" [innerHTML]=\"post.content | safe:'html'\"></div>\r\n    </div>\r\n    <div class=\"card-footer\">\r\n      <div class=\"row justify-content-between\">\r\n        <div class=\"col-sm-4\">Comments: {{post.comments.length}}</div>\r\n        <div class=\"col-sm-2 pull-right\" *ngIf=\"isLoggedIn\">\r\n          <span (click)=\"upVote()\" class=\"fa primary fa-thumbs-up\">&nbsp;{{post.likes}}</span>&nbsp;\r\n          <span (click)=\"downVote()\" class=\"fa primary fa-thumbs-down\">&nbsp;{{post.disLikes}}</span>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"row\">&nbsp;</div>\r\n<div class=\"row\" *ngFor=\"let comment of post.comments;  let odd=odd; let even=even;\">\r\n  <div class=\"col-sm-12\">\r\n    <div class=\"card-group\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">Comment: {{comment.userName}}</div>\r\n        <div class=\"card-body\">\r\n          <div highlight=\"all\" [innerHTML]=\"comment.message\"></div>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <div class=\"row\">\r\n            <div class=\"col-sm-2\">Likes: {{comment.likes}} </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <br />\r\n  </div>\r\n \r\n</div>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -1230,6 +1247,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlogWidgetComponent", function() { return BlogWidgetComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services */ "./src/app/services/index.ts");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../models */ "./src/app/models/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1241,20 +1259,84 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var BlogWidgetComponent = /** @class */ (function () {
-    function BlogWidgetComponent(blog) {
+    function BlogWidgetComponent(blog, auth, voter) {
         this.blog = blog;
+        this.auth = auth;
+        this.voter = voter;
+        this.user = _services__WEBPACK_IMPORTED_MODULE_1__["ANONYMOUS_USER"];
+        this.voted = false;
+        this.isLoggedIn = false;
     }
     BlogWidgetComponent.prototype.ngOnInit = function () {
+        this.post = new _models__WEBPACK_IMPORTED_MODULE_2__["Post"]();
+        this.post.comments = [];
+        this.myVote = new _models__WEBPACK_IMPORTED_MODULE_2__["Vote"]();
+        this.myVote.userVote = 0;
         this.activate();
     };
     BlogWidgetComponent.prototype.activate = function () {
         var _this = this;
+        this.isLoggedIn = this.auth.isUserLoggedIn();
+        this.auth.user$.subscribe(function (data) { return _this.processUserData(data); });
+        if (this.isLoggedIn) {
+            this.user = this.auth.loggedInUser();
+        }
         this.blog.getLatestPost().subscribe(function (post) { return _this.processData(post); });
+    };
+    BlogWidgetComponent.prototype.processvVoteData = function (vote) {
+        console.log(vote);
+        this.myVote = vote;
+    };
+    BlogWidgetComponent.prototype.processUserData = function (data) {
+        this.user = data;
+        if (this.user && this.user.id != null) {
+            this.myVote.userId = data.id;
+            this.voter.getVote(this.myVote).subscribe(function (data) { return console.log(data); });
+        }
     };
     BlogWidgetComponent.prototype.processData = function (post) {
         console.log(post);
+        this.myVote.postId = post.postId;
         this.post = post;
+    };
+    BlogWidgetComponent.prototype.upVote = function () {
+        this.myVote.userId = this.user.id;
+        // need to check currect vote
+        //never voted
+        if (this.myVote.userVote >= 0) {
+            this.post.likes++;
+            this.myVote.userVote = 1;
+        }
+        // voted disliked
+        if (this.myVote.userVote == -1) {
+            this.post.likes++;
+            this.post.disLikes--;
+            this.myVote.userVote = 1;
+        }
+        // update database
+        this.addVote();
+    };
+    BlogWidgetComponent.prototype.addVote = function () {
+        var _this = this;
+        this.voter.addVote(this.myVote).subscribe(function (vote) { return _this.processvVoteData(vote); });
+    };
+    BlogWidgetComponent.prototype.downVote = function () {
+        // need to check currect vote
+        //never voted
+        if (this.myVote.userVote == 0) {
+            this.post.disLikes++;
+            this.myVote.userVote = -1;
+        }
+        // voted liked
+        if (this.myVote.userVote == 1) {
+            this.post.likes--;
+            this.post.disLikes++;
+            this.myVote.userVote = -1;
+        }
+        // update database
+        this.addVote();
     };
     BlogWidgetComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1262,7 +1344,7 @@ var BlogWidgetComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./blog-widget.component.html */ "./src/app/dashboard/widgets/blog-widget/blog-widget.component.html"),
             styles: [__webpack_require__(/*! ./blog-widget.component.css */ "./src/app/dashboard/widgets/blog-widget/blog-widget.component.css")]
         }),
-        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_1__["BlogService"]])
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_1__["BlogService"], _services__WEBPACK_IMPORTED_MODULE_1__["AuthService"], _services__WEBPACK_IMPORTED_MODULE_1__["VoteService"]])
     ], BlogWidgetComponent);
     return BlogWidgetComponent;
 }());
@@ -2590,11 +2672,56 @@ var BlogImage = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/models/comment.ts":
+/*!***********************************!*\
+  !*** ./src/app/models/comment.ts ***!
+  \***********************************/
+/*! exports provided: Comment */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Comment", function() { return Comment; });
+//export class Comment {
+//  commentId: string;
+//  message: string;
+//  likes: number;
+//}
+var Comment = /** @class */ (function () {
+    function Comment() {
+    }
+    return Comment;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/dashboard.ts":
+/*!*************************************!*\
+  !*** ./src/app/models/dashboard.ts ***!
+  \*************************************/
+/*! exports provided: Dashboard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Dashboard", function() { return Dashboard; });
+var Dashboard = /** @class */ (function () {
+    function Dashboard() {
+    }
+    return Dashboard;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/models/index.ts":
 /*!*********************************!*\
   !*** ./src/app/models/index.ts ***!
   \*********************************/
-/*! exports provided: Role, Stats, User, Blog, Post, BlogImage, ApplicationError, Log */
+/*! exports provided: Role, Stats, User, Blog, Post, BlogImage, ApplicationError, Log, Comment, Dashboard, Vote, VoteCount */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2622,6 +2749,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./log */ "./src/app/models/log.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Log", function() { return _log__WEBPACK_IMPORTED_MODULE_7__["Log"]; });
+
+/* harmony import */ var _comment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./comment */ "./src/app/models/comment.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Comment", function() { return _comment__WEBPACK_IMPORTED_MODULE_8__["Comment"]; });
+
+/* harmony import */ var _dashboard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dashboard */ "./src/app/models/dashboard.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dashboard", function() { return _dashboard__WEBPACK_IMPORTED_MODULE_9__["Dashboard"]; });
+
+/* harmony import */ var _vote__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./vote */ "./src/app/models/vote.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Vote", function() { return _vote__WEBPACK_IMPORTED_MODULE_10__["Vote"]; });
+
+/* harmony import */ var _vote_count__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./vote-count */ "./src/app/models/vote-count.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "VoteCount", function() { return _vote_count__WEBPACK_IMPORTED_MODULE_11__["VoteCount"]; });
+
+
+
+
 
 
 
@@ -2672,6 +2815,14 @@ var Log = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Post", function() { return Post; });
+//export class Post {
+//  postId: number;
+//  title: string;
+//  content: string;
+//  blogId: number;
+//  likes: number;
+//  comments: Comment[];
+//}
 var Post = /** @class */ (function () {
     function Post() {
     }
@@ -2736,6 +2887,46 @@ var User = /** @class */ (function () {
     function User() {
     }
     return User;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/vote-count.ts":
+/*!**************************************!*\
+  !*** ./src/app/models/vote-count.ts ***!
+  \**************************************/
+/*! exports provided: VoteCount */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VoteCount", function() { return VoteCount; });
+var VoteCount = /** @class */ (function () {
+    function VoteCount() {
+    }
+    return VoteCount;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/vote.ts":
+/*!********************************!*\
+  !*** ./src/app/models/vote.ts ***!
+  \********************************/
+/*! exports provided: Vote */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Vote", function() { return Vote; });
+var Vote = /** @class */ (function () {
+    function Vote() {
+    }
+    return Vote;
 }());
 
 
@@ -3191,6 +3382,9 @@ var AuthService = /** @class */ (function () {
     AuthService.prototype.decode = function () {
         var user = new _models__WEBPACK_IMPORTED_MODULE_2__["User"]();
         user = JSON.parse(localStorage.getItem(this.storagekey));
+        if (user == null) {
+            return '';
+        }
         return jwt_decode__WEBPACK_IMPORTED_MODULE_4___default()(user.token);
     };
     AuthService = __decorate([
@@ -3268,11 +3462,59 @@ var BlogService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/services/dashboard.service.ts":
+/*!***********************************************!*\
+  !*** ./src/app/services/dashboard.service.ts ***!
+  \***********************************************/
+/*! exports provided: DashboardService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DashboardService", function() { return DashboardService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var DashboardService = /** @class */ (function () {
+    function DashboardService(_http) {
+        this._http = _http;
+        this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ 'Content-Type': 'application/json; charset=utf-8' });
+    }
+    DashboardService.prototype.getDashboard = function () {
+        return this._http.get('/api/Dashboard')
+            .catch(this.handleError);
+    };
+    DashboardService.prototype.handleError = function (handleError) {
+        console.log(handleError);
+    };
+    DashboardService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], DashboardService);
+    return DashboardService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/services/index.ts":
 /*!***********************************!*\
   !*** ./src/app/services/index.ts ***!
   \***********************************/
-/*! exports provided: UserService, ANONYMOUS_USER, AuthService, StatsService, BlogService, LoggerService */
+/*! exports provided: UserService, ANONYMOUS_USER, AuthService, StatsService, BlogService, LoggerService, DashboardService, VoteService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3293,6 +3535,14 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _logger_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./logger.service */ "./src/app/services/logger.service.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggerService", function() { return _logger_service__WEBPACK_IMPORTED_MODULE_4__["LoggerService"]; });
+
+/* harmony import */ var _dashboard_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dashboard.service */ "./src/app/services/dashboard.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DashboardService", function() { return _dashboard_service__WEBPACK_IMPORTED_MODULE_5__["DashboardService"]; });
+
+/* harmony import */ var _vote_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./vote.service */ "./src/app/services/vote.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "VoteService", function() { return _vote_service__WEBPACK_IMPORTED_MODULE_6__["VoteService"]; });
+
+
 
 
 
@@ -3485,6 +3735,65 @@ var UserService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], UserService);
     return UserService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/vote.service.ts":
+/*!******************************************!*\
+  !*** ./src/app/services/vote.service.ts ***!
+  \******************************************/
+/*! exports provided: VoteService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VoteService", function() { return VoteService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var VoteService = /** @class */ (function () {
+    function VoteService(_http) {
+        this._http = _http;
+        this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ 'Content-Type': 'application/json; charset=utf-8' });
+        this.options = {
+            headers: this.headers
+        };
+    }
+    VoteService.prototype.getVote = function (vote) {
+        return this._http.post('/api/Votes/MyVote', vote, this.options)
+            .catch(this.handleError);
+    };
+    VoteService.prototype.addVote = function (vote) {
+        return this._http.post('/api/Votes', vote, this.options)
+            .catch(this.handleError);
+    };
+    VoteService.prototype.getAllVotes = function () {
+        return this._http.get('/api/Votes', this.options)
+            .catch(this.handleError);
+    };
+    VoteService.prototype.handleError = function (handleError) {
+        console.log(handleError);
+    };
+    VoteService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], VoteService);
+    return VoteService;
 }());
 
 

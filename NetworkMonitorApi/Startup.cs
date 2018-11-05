@@ -42,7 +42,10 @@ namespace NetworkMonitorApi
             services.AddScoped<IRolesRepository, RoleRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<ILoggerRepository, LoggerRepository>();
+
             services.AddScoped<IBlog,BlogRepository>();
+            services.AddScoped<IDashboardRepository, DashboardRepository>();
+            services.AddScoped<IVoteRepository, VoteRepository>();
             services.AddScoped<IConverter<ApplicationUser, User>, IdentityToUserConvertor>();
             services.AddScoped<IConverter<User, ApplicationUser>, UserToIdentityConvertor>();
 

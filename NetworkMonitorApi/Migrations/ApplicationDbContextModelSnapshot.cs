@@ -250,6 +250,8 @@ namespace NetworkMonitorApi.Migrations
 
                     b.Property<int>("PostId");
 
+                    b.Property<string>("UserName");
+
                     b.Property<string>("Userid");
 
                     b.HasKey("CommentId");
@@ -294,6 +296,8 @@ namespace NetworkMonitorApi.Migrations
 
                     b.Property<DateTime>("DateModified");
 
+                    b.Property<int>("DisLikes");
+
                     b.Property<int>("Likes");
 
                     b.Property<string>("Title");
@@ -337,6 +341,22 @@ namespace NetworkMonitorApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SpeedTestResults");
+                });
+
+            modelBuilder.Entity("NetworkMonitorApi.Models.Vote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("PostId");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<int>("UserVote");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

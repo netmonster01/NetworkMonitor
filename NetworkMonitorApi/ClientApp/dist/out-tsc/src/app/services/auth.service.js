@@ -97,6 +97,9 @@ var AuthService = /** @class */ (function () {
     AuthService.prototype.decode = function () {
         var user = new User();
         user = JSON.parse(localStorage.getItem(this.storagekey));
+        if (user == null) {
+            return '';
+        }
         return decode(user.token);
     };
     AuthService = __decorate([

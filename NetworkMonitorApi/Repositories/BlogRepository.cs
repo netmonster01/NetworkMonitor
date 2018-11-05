@@ -20,6 +20,7 @@ namespace NetworkMonitorApi.Repositories
         private readonly ILoggerRepository _loggerRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _accessor;
+
         public BlogRepository(IServiceProvider serviceProvider, IHttpContextAccessor accessor)
         {
             _serviceProvider = serviceProvider;
@@ -194,7 +195,8 @@ namespace NetworkMonitorApi.Repositories
                             Likes = p.Likes,
                             PostId = p.PostId,
                             Title = p.Title,
-                            UserId = p.UserId
+                            UserId = p.UserId,
+                            DisLikes = p.DisLikes
                         })).LastOrDefault();
             }
             catch (Exception ex)
@@ -228,7 +230,8 @@ namespace NetworkMonitorApi.Repositories
                              Likes = p.Likes,
                              PostId = p.PostId,
                              Title = p.Title,
-                             UserId = p.UserId
+                             UserId = p.UserId,
+                             DisLikes = p.DisLikes
                          })).ToList();
             }
             catch (Exception ex)

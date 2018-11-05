@@ -28,7 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BlogsComponent } from './blogs/blogs.component';
 import { PostsComponent } from './blogs/posts/posts.component';
 import { CommentsDirective } from './blogs';
-import { AuthService, BlogService, StatsService, UserService, LoggerService } from './services';
+import { AuthService, BlogService, StatsService, UserService, LoggerService, DashboardService, VoteService } from './services';
 import { SafePipe } from './safe.pipe';
 import { BlogComponent } from './admin/blog/blog.component';
 import { ImagesComponent } from './admin/blog/images/images.component';
@@ -93,7 +93,7 @@ import { BlogWidgetComponent } from './dashboard/widgets/blog-widget/blog-widget
     MatDialogModule,
     HighlightModule.forRoot({ theme: 'agate' })
   ],
-  providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard, LoggerService, { provide: ErrorHandler, useClass: ApplicationErrorHandler }],
+  providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard, LoggerService, DashboardService, VoteService, { provide: ErrorHandler, useClass: ApplicationErrorHandler }],
   bootstrap: [AppComponent],
   entryComponents: [NewUserDialogComponent, NewRoleDialogComponent, NewBlogDialogComponent, ErrorDialogComponent, EditPostDialogComponent]
 })

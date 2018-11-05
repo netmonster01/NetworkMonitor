@@ -30,6 +30,7 @@
     <None Remove="ClientApp\src\app\shared\index.ts" />
     <None Remove="ClientApp\src\app\shared\layout\index.ts" />
     <None Remove="ClientApp\src\app\stats\index.ts" />
+    <None Remove="Models\vote.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +46,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1-beta1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
   </ItemGroup>
@@ -71,6 +72,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\layout\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\stats\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\vote.ts" />
   </ItemGroup>
 
 </Project>

@@ -36,7 +36,12 @@ export class ApplicationErrorHandler implements ErrorHandler {
       // get user.
       this.user = this.auth.loggedInUser();
 
-      this.openDialog({ message: message, url: url, stack: stackString, userId: this.user.id });
+      let usr = 'Un-Authenticated User';
+
+      if (this.user != null) {
+        usr = this.user.id;
+      }
+      this.openDialog({ message: message, url: url, stack: stackString, userId: usr });
     });
   }
 
@@ -67,7 +72,7 @@ export class ApplicationErrorHandler implements ErrorHandler {
       width: '500px'
     };
 
-    const dialogRef = this.dialog.open(ErrorDialogComponent, { width: '300px', hasBackdrop: false, data: error });
+    const dialogRef = this.dialog.open(ErrorDialogComponent, { width: '500px', hasBackdrop: false, data: error });
 
     dialogRef.afterClosed().subscribe(
       data => console.log('Dialog output:', data)

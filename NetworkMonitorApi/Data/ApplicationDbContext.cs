@@ -17,7 +17,7 @@ namespace NetworkMonitorApi.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            // converter for base64 to byte[]
             var converter = new  ValueConverter<string, byte[]>(
                                     v => Convert.FromBase64String(v),
                                     v => Convert.ToBase64String(v));
@@ -44,5 +44,7 @@ namespace NetworkMonitorApi.Data
         public DbSet<Log> Logs { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
+
+        public DbSet<Vote> Votes { get; set; }
     }
 }

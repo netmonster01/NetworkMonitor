@@ -6,3 +6,7 @@ export * from './post';
 export * from './blogImage';
 export * from './applicationError';
 export * from './log';
+export * from './comment';
+export * from './dashboard';
+export * from './vote';
+export * from './vote-count';

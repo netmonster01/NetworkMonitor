@@ -130,6 +130,10 @@ export class AuthService {
   decode() {
     let user = new User();
     user = JSON.parse(localStorage.getItem(this.storagekey));
+    if (user == null) {
+      return '';
+    }
+
     return decode(user.token);
   }
 }
