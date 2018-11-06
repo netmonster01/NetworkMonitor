@@ -61,4 +61,13 @@ export class BlogService {
       .catch(this.handleError);
   }
 
+  createPost(post: Post) {
+
+    let options = {
+      headers: this.headers
+    };
+
+    return this._http.post<Post>('/api/Blogs/Post', post, options).catch(this.handleError);
+  }
+
 }

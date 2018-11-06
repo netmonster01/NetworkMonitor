@@ -13,15 +13,24 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService, UserService } from '../../services';
+import { AuthService, ANONYMOUS_USER, UserService, BlogService } from '../../services';
+import { Post } from '../../models';
 var NewBlogDialogComponent = /** @class */ (function () {
-    function NewBlogDialogComponent(auth, userService, fb, dialogRef, data) {
+    function NewBlogDialogComponent(auth, userService, blogService, fb, dialogRef, data) {
         this.auth = auth;
         this.userService = userService;
+        this.blogService = blogService;
         this.fb = fb;
         this.dialogRef = dialogRef;
+        this.user = ANONYMOUS_USER;
+        this.isLoggedIn = false;
+        this.preview = false;
     }
     NewBlogDialogComponent.prototype.ngOnInit = function () {
+        this.isLoggedIn = this.auth.isUserLoggedIn();
+        if (this.isLoggedIn) {
+            this.user = this.auth.loggedInUser();
+        }
         this.form = this.fb.group({
             title: ['', Validators.required],
             content: ['', Validators.required]
@@ -30,15 +39,41 @@ var NewBlogDialogComponent = /** @class */ (function () {
     NewBlogDialogComponent.prototype.close = function () {
         this.dialogRef.close();
     };
+    NewBlogDialogComponent.prototype.closeWithState = function (state) {
+        this.dialogRef.close();
+    };
+    NewBlogDialogComponent.prototype.save = function () {
+        var _this = this;
+        this.newPost = new Post();
+        this.newPost.content = this.form.controls.content.value;
+        this.newPost.title = this.form.controls.title.value;
+        this.newPost.userId = this.user.id;
+        //this.newPost.author = this.user.firstName + this.user.lastName;
+        this.blogService.createPost(this.newPost).subscribe(function (didCreate) { return _this.processNewPost(didCreate); });
+    };
+    NewBlogDialogComponent.prototype.processNewPost = function (didCreate) {
+        this.closeWithState(didCreate);
+    };
+    NewBlogDialogComponent.prototype.showPreview = function (event) {
+        this.preview = event.currentTarget.checked;
+        this.previewContent = this.form.controls.content.value;
+        console.log(event.currentTarget.checked);
+        event.stopPropagation();
+        return false;
+    };
+    NewBlogDialogComponent.prototype.updatePreview = function () {
+        this.previewContent = this.form.controls.content.value;
+    };
     NewBlogDialogComponent = __decorate([
         Component({
             selector: 'app-new-blog-dialog',
             templateUrl: './new-blog-dialog.component.html',
             styleUrls: ['./new-blog-dialog.component.css']
         }),
-        __param(4, Inject(MAT_DIALOG_DATA)),
+        __param(5, Inject(MAT_DIALOG_DATA)),
         __metadata("design:paramtypes", [AuthService,
             UserService,
+            BlogService,
             FormBuilder,
             MatDialogRef, Object])
     ], NewBlogDialogComponent);

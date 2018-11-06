@@ -9,7 +9,7 @@ import { LogType } from '../enums';
 
 export const ANONYMOUS_USER: User = {
   password: null,
-  email: 'ANONYMOUS_USER',
+  email: null,
   token: undefined,
   id: null,
   roles: [],
@@ -17,7 +17,8 @@ export const ANONYMOUS_USER: User = {
   avatarImageType: null,
   avatarBase64: null,
   firstName: null,
-  lastName: null
+  lastName: null,
+  isAdmim: false,
 };
 
 

@@ -12,4 +12,5 @@ export class User {
   avatarImageType: string;
   firstName: string;
   lastName: string;
+  isAdmim: boolean; 
 }

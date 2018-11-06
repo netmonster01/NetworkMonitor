@@ -46,8 +46,14 @@ var BlogService = /** @class */ (function () {
             headers: this.headers
         };
         //const url = `${this.heroesUrl}/${id}`; // DELETE api/heroes/42
-        return this._http.delete('/api/Blogs/Post', options)
+        return this._http.delete('/api/Blogs/Post/' + postId, options)
             .catch(this.handleError);
+    };
+    BlogService.prototype.createPost = function (post) {
+        var options = {
+            headers: this.headers
+        };
+        return this._http.post('/api/Blogs/Post', post, options).catch(this.handleError);
     };
     BlogService = __decorate([
         Injectable({

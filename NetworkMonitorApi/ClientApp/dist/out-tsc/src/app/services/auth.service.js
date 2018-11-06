@@ -16,7 +16,7 @@ import { LoggerService } from './logger.service';
 import { LogType } from '../enums';
 export var ANONYMOUS_USER = {
     password: null,
-    email: 'ANONYMOUS_USER',
+    email: null,
     token: undefined,
     id: null,
     roles: [],
@@ -24,7 +24,8 @@ export var ANONYMOUS_USER = {
     avatarImageType: null,
     avatarBase64: null,
     firstName: null,
-    lastName: null
+    lastName: null,
+    isAdmim: false,
 };
 var AuthService = /** @class */ (function () {
     function AuthService(http, log) {

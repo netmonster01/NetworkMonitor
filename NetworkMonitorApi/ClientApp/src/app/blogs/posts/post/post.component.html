@@ -6,8 +6,8 @@
           <div class="row">
             <div class="col-sm-10">{{currentPost.title}}</div>
             <div class="col-sm-2">
-              <button (click)="openNewCommentDialog()"  class="btn btn-outline-primary fa fa-reply-all pull-right"></button>
-              <button (click)="deletePost(currentPost.postId)" *ngIf="user.isAdmin" class="btn btn-outline-danger fa fa-trash pull-right"></button>
+              <button (click)="openNewCommentDialog()" title="Comment"  class="btn btn-outline-primary fa fa-reply-all pull-right"></button>
+              <button (click)="deletePost(currentPost.postId)" title="Delete Post" *ngIf="user.isAdmin" class="btn btn-outline-danger fa fa-trash pull-right"></button>
             </div>
           </div>
         </div>
@@ -19,8 +19,8 @@
             <div class="col-sm-10">Comments: <button (click)="viewComments()" class="btn btn-link" [disabled]="currentPost.comments.length < 1">{{currentPost.comments.length}}</button></div>
             <!--<app-likes [user]="user" [post]="post" class="col-sm-2"></app-likes>-->
             <div class="col-sm-2" *ngIf="isLoggedIn">
-              <button (click)="upVote()" [disabled]="myVote.userVote == 1" [ngClass]="myVote.userVote == 1 ? 'btn-outline-primary' : 'btn-outline-secondary'" class="btn fa fa-thumbs-up">&nbsp;{{currentPost.likes}}</button>&nbsp;
-              <button (click)="downVote()" [disabled]="myVote.userVote == -1" [ngClass]="myVote.userVote == -1 ? 'btn-outline-primary' : 'btn-outline-secondary'" class="btn fa fa-thumbs-down">&nbsp;{{currentPost.disLikes}}</button>
+              <button (click)="upVote()" title="Likes" [disabled]="myVote.userVote == 1" [ngClass]="myVote.userVote == 1 ? 'btn-outline-primary' : 'btn-outline-secondary'" class="btn fa fa-thumbs-up">&nbsp;{{currentPost.likes}}</button>&nbsp;
+              <button (click)="downVote()" title="DisLikes" [disabled]="myVote.userVote == -1" [ngClass]="myVote.userVote == -1 ? 'btn-outline-primary' : 'btn-outline-secondary'" class="btn fa fa-thumbs-down">&nbsp;{{currentPost.disLikes}}</button>
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@ var appRoutes = [
     { path: 'login', component: SignInComponent },
     { path: 'register', component: SignUpComponent },
     { path: 'profile', component: ProfileComponent },
-    { path: 'blog', component: BlogsComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Admin' } },
+    { path: 'blog', component: BlogsComponent },
     { path: '403', component: ForbiddenComponent },
     { path: '**', component: PageNotFoundComponent },
 ];

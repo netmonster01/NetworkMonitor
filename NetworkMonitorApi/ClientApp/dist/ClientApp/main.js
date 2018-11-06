@@ -556,7 +556,7 @@ var appRoutes = [
     { path: 'login', component: _login__WEBPACK_IMPORTED_MODULE_1__["SignInComponent"] },
     { path: 'register', component: _login__WEBPACK_IMPORTED_MODULE_1__["SignUpComponent"] },
     { path: 'profile', component: _profile__WEBPACK_IMPORTED_MODULE_7__["ProfileComponent"] },
-    { path: 'blog', component: _blogs__WEBPACK_IMPORTED_MODULE_9__["BlogsComponent"], canActivate: [_guards__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"], _guards__WEBPACK_IMPORTED_MODULE_10__["RoleGuard"]], data: { role: 'Admin' } },
+    { path: 'blog', component: _blogs__WEBPACK_IMPORTED_MODULE_9__["BlogsComponent"] },
     { path: '403', component: _forbidden__WEBPACK_IMPORTED_MODULE_8__["ForbiddenComponent"] },
     { path: '**', component: _page_not_found__WEBPACK_IMPORTED_MODULE_5__["PageNotFoundComponent"] },
 ];
@@ -801,7 +801,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row panel p-2\">\r\n  <div class=\"col-sm-12\">\r\n        <div class=\"row\">\r\n          <div class=\"col-8\">\r\n            <h1>Blog</h1>\r\n          </div>\r\n          <div class=\"col-4\">\r\n            <button class=\"btn btn-primary pull-right\">Create Post</button>\r\n          </div>\r\n        </div>\r\n  </div>\r\n</div>\r\n<div class=\"row panel p-2\">\r\n  <div class=\"col-sm-12\">\r\n     <app-posts></app-posts>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row panel p-2\">\r\n  <div class=\"col-sm-12\">\r\n        <div class=\"row\">\r\n          <div class=\"col-11\">\r\n            <h1>Blog</h1>\r\n          </div>\r\n          <div class=\"col-1\">\r\n            <button *ngIf=\"user.isAdmin\" class=\"btn btn-outline-light fa fa-plus\" title=\"Create new Post\" (click)=\"openDialog()\"></button>\r\n          </div>\r\n        </div>\r\n  </div>\r\n</div>\r\n<div class=\"row panel p-2\">\r\n  <div class=\"col-sm-12\">\r\n     <app-posts></app-posts>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -817,6 +817,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlogsComponent", function() { return BlogsComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services */ "./src/app/services/index.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _dialogs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dialogs */ "./src/app/dialogs/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -828,14 +830,24 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var BlogsComponent = /** @class */ (function () {
-    function BlogsComponent(_blogService) {
+    function BlogsComponent(_blogService, auth, dialog) {
         this._blogService = _blogService;
+        this.auth = auth;
+        this.dialog = dialog;
+        this.user = _services__WEBPACK_IMPORTED_MODULE_1__["ANONYMOUS_USER"];
+        this.isLoggedIn = false;
     }
     BlogsComponent.prototype.ngOnInit = function () {
         this.activate();
     };
     BlogsComponent.prototype.activate = function () {
+        this.isLoggedIn = this.auth.isUserLoggedIn();
+        if (this.isLoggedIn) {
+            this.user = this.auth.loggedInUser();
+        }
         this.getBlog();
     };
     BlogsComponent.prototype.getBlog = function () {
@@ -846,13 +858,20 @@ var BlogsComponent = /** @class */ (function () {
         console.log(blog);
         this.blog = blog;
     };
+    BlogsComponent.prototype.openDialog = function () {
+        //const dialogConfig = new MatDialogConfig();
+        //dialogConfig.disableClose = true;
+        //dialogConfig.autoFocus = true;
+        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_3__["NewBlogDialogComponent"], { width: '300px', hasBackdrop: false });
+        dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
+    };
     BlogsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-blogs',
             template: __webpack_require__(/*! ./blogs.component.html */ "./src/app/blogs/blogs.component.html"),
             styles: [__webpack_require__(/*! ./blogs.component.css */ "./src/app/blogs/blogs.component.css")]
         }),
-        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_1__["BlogService"]])
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_1__["BlogService"], _services__WEBPACK_IMPORTED_MODULE_1__["AuthService"], _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"]])
     ], BlogsComponent);
     return BlogsComponent;
 }());
@@ -904,7 +923,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-xs-12 col-sm-12\">\r\n    <div class=\"card-group\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <div class=\"row\">\r\n            <div class=\"col-sm-10\">{{currentPost.title}}</div>\r\n            <div class=\"col-sm-2\">\r\n              <button (click)=\"openNewCommentDialog()\"  class=\"btn btn-outline-primary fa fa-reply-all pull-right\"></button>\r\n              <button (click)=\"deletePost(currentPost.postId)\" *ngIf=\"user.isAdmin\" class=\"btn btn-outline-danger fa fa-trash pull-right\"></button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"card-body\">\r\n          <div highlight=\"all\" [innerHTML]=\"currentPost.content | safe:'html'\"></div>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <div class=\"row justify-content-between\">\r\n            <div class=\"col-sm-10\">Comments: <button (click)=\"viewComments()\" class=\"btn btn-link\" [disabled]=\"currentPost.comments.length < 1\">{{currentPost.comments.length}}</button></div>\r\n            <!--<app-likes [user]=\"user\" [post]=\"post\" class=\"col-sm-2\"></app-likes>-->\r\n            <div class=\"col-sm-2\" *ngIf=\"isLoggedIn\">\r\n              <button (click)=\"upVote()\" [disabled]=\"myVote.userVote == 1\" [ngClass]=\"myVote.userVote == 1 ? 'btn-outline-primary' : 'btn-outline-secondary'\" class=\"btn fa fa-thumbs-up\">&nbsp;{{currentPost.likes}}</button>&nbsp;\r\n              <button (click)=\"downVote()\" [disabled]=\"myVote.userVote == -1\" [ngClass]=\"myVote.userVote == -1 ? 'btn-outline-primary' : 'btn-outline-secondary'\" class=\"btn fa fa-thumbs-down\">&nbsp;{{currentPost.disLikes}}</button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"row\">&nbsp;</div>\r\n<div *ngIf=\"showComments\">\r\n  <div class=\"row p-2\" *ngFor=\"let comment of currentPost.comments;  let odd=odd; let even=even;\">\r\n    <div class=\"col-sm-12\">\r\n      <div class=\"card-group\">\r\n        <div class=\"card\">\r\n          <div class=\"card-header\">Comment: {{comment.userName}}</div>\r\n          <div class=\"card-body\">\r\n            <div highlight=\"all\" [innerHTML]=\"comment.message\"></div>\r\n          </div>\r\n          <div class=\"card-footer\">\r\n            <div class=\"row\">\r\n              <div class=\"col-sm-2\">Likes: {{comment.likes}} </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <br />\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-xs-12 col-sm-12\">\r\n    <div class=\"card-group\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <div class=\"row\">\r\n            <div class=\"col-sm-10\">{{currentPost.title}}</div>\r\n            <div class=\"col-sm-2\">\r\n              <button (click)=\"openNewCommentDialog()\" title=\"Comment\"  class=\"btn btn-outline-primary fa fa-reply-all pull-right\"></button>\r\n              <button (click)=\"deletePost(currentPost.postId)\" title=\"Delete Post\" *ngIf=\"user.isAdmin\" class=\"btn btn-outline-danger fa fa-trash pull-right\"></button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"card-body\">\r\n          <div highlight=\"all\" [innerHTML]=\"currentPost.content | safe:'html'\"></div>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <div class=\"row justify-content-between\">\r\n            <div class=\"col-sm-10\">Comments: <button (click)=\"viewComments()\" class=\"btn btn-link\" [disabled]=\"currentPost.comments.length < 1\">{{currentPost.comments.length}}</button></div>\r\n            <!--<app-likes [user]=\"user\" [post]=\"post\" class=\"col-sm-2\"></app-likes>-->\r\n            <div class=\"col-sm-2\" *ngIf=\"isLoggedIn\">\r\n              <button (click)=\"upVote()\" title=\"Likes\" [disabled]=\"myVote.userVote == 1\" [ngClass]=\"myVote.userVote == 1 ? 'btn-outline-primary' : 'btn-outline-secondary'\" class=\"btn fa fa-thumbs-up\">&nbsp;{{currentPost.likes}}</button>&nbsp;\r\n              <button (click)=\"downVote()\" title=\"DisLikes\" [disabled]=\"myVote.userVote == -1\" [ngClass]=\"myVote.userVote == -1 ? 'btn-outline-primary' : 'btn-outline-secondary'\" class=\"btn fa fa-thumbs-down\">&nbsp;{{currentPost.disLikes}}</button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"row\">&nbsp;</div>\r\n<div *ngIf=\"showComments\">\r\n  <div class=\"row p-2\" *ngFor=\"let comment of currentPost.comments;  let odd=odd; let even=even;\">\r\n    <div class=\"col-sm-12\">\r\n      <div class=\"card-group\">\r\n        <div class=\"card\">\r\n          <div class=\"card-header\">Comment: {{comment.userName}}</div>\r\n          <div class=\"card-body\">\r\n            <div highlight=\"all\" [innerHTML]=\"comment.message\"></div>\r\n          </div>\r\n          <div class=\"card-footer\">\r\n            <div class=\"row\">\r\n              <div class=\"col-sm-2\">Likes: {{comment.likes}} </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <br />\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -3137,7 +3156,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  page-not-found works!\r\n</p>\r\n"
+module.exports = "<p>\n  page-not-found works!\n</p>\n"
 
 /***/ }),
 
@@ -3338,7 +3357,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  no-roles works!\n</p>\n"
+module.exports = "<p>\r\n  no-roles works!\r\n</p>\r\n"
 
 /***/ }),
 
@@ -3470,7 +3489,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var ANONYMOUS_USER = {
     password: null,
-    email: 'ANONYMOUS_USER',
+    email: null,
     token: undefined,
     id: null,
     roles: [],
@@ -3478,7 +3497,8 @@ var ANONYMOUS_USER = {
     avatarImageType: null,
     avatarBase64: null,
     firstName: null,
-    lastName: null
+    lastName: null,
+    isAdmim: false,
 };
 var AuthService = /** @class */ (function () {
     function AuthService(http, log) {
@@ -4343,7 +4363,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\NetDev\Source\Repos\netmonster01\NetworkMonitor\NetworkMonitorApi\ClientApp\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\pi\speedtest\NetworkMonitor\NetworkMonitorApi\ClientApp\src\main.ts */"./src/main.ts");
 
 
 /***/ })

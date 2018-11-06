@@ -16,8 +16,8 @@ export class Post {
   public blogId: number;
   public userId: string;
   public author: string;
-  public sateCreated: Date;
-  public sateModified: Date;
+  public dateCreated: string;
+  public dateModified: string;
   public likes: number;
   public disLikes: number;
   public comments: Comment[];

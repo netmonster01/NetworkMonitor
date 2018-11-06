@@ -45,6 +45,7 @@ var PostComponent = /** @class */ (function () {
         configurable: true
     });
     PostComponent.prototype.ngOnInit = function () {
+        this.currentPost.comments = [];
     };
     PostComponent.prototype.processUserData = function (data) {
         this.myVote.userId = data.id;
@@ -126,6 +127,7 @@ var PostComponent = /** @class */ (function () {
         this.showComments = !this.showComments;
     };
     PostComponent.prototype.deletPost = function (postId) {
+        return this.blog.deletePost(postId).subscribe();
     };
     __decorate([
         Input(),
