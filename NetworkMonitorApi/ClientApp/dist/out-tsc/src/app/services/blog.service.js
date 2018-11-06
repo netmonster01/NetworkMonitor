@@ -35,6 +35,20 @@ var BlogService = /** @class */ (function () {
         };
         this._http.post('/api/FileUpload', blogFile).subscribe(function (result) { console.log(result); });
     };
+    BlogService.prototype.createComment = function (comment) {
+        var options = {
+            headers: this.headers
+        };
+        return this._http.post('/api/Blogs/Comment', comment, options).catch(this.handleError); //.subscribe(didUpdate => console.log(didUpdate)).catch(this.handleError);
+    };
+    BlogService.prototype.deletePost = function (postId) {
+        var options = {
+            headers: this.headers
+        };
+        //const url = `${this.heroesUrl}/${id}`; // DELETE api/heroes/42
+        return this._http.delete('/api/Blogs/Post', options)
+            .catch(this.handleError);
+    };
     BlogService = __decorate([
         Injectable({
             providedIn: 'root'

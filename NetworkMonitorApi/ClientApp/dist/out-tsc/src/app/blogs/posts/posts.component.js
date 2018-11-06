@@ -8,14 +8,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { BlogService } from '../../services';
+import { BlogService, AuthService, ANONYMOUS_USER } from '../../services';
 var PostsComponent = /** @class */ (function () {
-    function PostsComponent(blog) {
+    function PostsComponent(blog, auth) {
         this.blog = blog;
+        this.auth = auth;
         this.posts = [];
+        this.user = ANONYMOUS_USER;
     }
     PostsComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.loadPosts();
+        this.auth.user$.subscribe(function (data) { return _this.processUserData(data); });
+    };
+    PostsComponent.prototype.processUserData = function (data) {
+        this.user = data;
     };
     PostsComponent.prototype.loadPosts = function () {
         var _this = this;
@@ -30,7 +37,7 @@ var PostsComponent = /** @class */ (function () {
             templateUrl: './posts.component.html',
             styleUrls: ['./posts.component.css']
         }),
-        __metadata("design:paramtypes", [BlogService])
+        __metadata("design:paramtypes", [BlogService, AuthService])
     ], PostsComponent);
     return PostsComponent;
 }());

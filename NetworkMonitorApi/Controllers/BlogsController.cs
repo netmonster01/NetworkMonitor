@@ -137,26 +137,20 @@ namespace NetworkMonitorApi.Controllers
             }
         }
 
-        //// DELETE: api/Blogs/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteBlog([FromRoute] int id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        // DELETE: api/Blogs/5
+        [HttpDelete()]
+        [Route("Post/{postId}")]
+        public async Task<IActionResult> DeleteBlog([FromRoute] int postId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    var blog = await _context.Blogs.FindAsync(id);
-        //    if (blog == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var didDelete = await _blogRepository.DeletePost(postId);
 
-        //    _context.Blogs.Remove(blog);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok(blog);
-        //}
+            return Ok(didDelete);
+        }
 
         [HttpPost("UploadFiles")]
         public async Task<IActionResult> Post([FromBody]IFormFile file)

@@ -36,7 +36,7 @@ export class ApplicationErrorHandler implements ErrorHandler {
       // get user.
       this.user = this.auth.loggedInUser();
 
-      let usr = 'Un-Authenticated User';
+      let usr = 'ANONYMOUS_USER';
 
       if (this.user != null) {
         usr = this.user.id;

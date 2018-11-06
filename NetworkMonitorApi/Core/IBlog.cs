@@ -19,6 +19,7 @@ namespace NetworkMonitorApi.Core
 
         Task<bool> CreateBlogImageAsync(BlogImage blogImage);
         bool BlogExists(string title);
+        Task<bool> DeletePost(int postId);
 
     }
 }

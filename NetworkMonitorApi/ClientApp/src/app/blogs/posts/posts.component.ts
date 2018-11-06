@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogService } from '../../services';
-import { Post } from '../../models';
+import { BlogService, AuthService, ANONYMOUS_USER } from '../../services';
+import { Post, User } from '../../models';
 
 @Component({
   selector: 'app-posts',
@@ -11,11 +11,17 @@ import { Post } from '../../models';
 export class PostsComponent implements OnInit {
 
   posts: Post[] = [];
+  user: User = ANONYMOUS_USER;
 
-  constructor(private blog: BlogService ) { }
+  constructor(private blog: BlogService, private auth: AuthService) { }
 
   ngOnInit() {
-    this.loadPosts();
+  this.loadPosts();
+  this.auth.user$.subscribe(data => this.processUserData(data));
+  }
+
+  processUserData(data: User): void {
+    this.user = data;
   }
 
   loadPosts() {

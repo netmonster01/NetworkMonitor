@@ -10,11 +10,7 @@ import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { SignUpComponent } from './login/sign-up/sign-up.component';
-import { AdminComponent } from './admin/admin.component';
-import { RolesComponent } from './admin/roles/roles.component';
-import { UsersComponent } from './admin/users/users.component';
-import { SignInComponent } from './login';
+import { SignUpComponent, SignInComponent } from './login';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -25,27 +21,19 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BlogsComponent } from './blogs/blogs.component';
-import { PostsComponent } from './blogs/posts/posts.component';
-import { CommentsDirective } from './blogs';
+import { BlogsComponent, PostsComponent, PostComponent } from './blogs';
 import { AuthService, BlogService, StatsService, UserService, LoggerService, DashboardService, VoteService } from './services';
 import { SafePipe } from './safe.pipe';
-import { BlogComponent } from './admin/blog/blog.component';
-import { ImagesComponent } from './admin/blog/images/images.component';
+import { BlogComponent, ImagesComponent, AdminComponent, RolesComponent, UsersComponent } from './admin';
 import { AuthGuard, RoleGuard } from "./guards";
 import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { NewUserDialogComponent } from './dialogs/new-user-dialog/new-user-dialog.component';
-import { NewBlogDialogComponent } from './dialogs/new-blog-dialog/new-blog-dialog.component';
-import { NewRoleDialogComponent } from './dialogs/new-role-dialog/new-role-dialog.component';
+import { NewUserDialogComponent, NewBlogDialogComponent, NewRoleDialogComponent, ErrorDialogComponent, EditPostDialogComponent, NewCommentDailogComponent } from './dialogs';
 import { MatDialogModule } from "@angular/material";
-import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
 import { ApplicationErrorHandler } from './custom-error-handler';
-import { EditPostDialogComponent } from './dialogs';
 import { HighlightModule, HighlightOptions } from 'ngx-highlightjs';
 import { NoRolesComponent } from './responses/no-roles/no-roles.component';
-import {DashboardComponent } from './dashboard';
-import { BlogWidgetComponent } from './dashboard/widgets/blog-widget/blog-widget.component';
-
+import { DashboardComponent, BlogWidgetComponent } from './dashboard';
+import { NewCommentDirective } from './directives/new-comment.directive';
 
 @NgModule({
   declarations: [
@@ -64,7 +52,6 @@ import { BlogWidgetComponent } from './dashboard/widgets/blog-widget/blog-widget
     FooterComponent,
     BlogsComponent,
     PostsComponent,
-    CommentsDirective,
     DashboardComponent,
     SafePipe,
     BlogComponent,
@@ -77,6 +64,9 @@ import { BlogWidgetComponent } from './dashboard/widgets/blog-widget/blog-widget
     EditPostDialogComponent,
     NoRolesComponent,
     BlogWidgetComponent,
+    NewCommentDailogComponent,
+    NewCommentDirective,
+    PostComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,8 +83,8 @@ import { BlogWidgetComponent } from './dashboard/widgets/blog-widget/blog-widget
     MatDialogModule,
     HighlightModule.forRoot({ theme: 'agate' })
   ],
-  providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard, LoggerService, DashboardService, VoteService, { provide: ErrorHandler, useClass: ApplicationErrorHandler }],
+  providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard, LoggerService, DashboardService, VoteService], //{ provide: ErrorHandler, useClass: ApplicationErrorHandler }
   bootstrap: [AppComponent],
-  entryComponents: [NewUserDialogComponent, NewRoleDialogComponent, NewBlogDialogComponent, ErrorDialogComponent, EditPostDialogComponent]
+  entryComponents: [NewUserDialogComponent, NewRoleDialogComponent, NewBlogDialogComponent, ErrorDialogComponent, EditPostDialogComponent, NewCommentDailogComponent]
 })
 export class AppModule { }

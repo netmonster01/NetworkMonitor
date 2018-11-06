@@ -1,43 +1,4 @@
-<div class="card-group">
-  <div class="card">
-    <div class="card-header">
-      <div class="row">
-        <div class="col-sm-11">{{post.title}}</div>
-        <div class="col-sm-1"><button class="btn btn-primary fa fa-reply-all"></button></div>
-      </div>
-    </div>
-    <div class="card-body">
-      <div highlight="all" [innerHTML]="post.content | safe:'html'"></div>
-    </div>
-    <div class="card-footer">
-      <div class="row justify-content-between">
-        <div class="col-sm-10">Comments: {{post.comments.length}}</div>
-        <div class="col-sm-2" *ngIf="isLoggedIn">
-          <button (click)="upVote()" [disabled]="myVote.userVote == 1" class="fa primary fa-thumbs-up">&nbsp;{{post.likes}}</button>&nbsp; <button (click)="downVote()" [disabled]="myVote.userVote == -1" class="fa primary fa-thumbs-down">&nbsp;{{post.disLikes}}</button>
-        </div>
-        </div>
-      </div>
-  </div>
-</div>
-<div class="row">&nbsp;</div>
-<div class="row" *ngFor="let comment of post.comments;  let odd=odd; let even=even;">
-  <div class="col-sm-12">
-    <div class="card-group">
-      <div class="card">
-        <div class="card-header">Comment: {{comment.userName}}</div>
-        <div class="card-body">
-          <div highlight="all" [innerHTML]="comment.message"></div>
-        </div>
-        <div class="card-footer">
-          <div class="row">
-            <div class="col-sm-2">Likes: {{comment.likes}} </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br />
-  </div>
- 
-</div>
+<app-post [user]="user" [post]="post"></app-post>
+
 
 

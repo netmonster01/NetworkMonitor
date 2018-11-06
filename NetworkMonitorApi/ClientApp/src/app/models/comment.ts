@@ -8,7 +8,7 @@ export class Comment {
   public commentId: number;
   public postId: number;
   public message: string;
-  public userid: string;
+  public userId: string;
   public userName: string;
   public dateCreated: Date;
   public dateModified: Date;

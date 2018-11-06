@@ -35,7 +35,10 @@ namespace NetworkMonitorApi.Repositories
                 dashboard.Users = _applicationDbContext.Users.Count();
 
                 // get comments
-                dashboard.Comments = _applicationDbContext.Posts.LastOrDefault().Comments.Count();
+                var lastPost = _applicationDbContext.Posts.LastOrDefault();
+                var commentCount = _applicationDbContext.Comments.Where(c => c.PostId == lastPost.PostId).Select(c => c).Count();
+
+                dashboard.Comments = commentCount; //.Comments.Count();
             }
             catch (Exception ex )
             {

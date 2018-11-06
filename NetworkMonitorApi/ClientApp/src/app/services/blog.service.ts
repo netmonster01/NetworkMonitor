@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Blog, Post, BlogImage } from '../models';
+import { Blog, Post, BlogImage, Comment } from '../models';
 import { Observable } from 'rxjs/Observable';
+import { concat } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,22 @@ export class BlogService {
     this._http.post('/api/FileUpload', blogFile).subscribe(result => { console.log(result) });
   }
 
+  createComment(comment: Comment) {
 
+    let options = {
+      headers: this.headers
+    };
+    return this._http.post<boolean>('/api/Blogs/Comment', comment, options).catch(this.handleError);//.subscribe(didUpdate => console.log(didUpdate)).catch(this.handleError);
+  }
+
+  deletePost(postId: number): Observable<{}> {
+    let options = {
+      headers: this.headers
+    };
+ 
+    //const url = `${this.heroesUrl}/${id}`; // DELETE api/heroes/42
+    return this._http.delete('/api/Blogs/Post/' + postId, options)
+      .catch(this.handleError);
+  }
 
 }

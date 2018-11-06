@@ -1,9 +1,9 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[appComments]'
+  selector: '[newComment]'
 })
-export class CommentsDirective {
+export class NewCommentDirective {
 
   constructor() { }
 

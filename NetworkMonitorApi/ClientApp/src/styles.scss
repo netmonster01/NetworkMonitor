@@ -10,7 +10,7 @@ $primary-text: #FFFFFF;
 $primary-text-dark: #000000;
 $error-text: #bd2130;
 $primary-background: #303030;
-
+$primary-light-background: #929090;
 html, body {
   height: 100%;
   background-color: $primary-background;
@@ -23,6 +23,10 @@ body {
   //background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
 }
 
+.panel {
+  background-color: $primary-light-background;
+}
+
 .even {
   background-color: $primary-color;
 }
@@ -31,9 +35,8 @@ body {
   background-color: $primary-color-light;
 }
 .navbar {
-  background-color: $primary-color;
+  background-color: $primary-light-background;
   color: $primary-text;
-  
 }
 .navbar a{
   color: $primary-text;

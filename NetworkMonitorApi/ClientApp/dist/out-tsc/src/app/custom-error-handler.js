@@ -40,7 +40,7 @@ var ApplicationErrorHandler = /** @class */ (function () {
             // log on the server
             // get user.
             _this.user = _this.auth.loggedInUser();
-            var usr = 'Un-Authenticated User';
+            var usr = 'ANONYMOUS_USER';
             if (_this.user != null) {
                 usr = _this.user.id;
             }

@@ -263,5 +263,32 @@ namespace NetworkMonitorApi.Repositories
 
             return didCreate;
         }
+
+        //public bool DeletePost(int postId)
+        //{
+        //    // delete post and comments
+        //    throw new NotImplementedException();
+        //}
+
+        public async Task<bool> DeletePost(int postId)
+        {
+            try
+            {
+                var post = await _applicationDbContext.Posts.FindAsync(postId);
+                // remove comments
+                var comments = _applicationDbContext.Comments.Where(c => c.PostId == postId);
+                _applicationDbContext.Comments.RemoveRange(comments);
+                _applicationDbContext.Posts.Remove(post);
+                _applicationDbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _loggerRepository.Write(ex);
+                return false;
+                    
+            }
+
+        }
     }
 }

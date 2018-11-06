@@ -16,7 +16,7 @@ import { LoggerService } from './logger.service';
 import { LogType } from '../enums';
 export var ANONYMOUS_USER = {
     password: null,
-    email: null,
+    email: 'ANONYMOUS_USER',
     token: undefined,
     id: null,
     roles: [],
