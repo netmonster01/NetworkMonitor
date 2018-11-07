@@ -11,6 +11,8 @@ $primary-text-dark: #000000;
 $error-text: #bd2130;
 $primary-background: #303030;
 $primary-light-background: #929090;
+$primary-border-color: #ffffff;
+
 html, body {
   height: 100%;
   background-color: $primary-background;
@@ -52,10 +54,10 @@ a:hover{
 
 .dashboardPosts {
   border-radius: 25px;
-  border: 2px solid $primary-color;
+  border: 2px solid $primary-border-color;
   padding: 20px;
   height: 150px;
-  background-color: rgba($primary-color, .3);
+  background-color: rgba($primary-light-background, .3);
 }
 
 // Code Blocks

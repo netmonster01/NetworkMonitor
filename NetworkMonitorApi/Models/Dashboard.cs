@@ -12,5 +12,7 @@ namespace NetworkMonitorApi.Models
         public int Users { get; set; }
 
         public int Comments { get; set; }
+
+        public int Posts { get; set; }
     }
 }

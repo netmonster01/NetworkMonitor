@@ -40,7 +40,7 @@ export class PostComponent implements OnInit {
   constructor(private blog: BlogService, private auth: AuthService, private voter: VoteService, private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.currentPost.comments = [];
+
   }
 
   processUserData(data: User): void {

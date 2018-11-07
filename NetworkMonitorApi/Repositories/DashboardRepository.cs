@@ -28,17 +28,19 @@ namespace NetworkMonitorApi.Repositories
             Dashboard dashboard = new Dashboard();
             try
             {
-                // get errors
+                // get errors count
                 dashboard.Errors = _applicationDbContext.Logs.Where(e => e.LogType == LogType.Error && e.DateCreated >= DateTime.Now.AddHours(-24)).Count();
 
-                // get users
+                // get users count
                 dashboard.Users = _applicationDbContext.Users.Count();
 
-                // get comments
+                // get lastest post comments count
                 var lastPost = _applicationDbContext.Posts.LastOrDefault();
                 var commentCount = _applicationDbContext.Comments.Where(c => c.PostId == lastPost.PostId).Select(c => c).Count();
-
                 dashboard.Comments = commentCount; //.Comments.Count();
+
+                //get posts count
+                dashboard.Posts = _applicationDbContext.Posts.Count();
             }
             catch (Exception ex )
             {

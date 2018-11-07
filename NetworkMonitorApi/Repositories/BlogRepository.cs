@@ -232,7 +232,7 @@ namespace NetworkMonitorApi.Repositories
                              Title = p.Title,
                              UserId = p.UserId,
                              DisLikes = p.DisLikes
-                         })).ToList();
+                         })).OrderBy(c=> c.DateCreated).ToList();
             }
             catch (Exception ex)
             {

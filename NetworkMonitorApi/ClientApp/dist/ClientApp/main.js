@@ -862,7 +862,7 @@ var BlogsComponent = /** @class */ (function () {
         //const dialogConfig = new MatDialogConfig();
         //dialogConfig.disableClose = true;
         //dialogConfig.autoFocus = true;
-        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_3__["NewBlogDialogComponent"], { width: '300px', hasBackdrop: false });
+        var dialogRef = this.dialog.open(_dialogs__WEBPACK_IMPORTED_MODULE_3__["NewBlogDialogComponent"], { hasBackdrop: false });
         dialogRef.afterClosed().subscribe(function (data) { return console.log('Dialog output:', data); });
     };
     BlogsComponent = __decorate([
@@ -1594,7 +1594,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 mat-dialog-title>Add New Post</h2>\r\n<mat-dialog-content [formGroup]=\"form\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-12\">\r\n      <!-- roles  -->\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <input matInput type=\"text\" formControlName=\"title\" class=\"form-control\" id=\"addNewPostTitle\" placeholder=\"Post Title\">\r\n        </mat-form-field>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <mat-form-field>\r\n          <textarea matInput type=\"text\" formControlName=\"content\" class=\"form-control\" id=\"addNewPostContent\" placeholder=\"Content Title\" ></textarea>\r\n        </mat-form-field>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</mat-dialog-content>\r\n\r\n<mat-dialog-actions>\r\n  <button mat-button (click)=\"close()\">Cancel</button>\r\n  <button class=\"mat-raised-button mat-primary\" (click)=\"save()\">Save</button>\r\n</mat-dialog-actions>\r\n"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-12\">\r\n    <h2 mat-dialog-title>Add New Post</h2>\r\n    <mat-dialog-content [formGroup]=\"form\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-12\">\r\n          <!-- roles  -->\r\n          <div class=\"form-group\">\r\n            <mat-form-field style=\"width: 350px;\">\r\n              <input matInput type=\"text\" formControlName=\"title\" class=\"form-control\" id=\"addNewPostTitle\" placeholder=\"Post Title\">\r\n            </mat-form-field>\r\n          </div>\r\n\r\n          <div class=\"form-group\">\r\n            <div class=\"row\">\r\n              <div class=\"col-sm-6\">\r\n                <mat-form-field style=\"width: 350px;\">\r\n                  <textarea matInput (change)=\"updatePreview()\" type=\"text\" formControlName=\"content\" class=\"form-control\" id=\"addNewPostContent\" placeholder=\"Content\"></textarea>\r\n                </mat-form-field>\r\n              </div>\r\n              <div *ngIf=\"preview\" class=\"col-sm-6\">\r\n                <div>\r\n                  <div highlight=\"all\" [innerHTML]=\"previewContent | safe:'html'\"></div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            \r\n          </div>\r\n          <div class=\"form-group\">\r\n            <input type=\"checkbox\" (change)=\"showPreview($event); false\" /> Preview Content\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <!--<div>\r\n        <input type=\"checkbox\" (change)=\"showPreview($event); false\" /> Preview\r\n      </div>-->\r\n    </mat-dialog-content>\r\n    <mat-dialog-actions>\r\n          <button mat-button (click)=\"close()\">Cancel</button>\r\n          <button class=\"mat-raised-button mat-primary\" (click)=\"save()\">Save</button>\r\n    </mat-dialog-actions>\r\n  </div>\r\n</div>\r\n\r\n"
 
 /***/ }),
 
@@ -1612,6 +1612,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services */ "./src/app/services/index.ts");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../models */ "./src/app/models/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1628,14 +1629,23 @@ var __param = (undefined && undefined.__param) || function (paramIndex, decorato
 
 
 
+
 var NewBlogDialogComponent = /** @class */ (function () {
-    function NewBlogDialogComponent(auth, userService, fb, dialogRef, data) {
+    function NewBlogDialogComponent(auth, userService, blogService, fb, dialogRef, data) {
         this.auth = auth;
         this.userService = userService;
+        this.blogService = blogService;
         this.fb = fb;
         this.dialogRef = dialogRef;
+        this.user = _services__WEBPACK_IMPORTED_MODULE_3__["ANONYMOUS_USER"];
+        this.isLoggedIn = false;
+        this.preview = false;
     }
     NewBlogDialogComponent.prototype.ngOnInit = function () {
+        this.isLoggedIn = this.auth.isUserLoggedIn();
+        if (this.isLoggedIn) {
+            this.user = this.auth.loggedInUser();
+        }
         this.form = this.fb.group({
             title: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
             content: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
@@ -1644,15 +1654,41 @@ var NewBlogDialogComponent = /** @class */ (function () {
     NewBlogDialogComponent.prototype.close = function () {
         this.dialogRef.close();
     };
+    NewBlogDialogComponent.prototype.closeWithState = function (state) {
+        this.dialogRef.close();
+    };
+    NewBlogDialogComponent.prototype.save = function () {
+        var _this = this;
+        this.newPost = new _models__WEBPACK_IMPORTED_MODULE_4__["Post"]();
+        this.newPost.content = this.form.controls.content.value;
+        this.newPost.title = this.form.controls.title.value;
+        this.newPost.userId = this.user.id;
+        //this.newPost.author = this.user.firstName + this.user.lastName;
+        this.blogService.createPost(this.newPost).subscribe(function (didCreate) { return _this.processNewPost(didCreate); });
+    };
+    NewBlogDialogComponent.prototype.processNewPost = function (didCreate) {
+        this.closeWithState(didCreate);
+    };
+    NewBlogDialogComponent.prototype.showPreview = function (event) {
+        this.preview = event.currentTarget.checked;
+        this.previewContent = this.form.controls.content.value;
+        console.log(event.currentTarget.checked);
+        event.stopPropagation();
+        return false;
+    };
+    NewBlogDialogComponent.prototype.updatePreview = function () {
+        this.previewContent = this.form.controls.content.value;
+    };
     NewBlogDialogComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-new-blog-dialog',
             template: __webpack_require__(/*! ./new-blog-dialog.component.html */ "./src/app/dialogs/new-blog-dialog/new-blog-dialog.component.html"),
             styles: [__webpack_require__(/*! ./new-blog-dialog.component.css */ "./src/app/dialogs/new-blog-dialog/new-blog-dialog.component.css")]
         }),
-        __param(4, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])),
+        __param(5, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])),
         __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
             _services__WEBPACK_IMPORTED_MODULE_3__["UserService"],
+            _services__WEBPACK_IMPORTED_MODULE_3__["BlogService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
             _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialogRef"], Object])
     ], NewBlogDialogComponent);
@@ -3651,6 +3687,12 @@ var BlogService = /** @class */ (function () {
         //const url = `${this.heroesUrl}/${id}`; // DELETE api/heroes/42
         return this._http.delete('/api/Blogs/Post/' + postId, options)
             .catch(this.handleError);
+    };
+    BlogService.prototype.createPost = function (post) {
+        var options = {
+            headers: this.headers
+        };
+        return this._http.post('/api/Blogs/Post', post, options).catch(this.handleError);
     };
     BlogService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

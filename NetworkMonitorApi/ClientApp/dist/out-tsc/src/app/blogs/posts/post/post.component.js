@@ -45,7 +45,6 @@ var PostComponent = /** @class */ (function () {
         configurable: true
     });
     PostComponent.prototype.ngOnInit = function () {
-        this.currentPost.comments = [];
     };
     PostComponent.prototype.processUserData = function (data) {
         this.myVote.userId = data.id;
