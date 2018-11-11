@@ -9,6 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+export var POST_PLACEHOLDER = {
+    postId: 0,
+    userId: null,
+    author: null,
+    comments: [],
+    content: null,
+    disLikes: 0,
+    likes: 0,
+    title: null,
+    blogId: null,
+    dateCreated: null,
+    dateModified: null,
+};
 var BlogService = /** @class */ (function () {
     function BlogService(_http) {
         this._http = _http;

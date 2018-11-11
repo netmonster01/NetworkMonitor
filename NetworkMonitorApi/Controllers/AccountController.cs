@@ -71,7 +71,10 @@ namespace NetworkMonitorApi.Controllers
         [AllowAnonymous]
         public IActionResult IsAuthenticated()
         {
-            _loggerRepository.Write(LogType.Info, string.Format("AuthCheck"));
+            if (User.Identity.IsAuthenticated)
+            {
+                _loggerRepository.Write(LogType.Pass, string.Format("AuthCheck"));
+            }
             return Ok(User.Identity.IsAuthenticated);
         }
 
@@ -153,7 +156,7 @@ namespace NetworkMonitorApi.Controllers
 
                 if (!string.IsNullOrEmpty(uName))
                 {
-                    var roles = await _rolesRepository.GetUserRolesAsync(uName); //await _userManager.GetRolesAsync(new ApplicationUser
+                    var roles = await _rolesRepository.GetUserRolesAsync(uName);
                     
                     user.UserName = uName;
                     user.Email = uName;

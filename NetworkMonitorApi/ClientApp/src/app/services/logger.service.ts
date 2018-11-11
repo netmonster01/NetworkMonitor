@@ -27,6 +27,11 @@ export class LoggerService {
     return this.http.get<Log[]>('/api/Logs').catch(this.handleError).shareReplay().do(log => console.log(log)); 
   }
 
+  getErrorLogCount() {
+
+    return this.http.get<number>('/api/Logs/ErrorLogCount').catch(this.handleError);
+  }
+
   handleError(handleError: any): any {
     console.log(handleError);
   }

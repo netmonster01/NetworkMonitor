@@ -11,7 +11,7 @@ namespace NetworkMonitorApi.Models
         public string Title { get; set; }
         public string Url { get; set; }
 
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public DateTime DateCreated{get;set;}
         public DateTime DateModified { get; set; }
         public ICollection<Post> Posts { get; set; }

@@ -16,5 +16,7 @@ namespace NetworkMonitorApi.Models
         public string UserId { get; set; }
         public string Source { get; set; }
         public DateTime DateCreated { get; set; }
+
+        public bool Checked { get; set; }
     }
 }

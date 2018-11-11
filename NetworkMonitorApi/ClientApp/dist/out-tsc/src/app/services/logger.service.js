@@ -24,6 +24,9 @@ var LoggerService = /** @class */ (function () {
     LoggerService.prototype.getLogs = function () {
         return this.http.get('/api/Logs').catch(this.handleError).shareReplay().do(function (log) { return console.log(log); });
     };
+    LoggerService.prototype.getErrorLogCount = function () {
+        return this.http.get('/api/Logs/ErrorLogCount').catch(this.handleError);
+    };
     LoggerService.prototype.handleError = function (handleError) {
         console.log(handleError);
     };

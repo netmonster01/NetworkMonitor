@@ -1,85 +1,249 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Models;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
+using static NetworkMonitorApi.CustomEnums;
 
 namespace NetworkMonitorApi.Data
 {
     public static class SeedData
     {
+        private static ApplicationDbContext _context;
+        private static UserManager<ApplicationUser> _userManager;
+
+        private static string adminEmail = "admin@netcms.com";
+        private static string adminPassword = "P@ssword1";
+
+        private static string testUserEmail = "test@gmail.com";
+        private static string testUserPassword = "P@ssword1";
+
+        private static RoleManager<IdentityRole> _roleManager;
+        private static IRolesRepository _rolesRepository;
+        private static IUsersRepository _usersRepository;
+        private static ILoggerRepository _logRepository;
+
+
+        public static string AdminGuid { get; set; }
 
         public static async Task InitializeAsync(IServiceProvider serviceProvider)
         {
-            string adminEmail = "admin@netcms.com";
-            string adminPassword = "P@ssword1";
 
-            var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var rolesRepository = serviceProvider.GetRequiredService<IRolesRepository>();
-            var usersRepository = serviceProvider.GetRequiredService<IUsersRepository>();
-            var logRepository = serviceProvider.GetRequiredService<ILoggerRepository>();
+            _context = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            _userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            _roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            _rolesRepository = serviceProvider.GetRequiredService<IRolesRepository>();
+            _usersRepository = serviceProvider.GetRequiredService<IUsersRepository>();
+            _logRepository = serviceProvider.GetRequiredService<ILoggerRepository>();
 
-            ApplicationUser adminUser = new ApplicationUser();
-            // 1. check if admin user exists.
+            _context.Database.EnsureCreated();
+
+            // 1. setup roles.
+            SeedRoles();
+
+            // 2 setup users.
+            SeedUsers();
+
+            // setup blog .
+            await SeedBlogAsync();
+
+            // setup default post.
+            await SeedPostAsync();
+
+            // setup comments on the defualt post.
+            await SeedCommentsAsync();
+        }
+
+        public static async Task SeedBlogAsync()
+        {
+
             try
             {
-                adminUser = userManager.Users.SingleOrDefault(r => r.Email == adminEmail);
+                Blog blog = _context.Blogs.Where(b => b.BlogId == 1).FirstOrDefault();
 
-                // if not create the admin user.
-                if (adminUser == null)
+                if (blog == null)
                 {
-                    ApplicationUser admin = new ApplicationUser
+                    blog = new Blog
                     {
-                        FirstName = "admin",
-                        LastName = "admin",
-                        Email = adminEmail,
-                        UserName = adminEmail
+                        BlogId = 1,
+                        Title = "Main Blog",
+                        Url = "/blogs",
+                        UserId = _userManager.FindByNameAsync(adminEmail).Result.Id,
                     };
+                    _context.Blogs.Add(blog);
+                    await _context.SaveChangesAsync();
+                    _logRepository.Write(LogType.Info, "Seeded Blog.");
 
-                   var result = await userManager.CreateAsync(admin, adminPassword);
-
-                    if(!result.Succeeded)
-                    {
-                        throw new Exception(string.Format("failed with error {0}. ", result.Errors.FirstOrDefault()));
-
-                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logRepository.Write(ex);
             }
+        }
 
-            // 2 check if roles are created 
-            context.Database.EnsureCreated();
-            if (!context.Roles.Any())
+        public static async Task SeedPostAsync()
+        {
+            try
             {
-                // if not create them.
-              bool didCreateRoles =  await rolesRepository.CreateInitialRoles();
-            }
-
-            if (!context.Logs.Any())
-            {
-                // if not create them.
-                logRepository.Write(new Log
+                if (!_context.Posts.Any())
                 {
-                    DateCreated = DateTime.Now,
-                    LogType = CustomEnums.LogType.Debug,
-                    Message = "initial create",
-                    Source = "SeedData>InitializeAsync",
-                    UserId ="kscavitt@gmail.com"
-                });
+                    Post post = new Post
+                    {
+                        BlogId = 1,
+                        Title = "My First Blog Post.",
+                        UserId = _userManager.FindByNameAsync(adminEmail).Result.Id,
+                        Author = "Admin Admin",
+                        Likes = 10,
+                        DisLikes = 1,
+                        DateCreated = DateTime.Now,
+                        Content = @"<b>hello world</b><br><pre data-lang='HTML'><code>function cool(x) {return x + 1;}</code></pre><br><pre><code highlight>public class hot(string degrees){}</code></pre>"
+                    };
+                    _context.Posts.Add(post);
+                    await _context.SaveChangesAsync();
+                    //_logRepository.Write(LogType.Info, "Seeded Post.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
 
-            // 3. check if admin user has admin role.
-            var adminUserWithRoles =  usersRepository.GetAllUsersAsync().FirstOrDefault(c=>c.Email == adminEmail);
-            if (adminUserWithRoles != null && !adminUserWithRoles.Roles.Any())
+        }
+
+
+        public static async Task SeedCommentsAsync()
+        {
+            try
             {
-                bool didCreate = await rolesRepository.AssignRole(adminUserWithRoles.Email, "Admin");
+                Post post = _context.Posts.FirstOrDefault();
+                post.Comments = _context.Comments.Where(c => c.PostId == post.PostId).ToList();
+                if (post != null && (post.Comments == null || !post.Comments.Any()))
+                {
+                    List<Comment> comments = new List<Comment>();
+                    Random rnd = new Random();
+                    for (int i = 0; i < 5; i++)
+                    {
+                        comments.Add(new Comment
+                        {
+                            DateCreated = DateTime.Now,
+                            Message = LoremIpsum(),
+                            PostId = post.PostId,
+                            UserId = _userManager.FindByNameAsync(testUserEmail).Result.Id,
+                            UserName = testUserEmail,
+                            Likes = rnd.Next(1, 15),
+                            DisLikes = rnd.Next(1, 5)
+                        });
+                    }
+                    _context.Comments.AddRange(comments.ToArray());
+                    await _context.SaveChangesAsync();
+                    //_logRepository.Write(LogType.Debug, "Created Comments");
+                }
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+        public static void SeedUsers()
+        {
+
+            if (_userManager.FindByNameAsync(adminEmail).Result == null)
+            {
+                ApplicationUser user = new ApplicationUser();
+                user.UserName = adminEmail;
+                user.Email = adminEmail;
+                user.FirstName = "Admin";
+                user.LastName = "Admin";
+
+                IdentityResult result = _userManager.CreateAsync
+                (user, adminPassword).Result;
+
+                if (result.Succeeded)
+                {
+
+                    _userManager.AddToRoleAsync(user,
+                                        RoleType.Admin.ToString()).Wait();
+
+                    AdminGuid = _userManager.FindByNameAsync(adminEmail).Result.Id;
+                }
+            }
+
+            if (_userManager.FindByNameAsync(testUserEmail).Result == null)
+            {
+                ApplicationUser user = new ApplicationUser();
+                user.UserName = testUserEmail;
+                user.Email = testUserEmail;
+                user.FirstName = "John";
+                user.LastName = "Smith";
+
+                IdentityResult result = _userManager.CreateAsync
+                (user, testUserPassword).Result;
+
+                if (result.Succeeded)
+                {
+                    _userManager.AddToRoleAsync(user,
+                                        RoleType.Reader.ToString()).Wait();
+                }
+            }
+        }
+
+        public static void SeedRoles()
+        {
+
+            if (!_roleManager.RoleExistsAsync(RoleType.Admin.ToString()).Result)
+            {
+                IdentityRole role = new IdentityRole();
+                role.Name = RoleType.Admin.ToString();
+                IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
+            }
+
+            if (!_roleManager.RoleExistsAsync(RoleType.Reader.ToString()).Result)
+            {
+                IdentityRole role = new IdentityRole();
+                role.Name = RoleType.Reader.ToString();
+                IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
+            }
+
+            if (!_roleManager.RoleExistsAsync(RoleType.Publisher.ToString()).Result)
+            {
+                IdentityRole role = new IdentityRole();
+                role.Name = RoleType.Publisher.ToString();
+                IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
+            }
+        }
+        private static string LoremIpsum()
+        {
+            string HTML = null;
+            WebRequest request = WebRequest.Create("http://lipsum.com/feed/html");
+            request.Credentials = CredentialCache.DefaultCredentials;
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+            HTML = reader.ReadToEnd(); //se citeste codul HTMl
+
+            //searching for Lorem Ipsum
+            HTML = HTML.Remove(0, HTML.IndexOf("<div id=\"lipsum\">"));
+            HTML = HTML.Remove(HTML.IndexOf("</div>"));
+            HTML = HTML
+                 .Replace("<div id=\"lipsum\">", "")
+                 .Replace("</div>", "")
+                 .Replace("<p>", "")
+                 .Replace("</p>", "");
+
+            reader.Close();
+            dataStream.Close();
+            response.Close();
+            return HTML;
         }
     }
 }

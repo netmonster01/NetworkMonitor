@@ -57,7 +57,8 @@ namespace NetworkMonitorApi.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    AvatarImage = table.Column<byte[]>(nullable: true)
+                    AvatarImage = table.Column<byte[]>(nullable: true),
+                    AvatarImageType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -72,7 +73,7 @@ namespace NetworkMonitorApi.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
-                    UserID = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false)
                 },
@@ -87,15 +88,31 @@ namespace NetworkMonitorApi.Migrations
                 {
                     LogId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    LogType = table.Column<int>(nullable: false),
+                    LogType = table.Column<string>(nullable: false),
                     Message = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     Source = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(nullable: false)
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    Checked = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Logs", x => x.LogId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    ProjectId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(nullable: true),
+                    Content = table.Column<int>(nullable: false),
+                    ThumbnailId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.ProjectId);
                 });
 
             migrationBuilder.CreateTable(
@@ -129,7 +146,22 @@ namespace NetworkMonitorApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BlogImages",
+                name: "Votes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PostId = table.Column<int>(nullable: false),
+                    UserVote = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Votes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ImageLibrary",
                 columns: table => new
                 {
                     ImageId = table.Column<int>(nullable: false)
@@ -140,9 +172,9 @@ namespace NetworkMonitorApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlogImages", x => x.ImageId);
+                    table.PrimaryKey("PK_ImageLibrary", x => x.ImageId);
                     table.ForeignKey(
-                        name: "FK_BlogImages_Aliases_AliasId",
+                        name: "FK_ImageLibrary_Aliases_AliasId",
                         column: x => x.AliasId,
                         principalTable: "Aliases",
                         principalColumn: "Id",
@@ -268,7 +300,8 @@ namespace NetworkMonitorApi.Migrations
                     Author = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
-                    Likes = table.Column<int>(nullable: false)
+                    Likes = table.Column<int>(nullable: false),
+                    DisLikes = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,10 +322,12 @@ namespace NetworkMonitorApi.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     PostId = table.Column<int>(nullable: false),
                     Message = table.Column<string>(nullable: true),
-                    Userid = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
-                    Likes = table.Column<int>(nullable: false)
+                    Likes = table.Column<int>(nullable: false),
+                    DisLikes = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -343,14 +378,14 @@ namespace NetworkMonitorApi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BlogImages_AliasId",
-                table: "BlogImages",
-                column: "AliasId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
                 table: "Comments",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ImageLibrary_AliasId",
+                table: "ImageLibrary",
+                column: "AliasId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_BlogId",
@@ -376,13 +411,16 @@ namespace NetworkMonitorApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BlogImages");
-
-            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "ImageLibrary");
+
+            migrationBuilder.DropTable(
                 name: "Logs");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Settings");
@@ -391,16 +429,19 @@ namespace NetworkMonitorApi.Migrations
                 name: "SpeedTestResults");
 
             migrationBuilder.DropTable(
+                name: "Votes");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Aliases");
+                name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "Aliases");
 
             migrationBuilder.DropTable(
                 name: "Blogs");

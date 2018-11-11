@@ -2,10 +2,11 @@
   <a class="navbar-brand" href="/">My Network Stats</a>
   <div class="navbar-expand mr-auto">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" [routerLink]="['/']">Home</a>
-      <a class="nav-item nav-link" [routerLink]="['/stats']">Stats</a>
-      <a class="nav-item nav-link" [routerLink]="['/blog']">Blog</a>
-      <a *ngIf="user.isAdmin" class="nav-item nav-link" [routerLink]="['/admin']">Admin</a>
+      <a class="nav-item nav-link active" [routerLink]="['/']">Home &nbsp;</a>
+      <a class="nav-item nav-link" [routerLink]="['/stats']">Stats &nbsp;</a>
+      <a class="nav-item nav-link" [routerLink]="['/blog']">Blog &nbsp;</a>
+      <a *ngIf="user.isAdmin" class="nav-item nav-link" [routerLink]="['/logs']">Logs &nbsp;<span *ngIf="errorCount > 0" class="badge badge-pill badge-danger"> {{errorCount}}</span></a>
+      <a *ngIf="user.isAdmin" class="nav-item nav-link" [routerLink]="['/admin']">Admin &nbsp;</a>
     </div>
   </div>
   <div class="navbar-expand ml-auto navbar-nav">

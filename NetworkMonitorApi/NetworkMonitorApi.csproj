@@ -24,6 +24,7 @@
     <None Remove="ClientApp\src\app\models\blogImage.ts" />
     <None Remove="ClientApp\src\app\models\index.ts" />
     <None Remove="ClientApp\src\app\models\post.ts" />
+    <None Remove="ClientApp\src\app\models\project.ts" />
     <None Remove="ClientApp\src\app\page-not-found\index.ts" />
     <None Remove="ClientApp\src\app\profile\index.ts" />
     <None Remove="ClientApp\src\app\services\index.ts" />
@@ -46,6 +47,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1-beta1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
@@ -64,6 +69,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\applicationError.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\blog.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\blogImage.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\project.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\post.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\page-not-found\index.ts" />

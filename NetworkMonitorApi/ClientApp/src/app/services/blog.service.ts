@@ -4,6 +4,21 @@ import { Blog, Post, BlogImage, Comment } from '../models';
 import { Observable } from 'rxjs/Observable';
 import { concat } from 'rxjs';
 
+export const POST_PLACEHOLDER: Post = {
+  postId: 0,
+  userId: null,
+  author: null,
+  comments: [],
+  content: null,
+  disLikes: 0,
+  likes: 0,
+  title: null,
+  blogId: null,
+  dateCreated: null,
+  dateModified: null,
+  
+};
+
 @Injectable({
   providedIn: 'root'
 })

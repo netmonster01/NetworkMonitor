@@ -17,7 +17,7 @@ namespace NetworkMonitorApi.Core
         Task<bool> CreateCommentAsync(Comment comment);
         Task<bool> CreateBlog(Blog blog);
 
-        Task<bool> CreateBlogImageAsync(BlogImage blogImage);
+        //Task<bool> CreateBlogImageAsync(BlogImage blogImage);
         bool BlogExists(string title);
         Task<bool> DeletePost(int postId);
 

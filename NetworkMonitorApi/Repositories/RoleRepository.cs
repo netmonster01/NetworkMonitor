@@ -8,6 +8,7 @@ using NetworkMonitorApi.Models;
 using Microsoft.Extensions.Configuration;
 using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Dtos;
+using static NetworkMonitorApi.CustomEnums;
 
 namespace NetworkMonitorApi.Repositories
 {
@@ -45,7 +46,9 @@ namespace NetworkMonitorApi.Repositories
             // adding custom roles
             var roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            string[] roleNames = { "Admin", "Reader", "Author" };
+
+            string[] roleNames = Enum.GetNames(typeof(RoleType));
+            //string[]  = { "Admin", "Reader", "Author" };
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)

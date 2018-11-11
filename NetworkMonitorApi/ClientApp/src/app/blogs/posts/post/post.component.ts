@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Post, User, Vote, Comment } from '../../../models';
-import { BlogService, AuthService, ANONYMOUS_USER, VoteService } from '../../../services';
+import { BlogService, AuthService, ANONYMOUS_USER, VoteService, VOTE_PLACEHOLDER, POST_PLACEHOLDER} from '../../../services';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { NewCommentDailogComponent } from '../../../dialogs';
 
@@ -17,8 +17,8 @@ export class PostComponent implements OnInit {
   isLoggedIn = false;
   showComments = false;
   voteDirection = 0;
-  myVote: Vote = new Vote();
-
+  myVote: Vote = VOTE_PLACEHOLDER;
+ 
   @Input() public user: User = ANONYMOUS_USER;
   @Input() set post(post: Post) {
     
@@ -35,9 +35,14 @@ export class PostComponent implements OnInit {
       this.voter.getVote(this.myVote).subscribe((vote: Vote) => this.processvVoteData(vote));
     }
     this.currentPost = post;
+    //this.currentPost.content = '?';
+    //this.currentPost.comments = [];
   }
 
-  constructor(private blog: BlogService, private auth: AuthService, private voter: VoteService, private dialog: MatDialog) { }
+  constructor(private blog: BlogService, private auth: AuthService, private voter: VoteService, private dialog: MatDialog) {
+   
+    //this.myVote.userVote = 0;
+  }
 
   ngOnInit() {
 
@@ -85,9 +90,11 @@ export class PostComponent implements OnInit {
 
   processvVoteData(vote: Vote): void {
 
-    console.log(vote);
-    this.voteDirection = vote.userVote;
-    this.myVote = vote;
+    if (vote != null) {
+      this.voteDirection = vote.userVote;
+      this.myVote = vote;
+    }
+    
 
   }
 
@@ -136,7 +143,7 @@ export class PostComponent implements OnInit {
   updateComments(data: Comment): void {
     if (data != null) {
       if (data instanceof Comment) {
-        this.post.comments.push(data);
+        this.currentPost.comments.push(data);
       }
     }
   }

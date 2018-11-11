@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetworkMonitorApi.Data;
@@ -25,7 +20,7 @@ namespace NetworkMonitorApi
                 var context = services.GetRequiredService<ApplicationDbContext>();
                 try
                 {
-                   // SeedData.InitializeAsync(services);
+                   SeedData.InitializeAsync(services);
                 }
                 catch (Exception ex)
                 {

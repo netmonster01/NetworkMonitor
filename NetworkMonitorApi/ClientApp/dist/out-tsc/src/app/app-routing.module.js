@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { NgModule } from '@angular/core';
 import { SignUpComponent } from './login';
-import { AdminComponent } from './admin';
+import { AdminComponent, LogsComponent } from './admin';
 import { SignInComponent } from './login';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home';
@@ -27,6 +27,7 @@ var appRoutes = [
     { path: 'register', component: SignUpComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'blog', component: BlogsComponent },
+    { path: 'logs', component: LogsComponent },
     { path: '403', component: ForbiddenComponent },
     { path: '**', component: PageNotFoundComponent },
 ];

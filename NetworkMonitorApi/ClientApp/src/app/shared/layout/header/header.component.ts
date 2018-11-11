@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, AuthService, ANONYMOUS_USER } from '../../../services';
+import { UserService, AuthService, ANONYMOUS_USER, LoggerService } from '../../../services';
 import { User } from '../../../models';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,24 +12,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 export class HeaderComponent implements OnInit {
 
-  constructor(private _userService: UserService, private auth: AuthService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _userService: UserService, private auth: AuthService, private router: Router, private route: ActivatedRoute, private loggerService: LoggerService) { }
   isAuthenticated: boolean = false;
 
   user: User = ANONYMOUS_USER;
-  //  {
-  //  email: null,
-  //  id: null,
-  //  password: null,
-  //  roles: [],
-  //  token: undefined,
-  //  avatarImageBas64: null,
-  //  firstName: null,
-  //  lastName: null
-  //}
 
-  //user$: Observable<User>;
   isLoggedIn: boolean = false;
   isLoggedOut: boolean = false;
+  errorCount: number;
 
   ngOnInit() {
     this.auth.isAuthenticated().subscribe((data: boolean) => {
@@ -53,12 +43,18 @@ export class HeaderComponent implements OnInit {
 
     if (this.isLoggedIn) {
       this.user = this.auth.loggedInUser();
+
+      this.loggerService.getErrorLogCount().subscribe((errorCount: number) => this.processErrorCount(errorCount));
     }
     else {
      
     }
 
    
+  }
+
+  processErrorCount(errorCount: number): void {
+    this.errorCount = errorCount;
   }
 
   logout() {

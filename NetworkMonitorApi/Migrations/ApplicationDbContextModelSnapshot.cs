@@ -210,14 +210,42 @@ namespace NetworkMonitorApi.Migrations
 
                     b.Property<string>("Url");
 
-                    b.Property<string>("UserID");
+                    b.Property<string>("UserId");
 
                     b.HasKey("BlogId");
 
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("NetworkMonitorApi.Models.BlogImage", b =>
+            modelBuilder.Entity("NetworkMonitorApi.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateModified");
+
+                    b.Property<int>("DisLikes");
+
+                    b.Property<int>("Likes");
+
+                    b.Property<string>("Message");
+
+                    b.Property<int>("PostId");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("NetworkMonitorApi.Models.ImageLibrary", b =>
                 {
                     b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd();
@@ -232,33 +260,7 @@ namespace NetworkMonitorApi.Migrations
 
                     b.HasIndex("AliasId");
 
-                    b.ToTable("BlogImages");
-                });
-
-            modelBuilder.Entity("NetworkMonitorApi.Models.Comment", b =>
-                {
-                    b.Property<int>("CommentId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<DateTime>("DateModified");
-
-                    b.Property<int>("Likes");
-
-                    b.Property<string>("Message");
-
-                    b.Property<int>("PostId");
-
-                    b.Property<string>("UserName");
-
-                    b.Property<string>("Userid");
-
-                    b.HasKey("CommentId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("Comments");
+                    b.ToTable("ImageLibrary");
                 });
 
             modelBuilder.Entity("NetworkMonitorApi.Models.Log", b =>
@@ -266,9 +268,12 @@ namespace NetworkMonitorApi.Migrations
                     b.Property<int>("LogId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Checked");
+
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<int>("LogType");
+                    b.Property<string>("LogType")
+                        .IsRequired();
 
                     b.Property<string>("Message");
 
@@ -309,6 +314,22 @@ namespace NetworkMonitorApi.Migrations
                     b.HasIndex("BlogId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("NetworkMonitorApi.Models.Project", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Content");
+
+                    b.Property<Guid>("ThumbnailId");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("ProjectId");
+
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("NetworkMonitorApi.Models.Setting", b =>
@@ -404,19 +425,19 @@ namespace NetworkMonitorApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("NetworkMonitorApi.Models.BlogImage", b =>
-                {
-                    b.HasOne("NetworkMonitorApi.Models.Alias", "Alias")
-                        .WithMany()
-                        .HasForeignKey("AliasId");
-                });
-
             modelBuilder.Entity("NetworkMonitorApi.Models.Comment", b =>
                 {
                     b.HasOne("NetworkMonitorApi.Models.Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NetworkMonitorApi.Models.ImageLibrary", b =>
+                {
+                    b.HasOne("NetworkMonitorApi.Models.Alias", "Alias")
+                        .WithMany()
+                        .HasForeignKey("AliasId");
                 });
 
             modelBuilder.Entity("NetworkMonitorApi.Models.Post", b =>

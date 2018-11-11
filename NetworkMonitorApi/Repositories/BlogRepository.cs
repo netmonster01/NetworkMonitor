@@ -98,7 +98,7 @@ namespace NetworkMonitorApi.Repositories
                 {
                     ClaimsPrincipal currentUser = _accessor.HttpContext.User;
 
-                    var currentUserName = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
 
                     ApplicationUser user = await _userManager.FindByNameAsync(currentUserName);
                     userName = string.Format("{0} {1}", user.FirstName, user.LastName);
@@ -247,12 +247,12 @@ namespace NetworkMonitorApi.Repositories
             return _applicationDbContext.Blogs.Any(e => e.Title == title);
         }
 
-        public async Task<bool> CreateBlogImageAsync(BlogImage blogImage)
+        public async Task<bool> CreateImageAsync(ImageLibrary incomingImage)
         {
             bool didCreate = false;
             try
             {
-                _applicationDbContext.BlogImages.Add(blogImage);
+                _applicationDbContext.ImageLibrary.Add(incomingImage);
                 await _applicationDbContext.SaveChangesAsync();
                 didCreate = true;
             }

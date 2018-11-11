@@ -3,10 +3,17 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Vote } from '../models';
 
+
+export const VOTE_PLACEHOLDER: Vote = {
+  postId: 0,
+  userVote: 0,
+  userId: null,
+  id: 0
+};
+
 @Injectable({
   providedIn: 'root'
 })
-
 export class VoteService {
 
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });

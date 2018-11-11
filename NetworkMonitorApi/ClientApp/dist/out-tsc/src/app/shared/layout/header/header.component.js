@@ -8,27 +8,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { UserService, AuthService, ANONYMOUS_USER } from '../../../services';
+import { UserService, AuthService, ANONYMOUS_USER, LoggerService } from '../../../services';
 import { Router, ActivatedRoute } from '@angular/router';
 var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent(_userService, auth, router, route) {
+    function HeaderComponent(_userService, auth, router, route, loggerService) {
         this._userService = _userService;
         this.auth = auth;
         this.router = router;
         this.route = route;
+        this.loggerService = loggerService;
         this.isAuthenticated = false;
         this.user = ANONYMOUS_USER;
-        //  {
-        //  email: null,
-        //  id: null,
-        //  password: null,
-        //  roles: [],
-        //  token: undefined,
-        //  avatarImageBas64: null,
-        //  firstName: null,
-        //  lastName: null
-        //}
-        //user$: Observable<User>;
         this.isLoggedIn = false;
         this.isLoggedOut = false;
     }
@@ -51,9 +41,13 @@ var HeaderComponent = /** @class */ (function () {
         this.auth.isLoggedOut$.subscribe(function (isLoggedOut) { return _this.isLoggedOut === isLoggedOut; });
         if (this.isLoggedIn) {
             this.user = this.auth.loggedInUser();
+            this.loggerService.getErrorLogCount().subscribe(function (errorCount) { return _this.processErrorCount(errorCount); });
         }
         else {
         }
+    };
+    HeaderComponent.prototype.processErrorCount = function (errorCount) {
+        this.errorCount = errorCount;
     };
     HeaderComponent.prototype.logout = function () {
         this.auth.logout();
@@ -75,7 +69,7 @@ var HeaderComponent = /** @class */ (function () {
             templateUrl: './header.component.html',
             styleUrls: ['./header.component.css']
         }),
-        __metadata("design:paramtypes", [UserService, AuthService, Router, ActivatedRoute])
+        __metadata("design:paramtypes", [UserService, AuthService, Router, ActivatedRoute, LoggerService])
     ], HeaderComponent);
     return HeaderComponent;
 }());

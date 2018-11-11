@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NetworkMonitorApi.Models
 {
-    public class BlogImage
+    public class ImageLibrary
     {
         [Key]
         public int ImageId { get; set; }

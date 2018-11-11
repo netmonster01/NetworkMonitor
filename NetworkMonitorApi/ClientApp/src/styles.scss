@@ -9,6 +9,13 @@ $primary-color-light: #B9EDFB;
 $primary-text: #FFFFFF;
 $primary-text-dark: #000000;
 $error-text: #bd2130;
+
+$log-error: #bd2130;
+$log-info: #369;
+$log-pass: #2fd132;
+$log-warn: #f36d33;
+$log-debug: #929090;
+
 $primary-background: #303030;
 $primary-light-background: #929090;
 $primary-border-color: #ffffff;
@@ -181,4 +188,29 @@ nav .mat-button.active {
 textarea {
   width: 400px !important;
   height: 200px !important;
+}
+
+.logError{
+  background-color: $log-error;
+}
+
+.logInfo {
+  background-color: $log-info;
+}
+
+
+.logPass {
+  background-color: $log-pass;
+}
+
+.logWarn {
+  background-color: $log-warn;
+}
+
+.logDebug {
+  background-color: $log-debug;
+}
+
+.logPanel {
+  overflow-wrap: break-word;
 }

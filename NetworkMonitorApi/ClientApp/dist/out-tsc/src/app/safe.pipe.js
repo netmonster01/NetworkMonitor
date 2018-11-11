@@ -15,7 +15,7 @@ var SafePipe = /** @class */ (function () {
     }
     SafePipe.prototype.transform = function (value, type) {
         switch (type) {
-            case 'html': return this.sanitizer.bypassSecurityTrustHtml(value);
+            case 'html': return value != null ? this.sanitizer.bypassSecurityTrustHtml(value) : '';
             case 'style': return this.sanitizer.bypassSecurityTrustStyle(value);
             case 'script': return this.sanitizer.bypassSecurityTrustScript(value);
             case 'url': return this.sanitizer.bypassSecurityTrustUrl(value);

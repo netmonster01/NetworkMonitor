@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatPaginatorModule, MatSortModule, MatTableModule, MatProgressSpinnerModule } from "@angular/material";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BlogsComponent, PostsComponent, PostComponent } from './blogs';
 import { AuthService, BlogService, StatsService, UserService, LoggerService, DashboardService, VoteService } from './services';
@@ -39,6 +40,11 @@ import { HighlightModule } from 'ngx-highlightjs';
 import { NoRolesComponent } from './responses/no-roles/no-roles.component';
 import { DashboardComponent, BlogWidgetComponent } from './dashboard';
 import { NewCommentDirective } from './directives/new-comment.directive';
+import { CommonComponent } from './dialogs/common/common.component';
+import { ProjectsComponent } from './projects/projects.component';
+import { ProjectComponent } from './projects/project/project.component';
+import { LogsComponent } from './admin/logs/logs.component';
+import { LogComponent } from './admin/logs/log/log.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -75,6 +81,11 @@ var AppModule = /** @class */ (function () {
                 NewCommentDailogComponent,
                 NewCommentDirective,
                 PostComponent,
+                CommonComponent,
+                ProjectsComponent,
+                ProjectComponent,
+                LogsComponent,
+                LogComponent,
             ],
             imports: [
                 BrowserModule,
@@ -89,6 +100,10 @@ var AppModule = /** @class */ (function () {
                 MatChipsModule,
                 BrowserAnimationsModule,
                 MatDialogModule,
+                MatProgressSpinnerModule,
+                MatTableModule,
+                MatPaginatorModule,
+                MatSortModule,
                 HighlightModule.forRoot({ theme: 'agate' })
             ],
             providers: [AuthService, UserService, StatsService, BlogService, AuthGuard, RoleGuard, LoggerService, DashboardService, VoteService],

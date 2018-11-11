@@ -5,6 +5,8 @@ using NetworkMonitorApi.Core;
 using NetworkMonitorApi.Data;
 using NetworkMonitorApi.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using static NetworkMonitorApi.CustomEnums;
 
@@ -60,6 +62,30 @@ namespace NetworkMonitorApi.Repositories
 
             _applicationDbContext.Logs.Add(log);
             _applicationDbContext.SaveChangesAsync();
+        }
+
+        public List<Log> GetLogs()
+        {
+            List<Log> logs = new List<Log>();
+            try
+            {
+                List<Log> uncheckedList = _applicationDbContext.Logs.Where(l => l.Checked == false).ToList();
+                logs = uncheckedList.ToList();
+                uncheckedList = uncheckedList.Where(x => (x.Checked = false) == true).ToList();
+                _applicationDbContext.Logs.UpdateRange(uncheckedList.ToArray());
+                _applicationDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Write(ex);
+            }
+
+            return logs;
+        }
+
+        public int ErrorLogCount()
+        {
+            return _applicationDbContext.Logs.Where(l => l.LogType == LogType.Error && l.Checked == false).Count();
         }
     }
 }

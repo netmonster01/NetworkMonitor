@@ -18,7 +18,7 @@ namespace NetworkMonitorApi.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILoggerRepository _loggerRepository;
-
+        
         public LogsController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -30,7 +30,7 @@ namespace NetworkMonitorApi.Controllers
         [HttpGet]
         public IEnumerable<Log> GetLogs()
         {
-            return _context.Logs;
+            return _loggerRepository.GetLogs();
         }
 
 
@@ -104,6 +104,20 @@ namespace NetworkMonitorApi.Controllers
             return Ok(log);
         }
 
+
+        [HttpGet]
+        [Route("ErrorLogCount")]
+        public async Task<IActionResult> GetErrorLogCount()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            int count = _loggerRepository.ErrorLogCount();
+
+            return Ok(count);
+        }
         private bool LogExists(int id)
         {
             return _context.Logs.Any(e => e.LogId == id);

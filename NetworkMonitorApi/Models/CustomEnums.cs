@@ -9,8 +9,10 @@ namespace NetworkMonitorApi
     {
         public enum ContentType
         {
-            Blog = 1,
-            Article = 2,
+            Blog,
+            Article,
+            Project
+
         }
 
         public enum LogType
@@ -21,6 +23,13 @@ namespace NetworkMonitorApi
             Info,
             Pass,
             Fail
+        }
+
+        public enum RoleType
+        {
+            Admin,
+            Reader,
+            Publisher
         }
     }
 }

@@ -9,6 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+export var VOTE_PLACEHOLDER = {
+    postId: 0,
+    userVote: 0,
+    userId: null,
+    id: 0
+};
 var VoteService = /** @class */ (function () {
     function VoteService(_http) {
         this._http = _http;

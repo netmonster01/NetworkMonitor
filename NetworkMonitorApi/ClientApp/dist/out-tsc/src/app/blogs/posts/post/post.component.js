@@ -8,8 +8,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component, Input } from '@angular/core';
-import { Post, User, Vote, Comment } from '../../../models';
-import { BlogService, AuthService, ANONYMOUS_USER, VoteService } from '../../../services';
+import { Post, User, Comment } from '../../../models';
+import { BlogService, AuthService, ANONYMOUS_USER, VoteService, VOTE_PLACEHOLDER } from '../../../services';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { NewCommentDailogComponent } from '../../../dialogs';
 var PostComponent = /** @class */ (function () {
@@ -23,8 +23,9 @@ var PostComponent = /** @class */ (function () {
         this.isLoggedIn = false;
         this.showComments = false;
         this.voteDirection = 0;
-        this.myVote = new Vote();
+        this.myVote = VOTE_PLACEHOLDER;
         this.user = ANONYMOUS_USER;
+        //this.myVote.userVote = 0;
     }
     Object.defineProperty(PostComponent.prototype, "post", {
         set: function (post) {
@@ -40,6 +41,8 @@ var PostComponent = /** @class */ (function () {
                 this.voter.getVote(this.myVote).subscribe(function (vote) { return _this.processvVoteData(vote); });
             }
             this.currentPost = post;
+            //this.currentPost.content = '?';
+            //this.currentPost.comments = [];
         },
         enumerable: true,
         configurable: true
@@ -80,9 +83,10 @@ var PostComponent = /** @class */ (function () {
         this.voter.addVote(this.myVote).subscribe(function (vote) { return _this.processvVoteData(vote); });
     };
     PostComponent.prototype.processvVoteData = function (vote) {
-        console.log(vote);
-        this.voteDirection = vote.userVote;
-        this.myVote = vote;
+        if (vote != null) {
+            this.voteDirection = vote.userVote;
+            this.myVote = vote;
+        }
     };
     PostComponent.prototype.downVote = function () {
         // need to check currect vote
@@ -118,7 +122,7 @@ var PostComponent = /** @class */ (function () {
     PostComponent.prototype.updateComments = function (data) {
         if (data != null) {
             if (data instanceof Comment) {
-                this.post.comments.push(data);
+                this.currentPost.comments.push(data);
             }
         }
     };
