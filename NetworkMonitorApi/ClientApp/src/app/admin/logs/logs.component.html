@@ -1,3 +1,15 @@
+<div class="row">
+  <div class="col-sl-12">
+    <div class="form-group">
+      <div class="input-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-filter" aria-hidden="true"></i></span>
+        </div>
+        <input [(ngModel)]="searchText" placeholder="Filter">
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row panel">
   <div class="col-sm-12">
     <div class="row">
@@ -17,8 +29,8 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-12" *ngFor="let log of logs;">
+<div class="row" *ngIf="logs">
+  <div class="col-sm-12" *ngFor="let log of logs | filter: {source: searchText, message: searchText,  userId: searchText};  let i=index;">
     <div class="row logPanel" [class.logError]="log.logType == 0" [class.logInfo]="log.logType == 3" [class.logPass]="log.logType == 4" [class.logWarn]="log.logType == 1" [class.logDebug]="log.logType == 2" [class.logFail]="log.logType == 5">
       <div class="col-sm-4">
         {{ log.source }}

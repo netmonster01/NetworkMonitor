@@ -67,7 +67,8 @@ var ProfileComponent = /** @class */ (function () {
         return bytes;
     };
     ProfileComponent.prototype.submitHandler = function () {
-        this.auth.updateProfile(this.user).subscribe(function (data) { console.log(data); });
+        var _this = this;
+        this.auth.updateProfile(this.user).subscribe(function (data) { return _this.processData(data); });
     };
     ProfileComponent = __decorate([
         Component({

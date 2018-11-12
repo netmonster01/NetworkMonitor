@@ -122,10 +122,9 @@ export class AuthService {
 
     const options = {
       headers: this.headers,
-      //processData: false
     };
-    
-    return this.http.put<User>('/api/Account/UpdateProfile', JSON.stringify(user), options);//.shareReplay().do(u => console.log(u));
+
+   return this.http.put<User>('/api/Account/UpdateProfile', JSON.stringify(user), options);//.shareReplay().do(u => console.log(u));
   }
 
   decode() {

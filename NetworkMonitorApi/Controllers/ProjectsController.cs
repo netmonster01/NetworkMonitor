@@ -48,20 +48,20 @@ namespace NetworkMonitorApi.Controllers
         //    return Ok(project);
         //}
 
-        //// POST: api/Projects
-        //[HttpPost]
-        //public async Task<IActionResult> PostProject([FromBody] Project project)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        // POST: api/Projects
+        [HttpPost]
+        public async Task<IActionResult> PostProject([FromBody] Project project)
+        {
+            bool didCreate = false;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    _context.Projects.Add(project);
-        //    await _context.SaveChangesAsync();
+            didCreate = await _projectRepository.AddProjectAsync(project);
 
-        //    return CreatedAtAction("GetProject", new { id = project.ProjectId }, project);
-       // }
+            return Ok(didCreate);
+        }
 
         //// DELETE: api/Projects/5
         //[HttpDelete("{id}")]

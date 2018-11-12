@@ -92,8 +92,9 @@ namespace NetworkMonitorApi.Repositories
             //return GetRolesByEmail(email) != null ?  
         }
 
-        public async Task<bool> UpdateProfileAsync(User user)
+        public async Task<User> UpdateProfileAsync(User user)
         {
+            User returnUser = new User();
             if(user == null || user.UserName == null)
             {
                 throw new Exception("user is required");
@@ -104,7 +105,7 @@ namespace NetworkMonitorApi.Repositories
             try
             {
                 //user.AvatarImage = Convert.FromBase64String(user.AvatarImageBas64);
-                var profile = _dbContext.Users.Where(c => c.UserName == user.UserName).FirstOrDefault();
+                ApplicationUser profile = _dbContext.Users.Where(c => c.UserName == user.UserName).FirstOrDefault();
                 if ( profile != null)
                 {
                     // convert to a 
@@ -117,9 +118,9 @@ namespace NetworkMonitorApi.Repositories
                         AvatarImage = user.AvatarImage,
                         AvatarImageType = user.AvatarImageType
                     };
-                    //_dbContext.Users.Update(userToUpdate);
+                    
                     await UpdateProfileAsync(userToUpdate);
-                    didCreate = true;
+                    returnUser = (User) userToUpdate;
                 }
             }
             catch (Exception ex)
@@ -127,9 +128,9 @@ namespace NetworkMonitorApi.Repositories
                 _loggerRepository.Write(ex);
             }
 
-            return didCreate;
+            return returnUser;
         }
-        public async Task<bool> UpdateProfileAsync(ApplicationUser user)
+        public async Task<ApplicationUser> UpdateProfileAsync(ApplicationUser user)
         {
             if (user == null || user.UserName == null)
             {
@@ -137,11 +138,11 @@ namespace NetworkMonitorApi.Repositories
 
             }
 
-            bool didCreate = false;
+            ApplicationUser profile = new ApplicationUser();
             try
             {
                 //user.AvatarImage = Convert.FromBase64String(user.AvatarImageBas64);
-                var profile = _dbContext.Users.Where(c => c.UserName == user.UserName).FirstOrDefault();
+                profile = _dbContext.Users.Where(c => c.UserName == user.UserName).FirstOrDefault();
                 if (profile != null)
                 {
                     profile.FirstName = user.FirstName;
@@ -163,7 +164,6 @@ namespace NetworkMonitorApi.Repositories
                     _dbContext.Entry(profile).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     //_dbContext.Users.Update(user);
                     _dbContext.SaveChanges();
-                    didCreate = true;
                 }
             }
             catch (Exception ex)
@@ -171,7 +171,7 @@ namespace NetworkMonitorApi.Repositories
                 _loggerRepository.Write(ex);
             }
 
-            return didCreate;
+            return profile;
         }
 
         private List<string> GetRolesByEmail(string email)

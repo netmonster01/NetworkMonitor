@@ -86,10 +86,10 @@ namespace NetworkMonitorApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> UpdateProfile([FromBody] User user) 
         {
-       
-            bool didUpdate = await _usersRepository.UpdateProfileAsync(user);
 
-            return Ok(didUpdate);
+            User updatedUser = await _usersRepository.UpdateProfileAsync(user);
+
+            return Ok(updatedUser);
         }
 
         [HttpGet]

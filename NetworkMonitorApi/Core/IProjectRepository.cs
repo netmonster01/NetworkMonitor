@@ -11,6 +11,6 @@ namespace NetworkMonitorApi.Core
         List<Project> GetProjects();
         Project GetProject(int projectID);
         Project GetProject(string projectName);
-        bool AddProject();
+        Task<bool> AddProjectAsync(Project project);
     }
 }

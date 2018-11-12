@@ -11,6 +11,7 @@ import { ProfileComponent } from './profile';
 import { ForbiddenComponent } from './forbidden';
 import { BlogsComponent } from './blogs';
 import { AuthGuard, RoleGuard } from './guards';
+import { ProjectsComponent} from './projects';
 
 const appRoutes: Routes = [
  
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'blog', component: BlogsComponent },
   { path: 'logs', component: LogsComponent },
+  { path: 'projects', component: ProjectsComponent },
   { path: '403', component: ForbiddenComponent },
   { path: '**', component: PageNotFoundComponent },
 ]

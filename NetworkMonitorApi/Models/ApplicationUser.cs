@@ -16,5 +16,19 @@ namespace NetworkMonitorApi.Models
 
         public string AvatarImage { get; set; }
         public string AvatarImageType { get; set; }
+
+        public static explicit operator User(ApplicationUser incomingUser)
+        {
+            return new User {
+                Id = incomingUser.Id,
+                AvatarImageBase64 = incomingUser.AvatarImage,
+                Email = incomingUser.Email,
+                FirstName = incomingUser.FirstName,
+                LastName = incomingUser.LastName,
+                IsAdmin = incomingUser.Roles?.Any() ?? incomingUser.Roles.Contains("Admin"),
+                AvatarImageType = incomingUser.AvatarImageType,
+                UserName = incomingUser.UserName
+            }; // do your mapping
+        }
     }
 }

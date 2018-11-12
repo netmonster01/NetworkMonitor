@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NetworkMonitorApi.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -107,8 +107,12 @@ namespace NetworkMonitorApi.Migrations
                     ProjectId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
-                    Content = table.Column<int>(nullable: false),
-                    ThumbnailId = table.Column<Guid>(nullable: false)
+                    Content = table.Column<string>(nullable: true),
+                    ThumbnailImage = table.Column<byte[]>(nullable: true),
+                    ThumbnailImageType = table.Column<string>(nullable: true),
+                    GitHubUrl = table.Column<string>(nullable: true),
+                    Keywords = table.Column<string>(nullable: true),
+                    Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

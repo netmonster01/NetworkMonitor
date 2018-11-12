@@ -5,3 +5,4 @@ export * from './blog.service';
 export * from './logger.service';
 export * from './dashboard.service';
 export * from './vote.service';
+export * from './project.service';

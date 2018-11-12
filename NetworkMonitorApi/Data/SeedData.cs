@@ -46,7 +46,7 @@ namespace NetworkMonitorApi.Data
             _context.Database.EnsureCreated();
 
             // 1. setup roles.
-            SeedRoles();
+            await SeedRolesAsync();
 
             // 2 setup users.
             SeedUsers();
@@ -197,30 +197,37 @@ namespace NetworkMonitorApi.Data
             }
         }
 
-        public static void SeedRoles()
+        /// <summary>
+        /// Seed role from RoleType enum
+        /// </summary>
+        /// <returns></returns>
+        public static async Task SeedRolesAsync()
         {
+            string[] roleNames = Enum.GetNames(typeof(RoleType));
 
-            if (!_roleManager.RoleExistsAsync(RoleType.Admin.ToString()).Result)
-            {
-                IdentityRole role = new IdentityRole();
-                role.Name = RoleType.Admin.ToString();
-                IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
-            }
+            IdentityResult roleResult;
 
-            if (!_roleManager.RoleExistsAsync(RoleType.Reader.ToString()).Result)
+            foreach (var roleName in roleNames)
             {
-                IdentityRole role = new IdentityRole();
-                role.Name = RoleType.Reader.ToString();
-                IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
-            }
-
-            if (!_roleManager.RoleExistsAsync(RoleType.Publisher.ToString()).Result)
-            {
-                IdentityRole role = new IdentityRole();
-                role.Name = RoleType.Publisher.ToString();
-                IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
+                // creating the roles and seeding them to the database
+                var roleExist = await _roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await _roleManager.CreateAsync(new IdentityRole { Name = roleName });
+                }
             }
         }
+
+        /// <summary>
+        /// Seed Projects
+        /// </summary>
+        /// <returns></returns>
+        public static void SeedProjects()
+        {
+
+        }
+
+
         private static string LoremIpsum()
         {
             string HTML = null;

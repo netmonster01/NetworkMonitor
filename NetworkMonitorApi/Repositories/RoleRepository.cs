@@ -48,7 +48,7 @@ namespace NetworkMonitorApi.Repositories
             var userManager = _serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             string[] roleNames = Enum.GetNames(typeof(RoleType));
-            //string[]  = { "Admin", "Reader", "Author" };
+
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)

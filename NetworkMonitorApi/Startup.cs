@@ -46,6 +46,7 @@ namespace NetworkMonitorApi
             services.AddScoped<IBlog,BlogRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
             services.AddScoped<IVoteRepository, VoteRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IConverter<ApplicationUser, User>, IdentityToUserConvertor>();
             services.AddScoped<IConverter<User, ApplicationUser>, UserToIdentityConvertor>();
 

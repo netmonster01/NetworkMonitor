@@ -11,9 +11,9 @@ namespace NetworkMonitorApi.Core
       
         List<User> GetAllUsersAsync();
 
-        Task<bool> UpdateProfileAsync(User user);
+        Task<User> UpdateProfileAsync(User user);
 
-        Task<bool> UpdateProfileAsync(ApplicationUser user);
+        Task<ApplicationUser> UpdateProfileAsync(ApplicationUser user);
 
     }
 }

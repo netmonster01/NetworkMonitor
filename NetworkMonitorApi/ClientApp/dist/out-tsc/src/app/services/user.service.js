@@ -19,16 +19,6 @@ var UserService = /** @class */ (function () {
         this.user = ANONYMOUS_USER;
         this.httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     }
-    //  {
-    //  email: null,
-    //  id: null,
-    //  password: null,
-    //  roles: [],
-    //  token: undefined,
-    //  avatarImageBas64: null,
-    //  firstName: null,
-    //  lastName: null
-    //}
     UserService.prototype.getUsers = function () {
         return this._http.get('/api/Account/Users')
             .catch(this.handleError);

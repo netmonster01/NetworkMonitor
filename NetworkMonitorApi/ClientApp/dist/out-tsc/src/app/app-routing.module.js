@@ -16,6 +16,7 @@ import { ProfileComponent } from './profile';
 import { ForbiddenComponent } from './forbidden';
 import { BlogsComponent } from './blogs';
 import { AuthGuard, RoleGuard } from './guards';
+import { ProjectsComponent } from './projects';
 var appRoutes = [
     { path: 'home', component: HomeComponent },
     {
@@ -28,6 +29,7 @@ var appRoutes = [
     { path: 'profile', component: ProfileComponent },
     { path: 'blog', component: BlogsComponent },
     { path: 'logs', component: LogsComponent },
+    { path: 'projects', component: ProjectsComponent },
     { path: '403', component: ForbiddenComponent },
     { path: '**', component: PageNotFoundComponent },
 ];

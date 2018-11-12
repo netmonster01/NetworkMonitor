@@ -9,8 +9,8 @@ using NetworkMonitorApi.Data;
 namespace NetworkMonitorApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181111042755_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20181112002843_InitialCreation")]
+    partial class InitialCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -323,9 +323,17 @@ namespace NetworkMonitorApi.Migrations
                     b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Content");
+                    b.Property<bool>("Active");
 
-                    b.Property<Guid>("ThumbnailId");
+                    b.Property<string>("Content");
+
+                    b.Property<string>("GitHubUrl");
+
+                    b.Property<string>("Keywords");
+
+                    b.Property<byte[]>("ThumbnailImage");
+
+                    b.Property<string>("ThumbnailImageType");
 
                     b.Property<string>("Title");
 

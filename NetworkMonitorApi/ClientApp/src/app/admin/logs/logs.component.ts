@@ -12,7 +12,7 @@ export class LogsComponent implements OnInit {
 
   constructor(private loggerService: LoggerService) { }
   logs: Log[] = [];
-
+  searchText: string;
 
   ngOnInit() {
 

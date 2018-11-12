@@ -18,17 +18,8 @@ export class UserService {
   options = {
     headers: this.httpHeaders
   }
+
   user: User = ANONYMOUS_USER;
-  //  {
-  //  email: null,
-  //  id: null,
-  //  password: null,
-  //  roles: [],
-  //  token: undefined,
-  //  avatarImageBas64: null,
-  //  firstName: null,
-  //  lastName: null
-  //}
 
   getUsers() {
    

@@ -29,7 +29,8 @@ namespace NetworkMonitorApi
         {
             Admin,
             Reader,
-            Publisher
+            Publisher,
+            Family
         }
     }
 }

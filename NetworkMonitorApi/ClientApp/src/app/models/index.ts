@@ -10,3 +10,4 @@ export * from './comment';
 export * from './dashboard';
 export * from './vote';
 export * from './vote-count';
+export * from './project';

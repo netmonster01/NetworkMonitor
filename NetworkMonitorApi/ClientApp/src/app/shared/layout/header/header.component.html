@@ -5,6 +5,7 @@
       <a class="nav-item nav-link active" [routerLink]="['/']">Home &nbsp;</a>
       <a class="nav-item nav-link" [routerLink]="['/stats']">Stats &nbsp;</a>
       <a class="nav-item nav-link" [routerLink]="['/blog']">Blog &nbsp;</a>
+      <a class="nav-item nav-link" [routerLink]="['/projects']">Projects &nbsp;</a>
       <a *ngIf="user.isAdmin" class="nav-item nav-link" [routerLink]="['/logs']">Logs &nbsp;<span *ngIf="errorCount > 0" class="badge badge-pill badge-danger"> {{errorCount}}</span></a>
       <a *ngIf="user.isAdmin" class="nav-item nav-link" [routerLink]="['/admin']">Admin &nbsp;</a>
     </div>
@@ -23,16 +24,6 @@
         </div>
       </div>
       <a *ngIf="!user.id" class="nav-item nav-link" [routerLink]="['/login']">Login</a>
-      <!--<a [routerLink]="['/login']" *ngIf="!user.email" class="nav-item nav-link">Login</a>
-  <a class="nav-item nav-link" href="https://github.com/beeman" target="_blank">
-    <i class="fa fa-github"></i>
-  </a>
-  <a class="nav-item nav-link" href="https://twitter.com/beeman_nl" target="_blank">
-    <i class="fa fa-twitter"></i>
-  </a>
-  <a class="nav-item nav-link" href="https://medium.com/@beeman" target="_blank">
-    <i class="fa fa-medium"></i>
-  </a>-->
     </div>
   </div>
 </nav>

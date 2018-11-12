@@ -30,7 +30,7 @@ import { MatPaginatorModule, MatSortModule, MatTableModule, MatProgressSpinnerMo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BlogsComponent, PostsComponent, PostComponent } from './blogs';
 import { AuthService, BlogService, StatsService, UserService, LoggerService, DashboardService, VoteService } from './services';
-import { SafePipe } from './safe.pipe';
+import { SafePipe, FilterPipe } from './pipes';
 import { BlogComponent, ImagesComponent, AdminComponent, RolesComponent, UsersComponent } from './admin';
 import { AuthGuard, RoleGuard } from "./guards";
 import { ForbiddenComponent } from './forbidden/forbidden.component';
@@ -86,6 +86,7 @@ var AppModule = /** @class */ (function () {
                 ProjectComponent,
                 LogsComponent,
                 LogComponent,
+                FilterPipe,
             ],
             imports: [
                 BrowserModule,

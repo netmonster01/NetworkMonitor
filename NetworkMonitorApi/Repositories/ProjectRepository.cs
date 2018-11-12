@@ -19,9 +19,22 @@ namespace NetworkMonitorApi.Repositories
             _loggerRepository = loggerRepository;
         }
 
-        public bool AddProject()
+        public async Task<bool> AddProjectAsync(Project project)
         {
-            throw new NotImplementedException();
+            bool didAdd = false;
+
+            try
+            {
+                _applicationDbContext.Projects.Add(project);
+               await _applicationDbContext.SaveChangesAsync();
+                didAdd = true;
+            }
+            catch (Exception ex)
+            {
+                _loggerRepository.Write(ex);
+            }
+
+            return didAdd;
         }
 
         public Project GetProject(int projectID)

@@ -12,9 +12,11 @@ namespace NetworkMonitorApi.Models
         [Key]
         public int ProjectId { get; set; }
         public string Title{ get; set; }
-        public int Content { get; set; }
-        public Guid ThumbnailId { get; set; }
-        [NotMapped]
+        public string Content { get; set; }
         public string ThumbnailImage { get; set; }
+        public string ThumbnailImageType { get; set; }
+        public string GitHubUrl { get; set; }
+        public string Keywords { get; set; }
+        public bool Active { get; set; }
     }
 }

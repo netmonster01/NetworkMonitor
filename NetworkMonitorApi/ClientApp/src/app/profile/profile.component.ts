@@ -78,8 +78,9 @@ export class ProfileComponent implements OnInit {
     }
     return bytes;
   }
+
   submitHandler() {
-    this.auth.updateProfile(this.user).subscribe(data => { console.log(data) });
+    this.auth.updateProfile(this.user).subscribe((data: User) => this.processData(data));
   }
 
 }

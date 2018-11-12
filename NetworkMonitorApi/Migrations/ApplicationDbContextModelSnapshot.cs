@@ -321,9 +321,17 @@ namespace NetworkMonitorApi.Migrations
                     b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Content");
+                    b.Property<bool>("Active");
 
-                    b.Property<Guid>("ThumbnailId");
+                    b.Property<string>("Content");
+
+                    b.Property<string>("GitHubUrl");
+
+                    b.Property<string>("Keywords");
+
+                    b.Property<byte[]>("ThumbnailImage");
+
+                    b.Property<string>("ThumbnailImageType");
 
                     b.Property<string>("Title");
 

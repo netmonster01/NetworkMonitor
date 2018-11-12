@@ -20,7 +20,7 @@ namespace NetworkMonitorApi.Data
             base.OnModelCreating(builder);
 
             // converter for base64 to byte[]
-            var imageConverter = new ValueConverter<string, byte[]>(
+            ValueConverter<string, byte[]> imageConverter = new ValueConverter<string, byte[]>(
                                     v => Convert.FromBase64String(v),
                                     v => Convert.ToBase64String(v));
 
@@ -29,8 +29,13 @@ namespace NetworkMonitorApi.Data
                 .Property(e => e.AvatarImage)
                 .HasConversion(imageConverter);
 
+            builder
+                .Entity<Project>()
+                .Property(e => e.ThumbnailImage)
+                .HasConversion(imageConverter);
 
-            var logTypeConverter = new EnumToStringConverter<LogType>();
+
+           EnumToStringConverter<LogType> logTypeConverter = new EnumToStringConverter<LogType>();
 
            builder
                 .Entity<Log>()
